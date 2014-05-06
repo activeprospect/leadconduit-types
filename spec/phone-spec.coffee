@@ -14,7 +14,7 @@ describe 'Phone', ->
       assert.equal ph.country_code, 'US'
       done()
 
-  it 'should parse extension', ->
+  it 'should parse extension', (done) ->
     phone.parse '5127891111 x 1234', (err, ph) ->
       assert.equal ph.extension, '1234'
       done()
