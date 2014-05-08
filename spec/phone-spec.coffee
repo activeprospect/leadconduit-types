@@ -5,7 +5,7 @@ phone = require('../src/phone')
 describe 'Phone', ->
 
   it 'should parse US phone', (done) ->
-    phone.parse '5127891111', (err, ph) ->
+    phone.parse '5127891111', {}, (err, ph) ->
       assert.equal ph.valueOf(), '5127891111'
       assert.equal ph.raw, '5127891111'
       assert.equal ph.area, '512'
@@ -16,7 +16,7 @@ describe 'Phone', ->
       done()
 
   it 'should parse extension', (done) ->
-    phone.parse '5127891111 x 1234', (err, ph) ->
+    phone.parse '5127891111 x 1234', {}, (err, ph) ->
       assert.equal ph.extension, '1234'
       done()
 

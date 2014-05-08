@@ -6,7 +6,7 @@ supportedRegionCodes = [
   'GB'  # uk
 ]
 
-parse = (string, callback) ->
+parse = (string, options, callback) ->
   [number, regionCode] = resolve(string)
   if number
     callback null, decompose(string, number, regionCode)
