@@ -3,7 +3,12 @@ fs = require 'fs'
 log = console.log
 
 task 'publish', ->
-  run 'cake build && npm pack | tail -1 | xargs -I {} curl -F package=@{} https://push.fury.io/eceeTmQDMBbJF5DMujxy/activeprospect'
+  cmd = [
+    'cake build',
+    'rm -f leadconduit-*.tgz',
+    'npm pack | tail -1 | xargs -I {} curl -F package=@{} https://push.fury.io/eceeTmQDMBbJF5DMujxy/activeprospect'
+  ]
+  run cmd.join(' && ')
 
 task 'build', ->
   coffeePath = './node_modules/coffee-script/bin/coffee'
