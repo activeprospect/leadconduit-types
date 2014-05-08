@@ -6,7 +6,8 @@ describe 'Phone', ->
 
   it 'should parse US phone', (done) ->
     phone.parse '5127891111', (err, ph) ->
-      assert.equal ph.normal, '5127891111'
+      assert.equal ph.valueOf(), '5127891111'
+      assert.equal ph.raw, '5127891111'
       assert.equal ph.area, '512'
       assert.equal ph.exchange, '789'
       assert.equal ph.line, '1111'

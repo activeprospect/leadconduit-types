@@ -48,15 +48,15 @@ decompose = (raw, number, regionCode) ->
   else
     null
 
-
-  raw: raw
-  normal: nationalSignificantNumber
-  area: nationalDestinationCode
-  exchange: exchange
-  line: line
-  number: subscriberNumber
-  extension: extension
-  country_code: regionCode
+  phone = new String(nationalSignificantNumber or raw)
+  phone.raw = raw
+  phone.area = nationalDestinationCode
+  phone.exchange = exchange
+  phone.line = line
+  phone.number = subscriberNumber
+  phone.extension = extension
+  phone.country_code = regionCode
+  phone
 
 
 module.exports =
