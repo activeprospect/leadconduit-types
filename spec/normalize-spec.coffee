@@ -15,7 +15,7 @@ describe 'Normalize utility', ->
       boolean: true
 
   it 'should normalize String to string', ->
-
+    assert.deepEqual normalize(string: new String('a string')), string: 'a string'
 
   it 'should normalize Number to number', ->
     assert.deepEqual normalize(number: new Number(8)), number: 8
@@ -58,3 +58,10 @@ describe 'Normalize utility', ->
           baz:
             normal: 'bip'
             bip: 'bap'
+
+
+  it 'should normalize array', ->
+    arr = [ new String('a string'), new Number(8), new Boolean(true) ]
+
+    assert.deepEqual normalize(arr),
+      [ 'a string', 8, true ]

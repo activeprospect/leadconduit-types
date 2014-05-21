@@ -27,6 +27,9 @@ normalize = (obj) ->
       obj = str
     else
       obj = obj.valueOf()
+  else if obj instanceof Array
+    obj = obj.map (i) ->
+      normalize(i)
   else if typeof obj == 'object'
     for key, value of obj
       obj[key] = normalize(value)
