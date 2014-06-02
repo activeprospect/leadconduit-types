@@ -12,7 +12,8 @@
     "email-addresses": "^1.1.1",
     "domain-name-parser": "0.0.4",
     "named-regexp": "^0.1.1",
-    "handlebars": "^2.0.0-alpha.4"
+    "handlebars": "^2.0.0-alpha.4",
+    "lodash": "^2.4.1"
   },
   "devDependencies": {
     "coffee-script": ">= 1.7.0",

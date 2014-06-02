@@ -1,7 +1,8 @@
 typeNames = [
-  'email',
-  'phone',
+  'email'
+  'phone'
   'postal_code'
+  'range'
 ]
 
 
