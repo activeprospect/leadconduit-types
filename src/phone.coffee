@@ -7,11 +7,27 @@ supportedRegionCodes = [
 ]
 
 parse = (string, options, callback) ->
+  [type, string] = stripType(string)
   [number, regionCode] = resolve(string)
   if number
-    callback null, decompose(string, number, regionCode)
+    parts = decompose(string, number, regionCode)
+    parts.type = type
+    callback null, parts
   else
-    callback null, raw: 'string'
+    callback null, raw: 'string', type: type
+
+hintRegex = /([hwcm])$/
+
+stripType = (string) ->
+  match = string.match(hintRegex)
+  if match
+    type = switch match[1]
+      when 'h' then 'home'
+      when 'w' then 'work'
+      when 'c', 'm' then 'mobile'
+    [type, string.replace(hintRegex, '')]
+  else
+    [null, string]
 
 
 resolve = (string) ->

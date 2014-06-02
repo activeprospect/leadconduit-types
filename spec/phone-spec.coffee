@@ -28,3 +28,33 @@ describe 'Phone', ->
 
   it 'should support UK', ->
     assert phone.countryCodes.indexOf('GB') != -1
+
+  it 'should parse mobile hint', (done) ->
+    phone.parse '5127891111m', {}, (err, ph) ->
+      assert.equal ph.raw, '5127891111'
+      assert.equal ph.type, 'mobile'
+      done()
+
+  it 'should parse cell hint', (done) ->
+    phone.parse '5127891111c', {}, (err, ph) ->
+      assert.equal ph.raw, '5127891111'
+      assert.equal ph.type, 'mobile'
+      done()
+
+  it 'should parse work hint', (done) ->
+    phone.parse '5127891111w', {}, (err, ph) ->
+      assert.equal ph.raw, '5127891111'
+      assert.equal ph.type, 'work'
+      done()
+
+  it 'should parse home hint', (done) ->
+    phone.parse '5127891111h', {}, (err, ph) ->
+      assert.equal ph.raw, '5127891111'
+      assert.equal ph.type, 'home'
+      done()
+
+  it 'should parse hint on invalid number', (done) ->
+    phone.parse '1111m', {}, (err, ph) ->
+      assert.equal ph.raw, '1111'
+      assert.equal ph.type, 'mobile'
+      done()
