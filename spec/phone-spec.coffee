@@ -17,6 +17,7 @@ describe 'Phone', ->
 
   it 'should parse extension', (done) ->
     phone.parse '5127891111 x 1234', {}, (err, ph) ->
+      assert.equal ph.toString(), '5127891111'
       assert.equal ph.extension, '1234'
       done()
 
@@ -57,4 +58,22 @@ describe 'Phone', ->
     phone.parse '1111m', {}, (err, ph) ->
       assert.equal ph.raw, '1111'
       assert.equal ph.type, 'mobile'
+      done()
+
+  it 'should allow optional parentheses in hint', (done) ->
+    phone.parse '5127891111(h)', {}, (err, ph) ->
+      assert.equal ph.raw, '5127891111'
+      assert.equal ph.type, 'home'
+      done()
+
+  it 'should allow optional whitespace before hint', (done) ->
+    phone.parse '5127891111 h', {}, (err, ph) ->
+      assert.equal ph.raw, '5127891111'
+      assert.equal ph.type, 'home'
+      done()
+
+  it 'should strip leading and trailing whitespace', (done) ->
+    phone.parse ' 5127891111 ', {}, (err, ph) ->
+      assert.equal ph.toString(), '5127891111'
+      assert.equal ph.raw, ' 5127891111 '
       done()

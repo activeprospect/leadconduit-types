@@ -8,15 +8,16 @@ supportedRegionCodes = [
 
 parse = (string, options, callback) ->
   [type, string] = stripType(string)
-  [number, regionCode] = resolve(string)
+  [number, regionCode] = resolve(string, options?.logger)
   if number
     parts = decompose(string, number, regionCode)
     parts.type = type
     callback null, parts
   else
-    callback null, raw: 'string', type: type
+    callback null, raw: string, type: type
 
-hintRegex = /([(]?[hwcm])[)]?$/
+hintRegex = /[(]?([hwcm])[)]?$/
+stripRegex = /^\s+|\s+$/g
 
 stripType = (string) ->
   match = string.match(hintRegex)
@@ -25,18 +26,18 @@ stripType = (string) ->
       when 'h' then 'home'
       when 'w' then 'work'
       when 'c', 'm' then 'mobile'
-    [type, string.replace(hintRegex, '')]
+    [type, string.replace(hintRegex, '').replace(stripRegex,'')]
   else
     [null, string]
 
 
-resolve = (string) ->
+resolve = (string, logger) ->
   number = null
   for regionCode in supportedRegionCodes
     try
       number = phoneUtil.parse(string, regionCode)
     catch e
-      console.log(e)
+      logger?.error?(e)
       number = null
     break if number?
 
