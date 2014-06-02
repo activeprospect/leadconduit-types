@@ -1,11 +1,13 @@
 parseEmail = require('email-addresses').parseOneAddress
 parseDomain = require('domain-name-parser')
 
+stripRegex = /^\s+|\s+$/g
+
 parse = (string, options, callback) ->
   addr = parseEmail(string)
 
   if addr?
-    parsed = new String(string.toLowerCase())
+    parsed = new String(string.toLowerCase().replace(stripRegex, ''))
     parsed.raw = string
     parsed.user = addr.local
 

@@ -43,3 +43,14 @@ describe 'Email', ->
       assert.isUndefined email.host
       assert.isUndefined email.tld
       done()
+
+  it 'should downcase', (done) ->
+    email.parse 'User@Domain.Com', {}, (err, email) ->
+      assert.equal email.toString(), 'user@domain.com'
+      done()
+
+  it 'should strip whitespace', (done) ->
+    email.parse ' user@domain.com ', {}, (err, email) ->
+      assert.equal 'user@domain.com', email.toString()
+      assert.equal ' user@domain.com ', email.raw
+      done()
