@@ -59,6 +59,19 @@ decompose = (raw, number, regionCode) ->
   phone
 
 
+components = [
+  { name: 'raw', type: 'string', description: 'Unmodified value'}
+  { name: 'area', type: 'string', description: 'Area code'}
+  { name: 'exchange', type: 'string', description: 'Exchange'}
+  { name: 'line', type: 'string', description: 'Line'}
+  { name: 'number', type: 'string', description: 'Full number'}
+  { name: 'extension', type: 'string', description: 'Extension'}
+  { name: 'country_code', type: 'string', description: 'Country code'}
+  { name: 'type', type: 'string', description: 'Number type: home, work, mobile'}
+]
+
+
 module.exports =
   parse: parse,
+  components: components
   countryCodes: supportedRegionCodes

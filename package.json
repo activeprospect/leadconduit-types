@@ -8,7 +8,9 @@
     "test": "cake test"
   },
   "dependencies": {
-    "libphonenumber": "0.0.x"
+    "libphonenumber": "0.0.x",
+    "email-addresses": "^1.1.1",
+    "domain-name-parser": "0.0.4"
   },
   "devDependencies": {
     "coffee-script": ">= 1.7.0",
