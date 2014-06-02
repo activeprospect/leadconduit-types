@@ -9,7 +9,7 @@ describe 'Index', ->
     files = fs.readdirSync("#{__dirname}/../src/")
 
     expectedTypeNames = files.map (f) ->
-      path.basename(f, '.coffee')
+      path.basename(f, '.coffee').replace('-', '_')
     expectedTypeNames.splice(expectedTypeNames.indexOf('index'), 1)
 
     assert.deepEqual index.names, expectedTypeNames

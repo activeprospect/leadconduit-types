@@ -1,6 +1,7 @@
 typeNames = [
   'email',
-  'phone'
+  'phone',
+  'postal_code'
 ]
 
 
@@ -9,7 +10,7 @@ module.exports = {}
 module.exports.names = typeNames
 
 typeNames.forEach (name) ->
-  module.exports[name] = require("./#{name}")
+  module.exports[name] = require("./#{name.replace('_', '-')}")
 
 
 digit = /^\d+$/
