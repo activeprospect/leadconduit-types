@@ -16,7 +16,7 @@ parse = (string, options, callback) ->
   else
     callback null, raw: 'string', type: type
 
-hintRegex = /([hwcm])$/
+hintRegex = /([(]?[hwcm])[)]?$/
 
 stripType = (string) ->
   match = string.match(hintRegex)
