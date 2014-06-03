@@ -1,4 +1,5 @@
 typeNames = [
+  'date'
   'email'
   'phone'
   'postal_code'

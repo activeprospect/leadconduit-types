@@ -13,7 +13,9 @@
     "domain-name-parser": "0.0.4",
     "named-regexp": "^0.1.1",
     "handlebars": "^2.0.0-alpha.4",
-    "lodash": "^2.4.1"
+    "lodash": "^2.4.1",
+    "chrono-node": "^0.1.8",
+    "moment": "^2.6.0"
   },
   "devDependencies": {
     "coffee-script": ">= 1.7.0",
