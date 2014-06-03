@@ -6,7 +6,8 @@ task 'publish', ->
   cmd = [
     'cake build',
     'rm -f leadconduit-*.tgz',
-    'npm pack | tail -1 | xargs -I {} curl -F package=@{} https://push.fury.io/eceeTmQDMBbJF5DMujxy/activeprospect'
+    'npm pack | tail -1 | xargs -I {} curl -F package=@{} https://push.fury.io/eceeTmQDMBbJF5DMujxy/activeprospect',
+    'rm -f leadconduit-*.tgz'
   ]
   run cmd.join(' && ')
 
