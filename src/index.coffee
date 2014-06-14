@@ -4,6 +4,7 @@ typeNames = [
   'phone'
   'postal_code'
   'range'
+  'time'
 ]
 
 
