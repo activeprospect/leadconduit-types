@@ -1,3 +1,4 @@
 src
-     spec
-     .idea
+spec
+.idea
+Cakefile
