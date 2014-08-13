@@ -4,53 +4,38 @@ email = require('../src/email')
 
 describe 'Email', ->
 
-  it 'should return a String object', (done) ->
-    email.parse 'user@domain.com', {}, (err, email) ->
-      assert.instanceOf email, String
-      done()
+  it 'should return a String object', ->
+    assert.instanceOf email.parse('user@domain.com'), String
 
-  it 'should parse user', (done) ->
-    email.parse 'user@domain.com', {}, (err, email) ->
-      assert.equal email.user, 'user'
-      done()
+  it 'should parse user', ->
+    assert.equal email.parse('user@domain.com').user, 'user'
 
-  it 'should parse domain', (done) ->
-    email.parse 'user@domain.com', {}, (err, email) ->
-      assert.equal email.domain, 'domain.com'
-      done()
+  it 'should parse domain', ->
+    assert.equal email.parse('user@domain.com').domain, 'domain.com'
 
-  it 'should parse host', (done) ->
-    email.parse 'user@domain.com', {}, (err, email) ->
-      assert.equal email.host, 'domain'
-      done()
+  it 'should parse host', ->
+    assert.equal email.parse('user@domain.com').host, 'domain'
 
-  it 'should parse tld', (done) ->
-    email.parse 'user@domain.com', {}, (err, email) ->
-      assert.equal email.tld, 'com'
-      done()
+  it 'should parse tld', ->
+    assert.equal email.parse('user@domain.com').tld, 'com'
 
-  it 'should retain raw value', (done) ->
-    email.parse 'User@Domain.Com', {}, (err, email) ->
-      assert.equal email.raw, 'User@Domain.Com'
-      done()
+  it 'should retain raw value', ->
+    assert.equal email.parse('User@Domain.Com').raw, 'User@Domain.Com'
 
-  it 'should handle invalid value', (done) ->
-    email.parse 'Asdf', {}, (err, email) ->
-      assert.instanceOf email, String
-      assert.equal email.raw, 'Asdf'
-      assert.isUndefined email.user
-      assert.isUndefined email.domain
-      assert.isUndefined email.host
-      assert.isUndefined email.tld
-      done()
+  it 'should handle invalid value', ->
+    parsed = email.parse 'Asdf'
+    assert.instanceOf parsed, String
+    assert.equal parsed.raw, 'Asdf'
+    assert.isUndefined parsed.user
+    assert.isUndefined parsed.domain
+    assert.isUndefined parsed.host
+    assert.isUndefined parsed.tld
 
-  it 'should downcase', (done) ->
-    email.parse 'User@Domain.Com', {}, (err, email) ->
-      assert.equal email.toString(), 'user@domain.com'
-      done()
+  it 'should downcase', ->
+    assert.equal email.parse('User@Domain.Com').toString(), 'user@domain.com'
 
-  it 'should strip whitespace', (done) ->
-    email.parse ' user@domain.com ', {}, (err, email) ->
-      assert.equal 'user@domain.com', email.toString()
-      assert.equal ' user@domain.com ', email.raw
-      done()
+  it 'should strip whitespace', ->
+    parsed = email.parse(' user@domain.com ')
+    assert.equal 'user@domain.com', parsed.toString()
+    assert.equal ' user@domain.com ', parsed.raw
+

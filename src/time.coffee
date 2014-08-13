@@ -1,6 +1,6 @@
 chrono = require('chrono-node')
 
-parse = (string, options, callback) ->
+parse = (string) ->
   results = chrono.parse(string)
   if results.length
     result = results[0].start
@@ -19,7 +19,7 @@ parse = (string, options, callback) ->
     parsed = new String(string)
     parsed.raw = string
 
-  callback(null, parsed)
+  parsed
 
 getWeekday = (day) ->
   if day == 0

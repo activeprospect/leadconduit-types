@@ -6,15 +6,15 @@ supportedRegionCodes = [
   'GB'  # uk
 ]
 
-parse = (string, options, callback) ->
+parse = (string, req) ->
   [type, string] = stripType(string)
-  [number, regionCode] = resolve(string, options?.logger)
+  [number, regionCode] = resolve(string, req?.logger)
   if number
     parts = decompose(string, number, regionCode)
     parts.type = type
-    callback null, parts
+    parts
   else
-    callback null, raw: string, type: type
+    raw: string, type: type
 
 hintRegex = /[(]?([hwcm])[)]?$/
 stripRegex = /^\s+|\s+$/g
@@ -47,6 +47,7 @@ resolve = (string, logger) ->
     [null, null]
 
 decompose = (raw, number, regionCode) ->
+  nationalPrefix = phoneUtil.getNddPrefixForRegion(regionCode, true)
   nationalSignificantNumber = phoneUtil.getNationalSignificantNumber(number)
   nationalDestinationCodeLength = phoneUtil.getLengthOfNationalDestinationCode(number)
 
@@ -59,6 +60,8 @@ decompose = (raw, number, regionCode) ->
 
   extension = number.getExtension()
 
+
+
   if ['US', 'CA'].indexOf(regionCode) != -1
     exchange = subscriberNumber.substring(0, 3)
     line = subscriberNumber.substring(3)
@@ -66,6 +69,7 @@ decompose = (raw, number, regionCode) ->
     null
 
   phone = new String(nationalSignificantNumber or raw)
+  phone.prefix = nationalPrefix
   phone.raw = raw
   phone.area = nationalDestinationCode
   phone.exchange = exchange

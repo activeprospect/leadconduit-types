@@ -18,7 +18,7 @@ handlers =
     regex: named /^(:<code>(:<outcode>[a-z]{1,2}[0-9]{1,2}[a-z0-9]{0,1})?\s*(:<incode>[0-9][a-z]{2}))$/i
     format: '{{outcode}} {{incode}}'
 
-parse = (string, options, callback) ->
+parse = (string) ->
   for region in supportedRegionCodes
     handler = handlers[region]
     match = handler.regex.exec(string)
@@ -33,11 +33,11 @@ parse = (string, options, callback) ->
       parsed.country_code = region
       for key, value of captures
         parsed[key] = value?.toUpperCase()
-      return callback null, parsed
+      return parsed
 
   value = new String(string)
   value.raw = string
-  callback null, value
+  value
 
 
 components = [

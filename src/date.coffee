@@ -2,7 +2,7 @@
 chrono = require('chrono-node')
 moment = require('moment')
 
-parse = (string, options, callback) ->
+parse = (string) ->
   results = chrono.parse(string)
   if results.length
     result = results[0].start
@@ -17,7 +17,7 @@ parse = (string, options, callback) ->
     parsed = new String(string)
     parsed.raw = string
 
-  callback(null, parsed)
+  parsed
 
 components = [
   { name: 'raw', type: 'string', description: 'Unmodified value' }

@@ -3,7 +3,8 @@ parseDomain = require('domain-name-parser')
 
 stripRegex = /^\s+|\s+$/g
 
-parse = (string, options, callback) ->
+parse = (string) ->
+
   addr = parseEmail(string)
 
   if addr?
@@ -18,7 +19,8 @@ parse = (string, options, callback) ->
   else
     parsed = new String(string)
     parsed.raw = string
-  callback null, parsed
+
+  parsed
   
   
 components = [

@@ -4,8 +4,8 @@ named = require('named-regexp').named
 minRegex = named /(:<min>\d+)\s*\+/
 rangeRegex = named /(:<min>\d+)\s*(?:\-|to|\s+)\s*(:<max>\d+)/
 
-parse = (string, options, callback) ->
-  return callback(null, null) unless string?
+parse = (string) ->
+  return string unless string?
 
   match = minRegex.exec(string) or rangeRegex.exec(string)
   if match
@@ -37,7 +37,7 @@ parse = (string, options, callback) ->
     parsed.max = num
     parsed.avg = num
 
-  callback(null, parsed)
+  parsed
 
 
 components = [
