@@ -7,6 +7,8 @@ supportedRegionCodes = [
 ]
 
 parse = (string, req) ->
+  return string unless string?
+
   [type, string] = stripType(string)
   [number, regionCode] = resolve(string, req?.logger)
   if number
@@ -14,7 +16,10 @@ parse = (string, req) ->
     parts.type = type
     parts
   else
-    raw: string, type: type
+    parts = new String(string)
+    parts.raw = string
+    parts.type = type
+    parts
 
 hintRegex = /[(]?([hwcm])[)]?$/
 stripRegex = /^\s+|\s+$/g

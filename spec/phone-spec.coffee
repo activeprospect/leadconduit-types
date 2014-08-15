@@ -4,6 +4,10 @@ phone = require('../src/phone')
 
 describe 'Phone', ->
 
+  it 'should handle empty string', ->
+    ph = phone.parse('')
+    assert.equal ph, ''
+
   it 'should parse US phone', ->
     ph = phone.parse('5127891111')
     assert.equal ph.valueOf(), '5127891111'
