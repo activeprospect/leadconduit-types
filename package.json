@@ -4,7 +4,8 @@
   "version": "0.2.2",
   "main": "./lib/index",
   "scripts": {
-    "test": "cake test"
+    "test": "cake test",
+    "prepublish": "cake build"
   },
   "dependencies": {
     "libphonenumber": "0.0.x",
