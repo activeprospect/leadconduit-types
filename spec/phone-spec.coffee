@@ -4,18 +4,25 @@ phone = require('../src/phone')
 
 describe 'Phone', ->
 
-  it 'should parse US phone', ->
-    ph = phone.parse('5127891111')
-    assert.equal ph.valueOf(), '5127891111'
-    assert.equal ph.raw, '5127891111'
-    assert.equal ph.area, '512'
-    assert.equal ph.exchange, '789'
-    assert.equal ph.line, '1111'
-    assert.equal ph.number, '7891111'
-    assert.equal ph.country_code, 'US'
+  it 'should handle empty string', (done) ->
+    phone.parse '', {}, (err, ph) ->
+      assert.equal ph.valueOf(), ''
+      assert.equal ph.raw, ''
+      done()
 
-  it 'should parse UK phone', ->
-    ph = phone.parse '7981-555555'
+  it 'should parse US phone', (done) ->
+    phone.parse '5127891111', {}, (err, ph) ->
+      assert.equal ph.valueOf(), '5127891111'
+      assert.equal ph.raw, '5127891111'
+      assert.equal ph.area, '512'
+      assert.equal ph.exchange, '789'
+      assert.equal ph.line, '1111'
+      assert.equal ph.number, '7891111'
+      assert.equal ph.country_code, 'US'
+      done()
+
+#  it 'should parse UK phone', ->
+#    ph = phone.parse '7981-555555'
 #      assert.equal ph.valueOf(), '5127891111'
 #      assert.equal ph.raw, '5127891111'
 #      assert.equal ph.area, '512'
