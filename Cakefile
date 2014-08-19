@@ -2,15 +2,6 @@
 fs = require 'fs'
 log = console.log
 
-task 'publish', ->
-  cmd = [
-    'cake build',
-    'rm -f leadconduit-*.tgz',
-    'npm pack | tail -1 | xargs -I {} curl -F package=@{} https://push.fury.io/eceeTmQDMBbJF5DMujxy/activeprospect',
-    'rm -f leadconduit-*.tgz'
-  ]
-  run cmd.join(' && ')
-
 task 'build', ->
   coffeePath = './node_modules/coffee-script/bin/coffee'
   if fs.existsSync(coffeePath)
