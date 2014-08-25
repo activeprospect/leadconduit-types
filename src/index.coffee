@@ -3,6 +3,7 @@
 typeNames = [
   'date'
   'email'
+  'number'
   'phone'
   'postal_code'
   'range'
