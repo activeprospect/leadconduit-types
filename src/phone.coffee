@@ -101,3 +101,4 @@ module.exports =
   parse: parse
   components: components
   countryCodes: supportedRegionCodes
+  maskable: false

@@ -3,18 +3,9 @@ time = require('../src/time')
 
 describe 'Time', ->
 
-  tz = process.env.TZ
-
-  before ->
-    process.env.TZ = 'Europe/Amsterdam'
-
-  after ->
-    process.env.TZ = tz
-
-
   strings = [
     'Sat Jun 14 2014 13:27:33 GMT-0500 (CDT)'
-    '06/14/2014 01:27:33 PM'
+    '06/14/2014 6:27:33 PM'
   ]
 
   for string in strings
@@ -39,7 +30,7 @@ describe 'Time', ->
             
         it 'should parse the hour', ->
           date = time.parse string
-          assert.equal date.hour, 13
+          assert.equal date.hour, 18
             
         it 'should parse the minute', ->
           date = time.parse string

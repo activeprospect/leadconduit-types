@@ -3,18 +3,17 @@ chrono = require('chrono-node')
 parse = (string) ->
   results = chrono.parse(string)
   if results.length
-    result = results[0].start
-    date = results[0].startDate
+    date = results[0].start.date()
     parsed = new String(date.toISOString())
     parsed.raw = string
-    parsed.year = result.year
-    parsed.month = result.month + 1
-    parsed.day = result.day
-    parsed.hour = result.hour
-    parsed.min = result.minute
-    parsed.sec = result.second
-    parsed.meridiem = result.meridiem
-    parsed.wday = getWeekday(result.dayOfWeek)
+    parsed.year = date.getFullYear()
+    parsed.month = date.getMonth() + 1
+    parsed.day = date.getDate()
+    parsed.hour = date.getHours()
+    parsed.min = date.getMinutes()
+    parsed.sec = date.getSeconds()
+    parsed.meridiem = if date.getHours() <= 11 then 'am' else 'pm'
+    parsed.wday = getWeekday(date.getDay())
   else
     parsed = new String(string)
     parsed.raw = string

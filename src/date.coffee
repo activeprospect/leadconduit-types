@@ -30,3 +30,4 @@ components = [
 module.exports =
   parse: parse
   components: components
+  maskable: false

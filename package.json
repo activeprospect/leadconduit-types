@@ -14,7 +14,7 @@
     "named-regexp": "^0.1.1",
     "handlebars": "^2.0.0-alpha.4",
     "lodash": "^2.4.1",
-    "chrono-node": "^0.1.8",
+    "chrono-node": "~0.1.10",
     "moment": "^2.6.0"
   },
   "devDependencies": {
