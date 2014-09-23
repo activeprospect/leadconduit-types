@@ -1,4 +1,4 @@
-
+_ = require 'lodash'
 
 typeNames = [
   'date'
@@ -6,6 +6,7 @@ typeNames = [
   'phone'
   'postal_code'
   'range'
+  'ssn'
   'time'
 ]
 
@@ -17,10 +18,9 @@ module.exports.names = typeNames
 typeNames.forEach (name) ->
   module.exports[name] = require("./#{name.replace('_', '-')}")
 
-
 digit = /^\d+$/
 
-normalize = (obj) ->
+module.exports.normalize = normalize = (obj) ->
   return obj unless obj?
   if obj instanceof String or obj instanceof Boolean or obj instanceof Number
     extendedKeys = Object.keys(obj).filter (key) ->
@@ -44,9 +44,6 @@ normalize = (obj) ->
   obj
 
 
-module.exports.normalize = normalize
-
-
 module.exports.parse = (name, value, req) ->
   # Look up the type of the field, based on its name
   type = module.exports[name] if typeNames.indexOf(name) != -1
@@ -56,4 +53,30 @@ module.exports.parse = (name, value, req) ->
     type.parse value, req
   else
     value
+
+
+module.exports.mask = mask = (obj, doMask=false) ->
+  if obj instanceof Array
+    obj = obj.map (i) ->
+      mask(i, doMask)
+  else if typeof obj == 'object'
+    if obj.masked? and (obj instanceof String or obj instanceof Boolean or obj instanceof Number)
+      str = new String(mask(obj.toString(), true))
+      for key, value of obj
+        str[key] = mask(value, true) unless key.match(digit)
+      str.masked = true
+      obj = str
+    else
+      for key, value of obj
+        obj[key] = mask(value, obj.masked? or doMask)
+      obj.masked = true if obj.masked?
+  else if _.isString(obj) or _.isNumber(obj)
+    obj = obj.toString().replace(/./g, '*') if doMask
+  else if _.isBoolean(obj)
+    obj = '*' if doMask
+  else
+    throw "Don't know how to mask #{obj}"
+  obj
+
+
 
