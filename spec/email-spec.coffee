@@ -22,6 +22,9 @@ describe 'Email', ->
   it 'should retain raw value', ->
     assert.equal email.parse('User@Domain.Com').raw, 'User@Domain.Com'
 
+  it 'should be valid', ->
+    assert.isTrue email.parse('user@domain.com').valid
+
   it 'should handle invalid value', ->
     parsed = email.parse 'Asdf'
     assert.instanceOf parsed, String
@@ -30,6 +33,7 @@ describe 'Email', ->
     assert.isUndefined parsed.domain
     assert.isUndefined parsed.host
     assert.isUndefined parsed.tld
+    assert.isFalse parsed.valid
 
   it 'should downcase', ->
     assert.equal email.parse('User@Domain.Com').toString(), 'user@domain.com'

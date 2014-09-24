@@ -17,6 +17,7 @@ describe 'Phone', ->
     assert.equal ph.line, '1111'
     assert.equal ph.number, '7891111'
     assert.equal ph.country_code, 'US'
+    assert.isTrue ph.valid
 
   it 'should parse UK phone', ->
     ph = phone.parse '7981-555555'

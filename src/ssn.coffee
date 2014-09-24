@@ -2,18 +2,20 @@ parse = (string) ->
   return string unless string?
   cleanedStr = string.replace(/[^0-9]/g, '')
   if cleanedStr.length == 9
-    ssn = new String(cleanedStr)
-    ssn.raw = string
-    ssn.first_three = cleanedStr.slice(0, 3)
-    ssn.middle_two = cleanedStr.slice(3, 5)
-    ssn.last_four = cleanedStr.slice(-4)
-    ssn.masked = false
-    ssn
+    parsed = new String(cleanedStr)
+    parsed.raw = string
+    parsed.first_three = cleanedStr.slice(0, 3)
+    parsed.middle_two = cleanedStr.slice(3, 5)
+    parsed.last_four = cleanedStr.slice(-4)
+    parsed.masked = false
+    parsed.valid = true
+    parsed
   else
-    ssn = new String(string)
-    ssn.raw = string
-    ssn.masked = false
-    ssn
+    parsed = new String(string)
+    parsed.raw = string
+    parsed.masked = false
+    parsed.valid = false
+    parsed
 
 
 components = [
@@ -21,7 +23,6 @@ components = [
   { name: 'first_three', type: 'string', description: 'First three digits of SSN' }
   { name: 'middle_two', type: 'string', description: 'Middle two digits of SSN' }
   { name: 'last_four', type: 'number', description: 'Last four digits of SSN' }
-  { name: 'masked', type: 'boolean', description: 'Is the SSN masked? Always set to true.' }
 ]
 
 

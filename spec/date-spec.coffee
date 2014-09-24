@@ -20,8 +20,12 @@ describe 'Date', ->
   it 'should parse the weekday', ->
     assert.equal date.parse('Mon Jun 02 2014').wday, 1
 
+  it 'should be valid', ->
+    assert.isTrue date.parse('Mon Jun 02 2014').valid
+
   it 'should not parse garbage', ->
     parsed = date.parse 'garbage'
     assert.equal parsed.toString(), 'garbage'
     assert.equal parsed.raw, 'garbage'
+    assert.isFalse parsed.valid
 
