@@ -28,6 +28,7 @@ parse = (string) ->
     else
       parsed = new String(string)
       parsed.raw = string
+      parsed.valid = false
   else
     num = parseFloat(string)
     num = null if isNaN(num)
@@ -37,6 +38,7 @@ parse = (string) ->
     parsed.max = num
     parsed.avg = num
 
+  parsed.valid ?= true
   parsed
 
 

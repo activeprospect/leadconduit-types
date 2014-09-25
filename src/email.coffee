@@ -16,9 +16,11 @@ parse = (string) ->
     parsed.domain = addr.domain
     parsed.host = addr.domain.replace(new RegExp("\.#{domain.tld}$"), '')
     parsed.tld = domain.tld
+    parsed.valid = true
   else
     parsed = new String(string)
     parsed.raw = string
+    parsed.valid = false
 
   parsed
   

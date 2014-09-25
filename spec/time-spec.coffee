@@ -9,7 +9,7 @@ describe 'Time', ->
   ]
 
   for string in strings
-    ( (string) ->
+    do (string) ->
       describe string, ->
         it 'should return a String object', ->
           date = time.parse string
@@ -43,10 +43,15 @@ describe 'Time', ->
         it 'should parse the meridiem', ->
           date = time.parse string
           assert.equal date.meridiem, 'pm'
+
+        it 'should be marked valid', ->
+          date = time.parse string
+          assert.isTrue date.valid
+
             
-        it 'should not parse garbage', ->
-          date = time.parse 'garbage'
-          assert.equal date.toString(), 'garbage'
-          assert.equal date.raw, 'garbage'
-)(string)
+  it 'should not parse garbage', ->
+    date = time.parse 'garbage'
+    assert.equal date.toString(), 'garbage'
+    assert.equal date.raw, 'garbage'
+    assert.isFalse date.valid
 

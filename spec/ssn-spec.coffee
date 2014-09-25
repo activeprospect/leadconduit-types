@@ -46,6 +46,9 @@ describe 'SSN', ->
           it 'should have masked flag', ->
             assert.isFalse @parsed.masked
 
+          it 'should be marked valid', ->
+            assert.isTrue @parsed.valid
+
 
   describe 'Invalid values', ->
 
@@ -76,5 +79,8 @@ describe 'SSN', ->
 
           it 'should have masked flag', ->
             assert.isFalse @parsed.masked
+
+          it 'should be marked invalid', ->
+            assert.isFalse @parsed.valid
 
 

@@ -13,9 +13,11 @@ parse = (string) ->
     parsed.month = result.month + 1
     parsed.day = result.day
     parsed.wday = date.isoWeekday()
+    parsed.valid = true
   else
     parsed = new String(string)
     parsed.raw = string
+    parsed.valid = false
 
   parsed
 
