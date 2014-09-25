@@ -14,6 +14,12 @@ describe 'Mask utility', ->
     assert.equal masked.number, '***'
     assert.equal masked.boolean, '*'
 
+
+  it 'should not mask null', ->
+    masked = mask(masked: false, null: null)
+    assert.isTrue masked.masked
+    assert.isNull masked.null
+
   it 'should not mask masked flag', ->
     masked = mask(masked: false)
     assert.isTrue masked.masked

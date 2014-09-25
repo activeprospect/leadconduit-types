@@ -56,6 +56,7 @@ module.exports.parse = (name, value, req) ->
 
 
 module.exports.mask = mask = (obj, doMask=false) ->
+  return obj unless obj?
   if obj instanceof Array
     obj = obj.map (i) ->
       mask(i, doMask)
