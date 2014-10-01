@@ -14,9 +14,11 @@ parse = (string) ->
     parsed.sec = date.getSeconds()
     parsed.meridiem = if date.getHours() <= 11 then 'am' else 'pm'
     parsed.wday = getWeekday(date.getDay())
+    parsed.valid = true
   else
     parsed = new String(string)
     parsed.raw = string
+    parsed.valid = false
 
   parsed
 

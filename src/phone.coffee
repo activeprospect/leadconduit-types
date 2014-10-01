@@ -14,11 +14,13 @@ parse = (string, req) ->
   if number
     parts = decompose(string, number, regionCode)
     parts.type = type
+    parts.valid = true
     parts
   else
     parts = new String(string)
     parts.raw = string
-    parts.type = type
+    parts.type = type if type?
+    parts.valid = false
     parts
 
 hintRegex = /[(]?([hwcm])[)]?$/

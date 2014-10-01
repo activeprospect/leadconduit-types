@@ -33,10 +33,12 @@ parse = (string) ->
       parsed.country_code = region
       for key, value of captures
         parsed[key] = value?.toUpperCase()
+      parsed.valid = true
       return parsed
 
   value = new String(string)
   value.raw = string
+  value.valid = false
   value
 
 

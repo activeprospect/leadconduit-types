@@ -11,6 +11,7 @@ describe 'Postal code', ->
     assert.equal pc.zip, '78704'
     assert.isUndefined pc.four
     assert.equal pc.country_code, 'US'
+    assert.isTrue pc.valid
       
 
   it 'should parse US 5 digit plus 4 format', ->
@@ -20,6 +21,7 @@ describe 'Postal code', ->
     assert.equal pc.zip, '78704'
     assert.equal pc.four, '1234'
     assert.equal pc.country_code, 'US'
+    assert.isTrue pc.valid
       
 
   it 'should ignore whitespace in US 5 digit plus 4 format', ->
@@ -29,6 +31,7 @@ describe 'Postal code', ->
     assert.equal pc.zip, '78704'
     assert.equal pc.four, '1234'
     assert.equal pc.country_code, 'US'
+    assert.isTrue pc.valid
       
 
   it 'should not require dash in US 5 digit plus 4 format', ->
@@ -38,6 +41,7 @@ describe 'Postal code', ->
     assert.equal pc.zip, '78704'
     assert.equal pc.four, '1234'
     assert.equal pc.country_code, 'US'
+    assert.isTrue pc.valid
       
 
   it 'should not require any delimiter in US 5 digit plus 4 format', ->
@@ -47,7 +51,7 @@ describe 'Postal code', ->
     assert.equal pc.zip, '78704'
     assert.equal pc.four, '1234'
     assert.equal pc.country_code, 'US'
-      
+    assert.isTrue pc.valid
 
 
   it 'should parse Canadian format', ->
@@ -58,6 +62,7 @@ describe 'Postal code', ->
     assert.equal pc.fsa, 'Q2E'
     assert.equal pc.ldu, '4U7'
     assert.equal pc.country_code, 'CA'
+    assert.isTrue pc.valid
       
 
   it 'should add whitespace to Canadian format', ->
@@ -68,6 +73,7 @@ describe 'Postal code', ->
     assert.equal pc.fsa, 'Q2E'
     assert.equal pc.ldu, '4U7'
     assert.equal pc.country_code, 'CA'
+    assert.isTrue pc.valid
       
 
   it 'should remove extraneous whitespace from Canadian format', ->
@@ -78,7 +84,7 @@ describe 'Postal code', ->
     assert.equal pc.fsa, 'Q2E'
     assert.equal pc.ldu, '4U7'
     assert.equal pc.country_code, 'CA'
-      
+    assert.isTrue pc.valid
 
 
   it 'should parse UK format 1', ->
@@ -88,6 +94,7 @@ describe 'Postal code', ->
     assert.equal pc.outcode, 'A1'
     assert.equal pc.incode, '1AA'
     assert.equal pc.country_code, 'GB'
+    assert.isTrue pc.valid
       
 
   it 'should parse UK format 2', ->
@@ -97,6 +104,7 @@ describe 'Postal code', ->
     assert.equal pc.outcode, 'A11'
     assert.equal pc.incode, '1AA'
     assert.equal pc.country_code, 'GB'
+    assert.isTrue pc.valid
       
 
   it 'should parse UK format 3', ->
@@ -106,6 +114,7 @@ describe 'Postal code', ->
     assert.equal pc.outcode, 'A1A'
     assert.equal pc.incode, '1AA'
     assert.equal pc.country_code, 'GB'
+    assert.isTrue pc.valid
       
 
   it 'should parse UK format 4', ->
@@ -115,6 +124,7 @@ describe 'Postal code', ->
     assert.equal pc.outcode, 'AA11'
     assert.equal pc.incode, '1AA'
     assert.equal pc.country_code, 'GB'
+    assert.isTrue pc.valid
       
 
   it 'should parse UK format 5', ->
@@ -124,6 +134,7 @@ describe 'Postal code', ->
     assert.equal pc.outcode, 'AA11A'
     assert.equal pc.incode, '1AA'
     assert.equal pc.country_code, 'GB'
+    assert.isTrue pc.valid
     
 
   it 'should add whitespace to UK format 1', ->
@@ -133,6 +144,7 @@ describe 'Postal code', ->
     assert.equal pc.outcode, 'A1'
     assert.equal pc.incode, '1AA'
     assert.equal pc.country_code, 'GB'
+    assert.isTrue pc.valid
       
 
   it 'should parse UK format 2', ->
@@ -142,4 +154,12 @@ describe 'Postal code', ->
     assert.equal pc.outcode, 'A11'
     assert.equal pc.incode, '1AA'
     assert.equal pc.country_code, 'GB'
+    assert.isTrue pc.valid
+
+
+  it 'should not parse garbage', ->
+    pc = postalCode.parse 'garbage'
+    assert.equal pc.toString(), 'garbage'
+    assert.equal pc.raw, 'garbage'
+    assert.isFalse pc.valid
       

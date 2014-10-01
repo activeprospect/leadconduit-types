@@ -11,6 +11,7 @@ describe 'Range', ->
     assert.equal r.min, 1
     assert.equal r.max, 10
     assert.equal r.avg, 5.5
+    assert.isTrue r.valid
 
   it 'should support "to" separator', ->
     r = range.parse '1 to 10'
@@ -19,6 +20,7 @@ describe 'Range', ->
     assert.equal r.min, 1
     assert.equal r.max, 10
     assert.equal r.avg, 5.5
+    assert.isTrue r.valid
 
   it 'should support arbitrary spaces in separator', ->
     r = range.parse '1     to      10'
@@ -27,6 +29,7 @@ describe 'Range', ->
     assert.equal r.min, 1
     assert.equal r.max, 10
     assert.equal r.avg, 5.5
+    assert.isTrue r.valid
 
   it 'should support greater than range', ->
     r = range.parse '10+'
@@ -35,6 +38,7 @@ describe 'Range', ->
     assert.equal r.min, 10
     assert.isNull r.max
     assert.isNull r.avg
+    assert.isTrue r.valid
 
   it 'should support single integer', ->
     r = range.parse '10'
@@ -43,6 +47,7 @@ describe 'Range', ->
     assert.equal r.min, 10
     assert.equal r.max, 10
     assert.equal r.avg, 10
+    assert.isTrue r.valid
 
   it 'should support single float', ->
     r = range.parse '5.5'
@@ -51,6 +56,7 @@ describe 'Range', ->
     assert.equal r.min, 5.5
     assert.equal r.max, 5.5
     assert.equal r.avg, 5.5
+    assert.isTrue r.valid
 
   it 'should support arbitrary leading space', ->
     r = range.parse '      1 to 10'
@@ -59,6 +65,7 @@ describe 'Range', ->
     assert.equal r.min, 1
     assert.equal r.max, 10
     assert.equal r.avg, 5.5
+    assert.isTrue r.valid
 
   it 'should support arbitrary trailing space', ->
     r = range.parse '1 to 10     '
@@ -67,4 +74,5 @@ describe 'Range', ->
     assert.equal r.min, 1
     assert.equal r.max, 10
     assert.equal r.avg, 5.5
+    assert.isTrue r.valid
       

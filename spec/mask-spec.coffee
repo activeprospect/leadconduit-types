@@ -25,6 +25,11 @@ describe 'Mask utility', ->
     assert.isTrue masked.masked
 
 
+  it 'should not mask valid flag', ->
+    masked = mask(masked: false, valid: true)
+    assert.isTrue masked.valid
+
+
   it 'should mask deeply', ->
     masked = mask
       masked: false
