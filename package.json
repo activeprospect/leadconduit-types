@@ -8,14 +8,14 @@
     "prepublish": "cake build"
   },
   "dependencies": {
-    "chrono-node": "~0.1.10",
-    "domain-name-parser": "0.0.4",
-    "email-addresses": "^1.1.1",
-    "handlebars": "^2.0.0-alpha.4",
     "libphonenumber": "0.0.x",
+    "email-addresses": "^1.1.1",
+    "domain-name-parser": "0.0.4",
+    "named-regexp": "^0.1.1",
+    "handlebars": "^2.0.0-alpha.4",
     "lodash": "^2.4.1",
-    "moment": "^2.6.0",
-    "named-regexp": "^0.1.1"
+    "chrono-node": "~0.1.10",
+    "moment": "^2.6.0"
   },
   "devDependencies": {
     "coffee-script": ">= 1.7.0",
