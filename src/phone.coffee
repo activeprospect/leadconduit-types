@@ -1,3 +1,4 @@
+_ = require('lodash')
 phoneUtil = require('libphonenumber').phoneUtil
 
 supportedRegionCodes = [
@@ -10,9 +11,9 @@ parse = (string, req) ->
   return string unless string?
 
   [type, string] = stripType(string)
-  [number, regionCode] = resolve(string, req?.logger)
+  [number, regionCode, mask] = resolve(string, req?.logger)
   if number
-    parts = decompose(string, number, regionCode)
+    parts = decompose(string, number, regionCode, mask)
     parts.type = type
     parts.valid = true
     parts
@@ -20,6 +21,7 @@ parse = (string, req) ->
     parts = new String(string)
     parts.raw = string
     parts.type = type if type?
+    parts.masked = false
     parts.valid = false
     parts
 
@@ -39,6 +41,18 @@ stripType = (string) ->
 
 
 resolve = (string, logger) ->
+  # normalize the number by removing everything except digits, asterisks, and the 'x' character
+  # then create the mask to track the position of asterisks.
+  mask = string.replace(/[^x\d\*]/g, '').split('').map (char) ->
+    char == '*'
+
+  # mask is an array of booleans indicating whether the character at that index is masked.
+  # index 0 represents the last character.
+  mask = mask.reverse()
+
+  # remove all asterisks and replace with zero. this will allow the number to be parsed.
+  string = string.replace(/[*]/g, '0')
+
   number = null
   for regionCode in supportedRegionCodes
     try
@@ -49,11 +63,17 @@ resolve = (string, logger) ->
     break if number?
 
   if number
-    [number, regionCode]
+    [number, regionCode, mask]
   else
-    [null, null]
+    [null, null, null]
 
-decompose = (raw, number, regionCode) ->
+
+asterisk = (str, mask) ->
+  maskChar = (char, index) ->
+    if mask[index] then '*' else char
+  str.split('').reverse().map(maskChar).reverse().join('').split('x')[0]
+
+decompose = (raw, number, regionCode, mask) ->
   nationalPrefix = phoneUtil.getNddPrefixForRegion(regionCode, true)
   nationalSignificantNumber = phoneUtil.getNationalSignificantNumber(number)
   nationalDestinationCodeLength = phoneUtil.getLengthOfNationalDestinationCode(number)
@@ -67,6 +87,17 @@ decompose = (raw, number, regionCode) ->
 
   extension = number.getExtension()
 
+  if mask
+    ext = if extension then "x#{extension}" else ''
+
+    if nationalDestinationCode
+      nationalDestinationCode = asterisk("#{nationalDestinationCode}#{subscriberNumber}#{ext}", mask).substring(0, nationalDestinationCode.length)
+
+    if nationalSignificantNumber
+      nationalSignificantNumber = asterisk("#{nationalSignificantNumber}#{ext}", mask)
+
+    if subscriberNumber
+      subscriberNumber = asterisk("#{subscriberNumber}#{ext}", mask)
 
 
   if ['US', 'CA'].indexOf(regionCode) != -1
@@ -84,6 +115,7 @@ decompose = (raw, number, regionCode) ->
   phone.number = subscriberNumber
   phone.extension = extension
   phone.country_code = regionCode
+  phone.masked = _.contains(mask, true)
   phone
 
 
