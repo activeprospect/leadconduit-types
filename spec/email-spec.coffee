@@ -7,9 +7,6 @@ describe 'Email', ->
   it 'should return a String object', ->
     assert.instanceOf email.parse('user@domain.com'), String
 
-  it 'should support plus symbol in user', ->
-    assert.equal email.parse('user+hola@domain.com').user, 'user+hola'
-
   it 'should parse user', ->
     assert.equal email.parse('user@domain.com').user, 'user'
 
