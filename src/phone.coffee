@@ -42,6 +42,7 @@ stripType = (string) ->
 
 resolve = (string, logger) ->
   # normalize the number by removing everything except digits, asterisks, and the 'x' character
+  # then create the mask to track the position of asterisks.
   mask = string.replace(/[^x\d\*]/g, '').split('').map (char) ->
     char == '*'
 
