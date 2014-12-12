@@ -83,3 +83,11 @@ describe 'Mask utility', ->
     assert.equal masked.bar, '****'
     assert.equal masked.toString(), '******'
     assert.isTrue masked.masked
+
+
+  it 'should not mask twice', ->
+    str = new String("foo***")
+    str.masked = true
+    masked = mask(str)
+    assert.equal masked.toString(), 'foo***'
+    assert.isTrue masked.masked

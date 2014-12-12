@@ -61,7 +61,7 @@ module.exports.mask = mask = (obj, doMask=false) ->
     obj = obj.map (i) ->
       mask(i, doMask)
   else if typeof obj == 'object'
-    if obj.masked? and (obj instanceof String or obj instanceof Boolean or obj instanceof Number)
+    if obj.masked == false and (obj instanceof String or obj instanceof Boolean or obj instanceof Number)
       str = new String(mask(obj.toString(), true))
       for key, value of obj
         continue if key == 'valid'
