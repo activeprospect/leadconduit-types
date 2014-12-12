@@ -18,7 +18,7 @@ describe 'Phone', ->
     assert.isUndefined ph.number
     assert.isUndefined ph.country_code
     assert.isUndefined ph.type
-    assert.isFalse ph.masked
+    assert.isUndefined ph.masked
     assert.isFalse ph.valid
 
   it 'should parse US phone', ->
@@ -30,7 +30,7 @@ describe 'Phone', ->
     assert.equal ph.line, '1111'
     assert.equal ph.number, '7891111'
     assert.equal ph.country_code, 'US'
-    assert.isFalse ph.masked
+    assert.isUndefined ph.masked
     assert.isTrue ph.valid
 
   it 'should parse US phone extension', ->

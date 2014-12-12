@@ -21,7 +21,6 @@ parse = (string, req) ->
     parts = new String(string)
     parts.raw = string
     parts.type = type if type?
-    parts.masked = false
     parts.valid = false
     parts
 
@@ -115,7 +114,7 @@ decompose = (raw, number, regionCode, mask) ->
   phone.number = subscriberNumber
   phone.extension = extension
   phone.country_code = regionCode
-  phone.masked = _.contains(mask, true)
+  phone.masked = true if _.contains(mask, true)
   phone
 
 
