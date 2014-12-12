@@ -10,6 +10,9 @@ describe 'Email', ->
   it 'should parse user', ->
     assert.equal email.parse('user@domain.com').user, 'user'
 
+  it 'should support plus symbol in user', ->
+    assert.equal email.parse('user+hola@domain.com').user, 'user+hola'
+
   it 'should parse domain', ->
     assert.equal email.parse('user@domain.com').domain, 'domain.com'
 
