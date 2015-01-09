@@ -49,8 +49,12 @@ module.exports.parse = (name, value, req) ->
   type = module.exports[name] if typeNames.indexOf(name) != -1
 
   if type? and value?
-    # Provided a type is defined, call its parse function and set the new value
-    type.parse value, req
+    if type.components?.length and value.raw?
+      # the value already has components, so parsing isn't necessary
+      return value
+    else
+      # call its parse function and set the new value
+      type.parse value, req
   else
     value
 
