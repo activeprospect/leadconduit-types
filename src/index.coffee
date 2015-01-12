@@ -1,6 +1,7 @@
 _ = require 'lodash'
 
 typeNames = [
+  'credential'
   'date'
   'email'
   'phone'
@@ -49,7 +50,7 @@ module.exports.parse = (name, value, req) ->
   type = module.exports[name] if typeNames.indexOf(name) != -1
 
   if type? and value?
-    if type.components?.length and value.raw?
+    if type.components?.length and value.valid?
       # the value already has components, so parsing isn't necessary
       return value
     else
