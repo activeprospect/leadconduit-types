@@ -1,7 +1,7 @@
 {
   "name": "leadconduit-types",
   "description": "A Node.JS module that parses data by type",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "main": "src/index",
   "scripts": {
     "test": "cake test",
