@@ -37,6 +37,7 @@ parse = (string) ->
     parsed.min = num
     parsed.max = num
     parsed.avg = num
+    parsed.valid = !isNaN(num)
 
   parsed.valid ?= true
   parsed
@@ -47,6 +48,7 @@ components = [
   { name: 'normal', type: 'number', description: 'Average of max and min, rounded down to the nearest integer' }
   { name: 'max', type: 'number', description: 'Range maximum' }
   { name: 'min', type: 'number', description: 'Range minimum'}
+  { name: 'avg', type: 'number', description: 'Range average'}
 ]
 
 
