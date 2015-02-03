@@ -1,6 +1,7 @@
 _ = require 'lodash'
 
 typeNames = [
+  'boolean'
   'credential'
   'date'
   'email'
