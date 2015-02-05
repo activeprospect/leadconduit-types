@@ -121,7 +121,7 @@ describe 'Range', ->
     assert.equal r.avg, 5500.45
     assert.isTrue r.valid
 
-  it 'should do handle invalid string', ->
+  it 'should handle invalid string', ->
     r = range.parse 'asdf'
     assert.equal r.toString(), 'asdf'
     assert.equal r.raw, 'asdf'
