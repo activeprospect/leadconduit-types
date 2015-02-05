@@ -40,6 +40,15 @@ describe 'Range', ->
     assert.isNull r.avg
     assert.isTrue r.valid
 
+  it 'should support greater than range with decimal', ->
+    r = range.parse '10.5+'
+    assert.equal r.toString(), '10.5+'
+    assert.equal r.raw, '10.5+'
+    assert.equal r.min, 10.5
+    assert.isNull r.max
+    assert.isNull r.avg
+    assert.isTrue r.valid
+
   it 'should support single integer', ->
     r = range.parse '10'
     assert.equal r.toString(), '10'
@@ -49,7 +58,7 @@ describe 'Range', ->
     assert.equal r.avg, 10
     assert.isTrue r.valid
 
-  it 'should support single float', ->
+  it 'should support single decimal', ->
     r = range.parse '5.5'
     assert.equal r.toString(), '5.5'
     assert.equal r.raw, '5.5'
@@ -67,6 +76,15 @@ describe 'Range', ->
     assert.equal r.avg, 5.5
     assert.isTrue r.valid
 
+  it 'should support missing delimiter', ->
+    r = range.parse '1 10'
+    assert.equal r.toString(), '1-10'
+    assert.equal r.raw, '1 10'
+    assert.equal r.min, 1
+    assert.equal r.max, 10
+    assert.equal r.avg, 5.5
+    assert.isTrue r.valid
+
   it 'should support arbitrary trailing space', ->
     r = range.parse '1 to 10     '
     assert.equal r.toString(), '1-10'
@@ -74,6 +92,33 @@ describe 'Range', ->
     assert.equal r.min, 1
     assert.equal r.max, 10
     assert.equal r.avg, 5.5
+    assert.isTrue r.valid
+
+  it 'should ignore currency characters', ->
+    r = range.parse '$1 to $10'
+    assert.equal r.toString(), '1-10'
+    assert.equal r.raw, '$1 to $10'
+    assert.equal r.min, 1
+    assert.equal r.max, 10
+    assert.equal r.avg, 5.5
+    assert.isTrue r.valid
+
+  it 'should ignore commas in numbers', ->
+    r = range.parse '$1,000 to $10,000'
+    assert.equal r.toString(), '1000-10000'
+    assert.equal r.raw, '$1,000 to $10,000'
+    assert.equal r.min, 1000
+    assert.equal r.max, 10000
+    assert.equal r.avg, 5500
+    assert.isTrue r.valid
+
+  it 'should support ranges with decimals', ->
+    r = range.parse '999.95 to 10000.95'
+    assert.equal r.toString(), '999.95-10000.95'
+    assert.equal r.raw, '999.95 to 10000.95'
+    assert.equal r.min, 999.95
+    assert.equal r.max, 10000.95
+    assert.equal r.avg, 5500.45
     assert.isTrue r.valid
 
   it 'should do handle invalid string', ->
@@ -84,4 +129,3 @@ describe 'Range', ->
     assert.isNull r.max
     assert.isNull r.avg
     assert.isFalse r.valid
-      
