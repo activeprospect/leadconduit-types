@@ -1,5 +1,6 @@
 _ = require('lodash')
 named = require('named-regexp').named
+number = require('./number')
 
 minRegex = named /(:<min>\d+)\s*\+/
 rangeRegex = named /(:<min>\d+)\s*(?:\-|to|\s+)\s*(:<max>\d+)/
@@ -30,14 +31,13 @@ parse = (string) ->
       parsed.raw = string
       parsed.valid = false
   else
-    num = parseFloat(string)
-    num = null if isNaN(num)
+    num = number.parse(string)
     parsed = new String(string)
     parsed.raw = string
-    parsed.min = num
-    parsed.max = num
-    parsed.avg = num
-    parsed.valid = !isNaN(num)
+    parsed.min = num?.valueOf() or null
+    parsed.max = num?.valueOf() or null
+    parsed.avg = num?.valueOf() or null
+    parsed.valid = num.valid
 
   parsed.valid ?= true
   parsed
