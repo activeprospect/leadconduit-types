@@ -75,4 +75,13 @@ describe 'Range', ->
     assert.equal r.max, 10
     assert.equal r.avg, 5.5
     assert.isTrue r.valid
+
+  it 'should do handle invalid string', ->
+    r = range.parse 'asdf'
+    assert.equal r.toString(), 'asdf'
+    assert.equal r.raw, 'asdf'
+    assert.isNull r.min
+    assert.isNull r.max
+    assert.isNull r.avg
+    assert.isFalse r.valid
       
