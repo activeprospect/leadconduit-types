@@ -2,13 +2,25 @@ _ = require('lodash')
 named = require('named-regexp').named
 number = require('./number')
 
-minRegex = named /(:<min>\d+)\s*\+/
-rangeRegex = named /(:<min>\d+)\s*(?:\-|to|\s+)\s*(:<max>\d+)/
+minRegex = named /(:<min>\d+(?:\.\d+)?)\s*\+/
+rangeRegex = named /(:<min>\d+(?:\.\d+)?)\s+(:<max>\d+(?:\.\d+)?)/
+
+parseNum = (num) -> 
+  if num.valid == true
+    return num.raw
+  if num.valid == false
+    return null
 
 parse = (string) ->
   return string unless string?
 
-  match = minRegex.exec(string) or rangeRegex.exec(string)
+  # Sanitize the string the remove non-numeric characters. The rangeRegex relies on this
+  # sanitization routine in order to match range strings
+  #  * replace '-' and 'to' with a space
+  #  * remove anything other than digits, ., and +
+  sanitized = string.replace(/-|(?:to)/, ' ').replace(/[^0-9 .+]/g, '')
+
+  match = minRegex.exec(sanitized) or rangeRegex.exec(sanitized)
   if match
     captures = match.captures
     min = captures.min?[0]? and parseFloat(captures.min[0])
@@ -17,7 +29,7 @@ parse = (string) ->
     if _(min).isNumber() and _(max).isNumber()
       parsed = new String("#{min}-#{max}")
       parsed.raw = string
-      parsed.avg = (min + max) / 2
+      parsed.avg = ((min + max) / 2).toFixed(2)
       parsed.min = min
       parsed.max = max
     else if _(min).isNumber()
@@ -34,9 +46,9 @@ parse = (string) ->
     num = number.parse(string)
     parsed = new String(string)
     parsed.raw = string
-    parsed.min = num?.valueOf() or null
-    parsed.max = num?.valueOf() or null
-    parsed.avg = num?.valueOf() or null
+    parsed.min = parseNum(num)
+    parsed.max = parseNum(num)
+    parsed.avg = parseNum(num)
     parsed.valid = num.valid
 
   parsed.valid ?= true
