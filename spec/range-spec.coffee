@@ -129,3 +129,12 @@ describe 'Range', ->
     assert.isNull r.max
     assert.isNull r.avg
     assert.isFalse r.valid
+  
+  it 'should parse 0 as min and max', ->
+    r = range.parse '0'
+    assert.equal r.toString(), '0'
+    assert.equal r.raw, '0'
+    assert.equal r.min, 0
+    assert.equal r.max, 0
+    assert.equal r.avg, 0
+    assert.isTrue r.valid

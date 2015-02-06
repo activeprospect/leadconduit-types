@@ -40,14 +40,13 @@ parse = (string) ->
     num = number.parse(string)
     parsed = new String(string)
     parsed.raw = string
-    parsed.min = num?.valueOf() or null
-    parsed.max = num?.valueOf() or null
-    parsed.avg = num?.valueOf() or null
+    parsed.min = if num?.valid then num.valueOf() else null
+    parsed.max = parsed.min
+    parsed.avg = parsed.min
     parsed.valid = num.valid
 
   parsed.valid ?= true
   parsed
-
 
 components = [
   { name: 'raw', type: 'string', description: 'Unmodified value' }
