@@ -39,6 +39,12 @@ describe 'Number', ->
     assert.equal parsed.raw, '$1100'
     assert.isTrue parsed.valid
 
+  it 'should ignore extraneous text', ->
+    parsed = number.parse '$1100 per month'
+    assert.equal parsed.valueOf(), 1100
+    assert.equal parsed.raw, '$1100 per month'
+    assert.isTrue parsed.valid
+
   it 'should ignore whitespace', ->
     parsed = number.parse '  1100 '
     assert.equal parsed.valueOf(), 1100

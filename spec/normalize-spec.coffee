@@ -33,6 +33,15 @@ describe 'Normalize utility', ->
     ext.foo = 'bar'
     assert.deepEqual normalize(number: ext), number: { normal: 8, foo: 'bar' }
 
+  it 'should normalize NaN to object', ->
+    ext = new Number('bar')
+    assert.deepEqual normalize(number: ext), number: NaN
+
+  it 'should normalize extended NaN to object', ->
+    ext = new Number('bar')
+    ext.foo = 'bar'
+    assert.deepEqual normalize(number: ext),  number: { normal: NaN, foo: 'bar' }
+
   it 'should normalize extended Boolean to object', ->
     ext = new Boolean(true)
     ext.foo = 'bar'
