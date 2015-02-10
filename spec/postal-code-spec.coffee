@@ -4,6 +4,15 @@ postalCode = require('../src/postal-code')
 
 describe 'Postal code', ->
 
+  it 'should handle leading and trailing whitespace', ->
+    pc = postalCode.parse '  78704  '
+    assert.equal pc.toString(), '78704'
+    assert.equal pc.raw, '  78704  '
+    assert.equal pc.zip, '78704'
+    assert.isUndefined pc.four
+    assert.equal pc.country_code, 'US'
+    assert.isTrue pc.valid
+
   it 'should parse US 5 digit format', ->
     pc = postalCode.parse '78704'
     assert.equal pc.toString(), '78704'

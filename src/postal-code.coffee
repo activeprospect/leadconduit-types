@@ -21,7 +21,7 @@ handlers =
 parse = (string) ->
   for region in supportedRegionCodes
     handler = handlers[region]
-    match = handler.regex.exec(string)
+    match = handler.regex.exec(string.trim())
 
     if match
       captures = match.captures
