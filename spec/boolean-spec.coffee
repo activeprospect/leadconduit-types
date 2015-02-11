@@ -66,3 +66,6 @@ describe 'Boolean', ->
     assert.equal parsed.valueOf(), true
     assert.equal parsed.raw, 'TRUE'
     assert.isTrue parsed.valid
+
+  it 'should handle parsing a parsed boolean', ->
+    assert.isFalse boolean.parse(boolean.parse('false')).valueOf()

@@ -5,7 +5,7 @@ parse = (string) ->
   return string unless string?
   bool =
     if _.isBoolean(string)
-      new Boolean(string)
+      new Boolean(string.valueOf())
     else if _.isString(string)
       sanitized = string.replace?(/[^a-z0-9]/ig, '').toLowerCase()
       parseBoolean(sanitized)
