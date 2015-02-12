@@ -14,7 +14,7 @@ parse = (string) ->
     else
       parseBoolean('NaB')
   bool.valid ?= true
-  bool.raw = string
+  bool.raw = string.raw ? string
   bool
 
 parseBoolean = (value) ->

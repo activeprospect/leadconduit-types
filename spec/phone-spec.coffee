@@ -148,3 +148,10 @@ describe 'Phone', ->
       assert.equal ph.toString(), '5127891111'
       assert.equal ph.raw, ' 5127891111 '
       done()
+
+
+  it 'should parse a parsed phone', ->
+    ph = phone.parse(phone.parse('512-789-1111'))
+    assert.equal ph.valueOf(), '5127891111'
+    assert.equal ph.raw, '512-789-1111'
+    assert.isTrue ph.valid

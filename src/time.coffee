@@ -1,11 +1,12 @@
 chrono = require('chrono-node')
 
 parse = (string) ->
-  results = chrono.parse(string)
+  raw = string.raw ? string
+  results = chrono.parse(string.toString())
   if results.length
     date = results[0].start.date()
     parsed = new String(date.toISOString())
-    parsed.raw = string
+    parsed.raw = raw
     parsed.year = date.getFullYear()
     parsed.month = date.getMonth() + 1
     parsed.day = date.getDate()
@@ -17,7 +18,7 @@ parse = (string) ->
     parsed.valid = true
   else
     parsed = new String(string)
-    parsed.raw = string
+    parsed.raw = raw
     parsed.valid = false
 
   parsed

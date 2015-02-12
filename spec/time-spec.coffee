@@ -55,3 +55,10 @@ describe 'Time', ->
     assert.equal date.raw, 'garbage'
     assert.isFalse date.valid
 
+  it 'should parse a parsed time', ->
+    date = time.parse(time.parse('06/14/2014 6:27:33 PM'))
+    assert.instanceOf date, String
+    assert.equal date.toString(), '2014-06-14T18:27:33.000Z'
+    assert.equal date.raw, '06/14/2014 6:27:33 PM'
+    assert.isTrue date.valid
+

@@ -1,22 +1,24 @@
-
 chrono = require('chrono-node')
-moment = require('moment')
+
+pad = (val) ->
+  ('00' + val).slice(-2)
 
 parse = (string) ->
-  results = chrono.parse(string)
+  results = chrono.parse(string.toString())
   if results.length
-    result = results[0].start
-    date = moment(results[0].startDate)
-    parsed = new String(date.format('YYYY-MM-DD'))
-    parsed.raw = string
-    parsed.year = result.year
-    parsed.month = result.month + 1
-    parsed.day = result.day
-    parsed.wday = date.isoWeekday()
+    date = results[0].start.date()
+    month = pad(date.getMonth() + 1)
+    day = pad(date.getDate())
+    parsed = new String("#{date.getFullYear()}-#{month}-#{day}")
+    parsed.raw = string.raw ? string
+    parsed.year = date.getFullYear()
+    parsed.month = date.getMonth() + 1
+    parsed.day = date.getDate()
+    parsed.wday = date.getDay()
     parsed.valid = true
   else
     parsed = new String(string)
-    parsed.raw = string
+    parsed.raw = string.raw ? string
     parsed.valid = false
 
   parsed

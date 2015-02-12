@@ -87,3 +87,9 @@ describe 'Number', ->
     assert.equal parsed.raw, 'derp'
     assert.isFalse parsed.valid
 
+  it 'should parse a parsed number', ->
+    parsed = number.parse(number.parse('11'))
+    assert.equal parsed.valueOf(), 11
+    assert.equal parsed.raw, '11'
+    assert.isTrue parsed.valid
+

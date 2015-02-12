@@ -16,7 +16,7 @@ parse = (string) ->
       new Number('NaN')
 
   number.valid = !isNaN(number)
-  number.raw = string
+  number.raw = string.raw ? string
   number
 
 

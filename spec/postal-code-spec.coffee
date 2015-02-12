@@ -171,4 +171,14 @@ describe 'Postal code', ->
     assert.equal pc.toString(), 'garbage'
     assert.equal pc.raw, 'garbage'
     assert.isFalse pc.valid
+
+
+  it 'should parse a parsed postal code', ->
+    pc = postalCode.parse(postalCode.parse('78704 - 1234'))
+    assert.equal pc.toString(), '78704-1234'
+    assert.equal pc.raw, '78704 - 1234'
+    assert.equal pc.zip, '78704'
+    assert.equal pc.four, '1234'
+    assert.equal pc.country_code, 'US'
+    assert.isTrue pc.valid
       

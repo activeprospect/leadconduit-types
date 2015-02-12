@@ -29,3 +29,9 @@ describe 'Date', ->
     assert.equal parsed.raw, 'garbage'
     assert.isFalse parsed.valid
 
+  it 'should handle parsing a parsed date', ->
+    parsed = date.parse(date.parse('Mon Jun 02 2014'))
+    assert.instanceOf parsed, String
+    assert.equal parsed.toString(), '2014-06-02'
+    assert.equal parsed.raw, 'Mon Jun 02 2014'
+

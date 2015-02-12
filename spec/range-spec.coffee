@@ -138,3 +138,13 @@ describe 'Range', ->
     assert.equal r.max, 0
     assert.equal r.avg, 0
     assert.isTrue r.valid
+
+  it 'should parse a parsed range', ->
+    r = range.parse(range.parse('1 - 10'))
+    assert.equal r.toString(), '1-10'
+    assert.equal r.raw, '1 - 10'
+    assert.equal r.min, 1
+    assert.equal r.max, 10
+    assert.equal r.avg, 5.5
+    assert.isTrue r.valid
+

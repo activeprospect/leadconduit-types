@@ -1,9 +1,10 @@
 parse = (string) ->
   return string unless string?
+  raw = string.raw ? string
   cleanedStr = string.replace(/[^0-9]/g, '')
   if cleanedStr.length == 9
     parsed = new String(cleanedStr)
-    parsed.raw = string
+    parsed.raw = raw
     parsed.first_three = cleanedStr.slice(0, 3)
     parsed.middle_two = cleanedStr.slice(3, 5)
     parsed.last_four = cleanedStr.slice(-4)
@@ -12,7 +13,7 @@ parse = (string) ->
     parsed
   else
     parsed = new String(string)
-    parsed.raw = string
+    parsed.raw = raw
     parsed.masked = false
     parsed.valid = false
     parsed

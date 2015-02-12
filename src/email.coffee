@@ -9,7 +9,7 @@ parse = (string) ->
 
   if addr?
     parsed = new String(string.toLowerCase().replace(stripRegex, ''))
-    parsed.raw = string
+    parsed.raw = string.raw ? string
     parsed.user = addr.local
 
     domain = parseDomain(addr.domain)
@@ -19,7 +19,7 @@ parse = (string) ->
     parsed.valid = true
   else
     parsed = new String(string)
-    parsed.raw = string
+    parsed.raw = string.raw ? string
     parsed.valid = false
 
   parsed

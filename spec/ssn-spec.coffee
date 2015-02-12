@@ -84,3 +84,10 @@ describe 'SSN', ->
             assert.isFalse @parsed.valid
 
 
+  it 'should parse a parsed ssn', ->
+    parsed = ssn.parse(ssn.parse('123-12-1234'))
+    assert.equal parsed.toString(), '123121234'
+    assert.equal parsed.raw, '123-12-1234'
+    assert.isTrue parsed.valid
+
+

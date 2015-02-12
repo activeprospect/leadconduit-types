@@ -46,3 +46,9 @@ describe 'Email', ->
     assert.equal 'user@domain.com', parsed.toString()
     assert.equal ' user@domain.com ', parsed.raw
 
+  it 'should handle parsing a parsed email', ->
+    parsed = email.parse(email.parse('USER@domain.com'))
+    assert.instanceOf parsed, String
+    assert.equal parsed.toString(), 'user@domain.com'
+    assert.equal parsed.raw, 'USER@domain.com'
+

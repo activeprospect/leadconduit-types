@@ -12,14 +12,15 @@ parse = (string, req) ->
 
   [type, string] = stripType(string)
   [number, regionCode, mask] = resolve(string, req?.logger)
+  raw = string.raw ? string
   if number
-    parts = decompose(string, number, regionCode, mask)
+    parts = decompose(raw, number, regionCode, mask)
     parts.type = type
     parts.valid = true
     parts
   else
     parts = new String(string)
-    parts.raw = string
+    parts.raw = raw
     parts.type = type if type?
     parts.valid = false
     parts

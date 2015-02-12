@@ -14,6 +14,8 @@ parse = (string) ->
   #  * remove anything other than digits, ., and +
   sanitized = string.replace(/-|(?:to)/, ' ').replace(/[^0-9 .+]/g, '')
 
+  raw = string.raw ? string
+
   match = minRegex.exec(sanitized) or rangeRegex.exec(sanitized)
   if match
     captures = match.captures
@@ -22,13 +24,13 @@ parse = (string) ->
 
     if _(min).isNumber() and _(max).isNumber()
       parsed = new String("#{min}-#{max}")
-      parsed.raw = string
+      parsed.raw = raw
       parsed.avg = ((min + max) / 2).toFixed(2)
       parsed.min = min
       parsed.max = max
     else if _(min).isNumber()
       parsed = new String("#{min}+")
-      parsed.raw = string
+      parsed.raw = raw
       parsed.avg = null
       parsed.min = min
       parsed.max = null
@@ -39,7 +41,7 @@ parse = (string) ->
   else
     num = number.parse(string)
     parsed = new String(string)
-    parsed.raw = string
+    parsed.raw = raw
     parsed.min = if num?.valid then num.valueOf() else null
     parsed.max = parsed.min
     parsed.avg = parsed.min

@@ -29,7 +29,7 @@ parse = (string) ->
         captures[key] = value[0]
       normal = Handlebars.compile(handler.format)(captures)
       parsed = new String(normal.toUpperCase())
-      parsed.raw = string
+      parsed.raw = string.raw ? string
       parsed.country_code = region
       for key, value of captures
         parsed[key] = value?.toUpperCase()
@@ -37,7 +37,7 @@ parse = (string) ->
       return parsed
 
   value = new String(string)
-  value.raw = string
+  value.raw = string.raw ? string
   value.valid = false
   value
 
