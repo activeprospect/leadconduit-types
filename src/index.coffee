@@ -41,9 +41,10 @@ module.exports.normalize = normalize = (obj) ->
     obj = obj.map (i) ->
       normalize(i)
   else if typeof obj == 'object'
+    rtn = {}
     for key, value of obj
-      obj[key] = normalize(value)
-
+      rtn[key] = normalize(value)
+    obj = rtn
   obj
 
 

@@ -74,3 +74,18 @@ describe 'Normalize utility', ->
 
     assert.deepEqual normalize(arr),
       [ 'a string', 8, true ]
+
+
+  it 'should not modify the original object', ->
+    ext = new String('bar')
+    ext.baz = new String('bip')
+    ext.baz.bip = 'bap'
+
+    obj =
+      string: 'a string'
+      object:
+        foo: new String('bar')
+        String: ext
+
+    assert.notEqual normalize(obj), obj
+
