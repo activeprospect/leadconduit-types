@@ -57,3 +57,15 @@ module.exports =
   parse: parse
   components: components
   maskable: false
+  operators: [
+    'is equal to'
+    'is not equal to'
+    'is blank'
+    'is not blank'
+    'format is valid'
+    'format is invalid'
+    'includes'
+    'does not include'
+    'is included in'
+    'is not included in'
+  ]
