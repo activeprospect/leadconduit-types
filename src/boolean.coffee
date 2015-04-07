@@ -30,3 +30,11 @@ module.exports =
   parse: parse
   components: []
   maskable: false
+  operators: [
+    'is true'
+    'is false'
+    'is blank'
+    'is not blank'
+    'format is valid'
+    'format is invalid'
+  ]
