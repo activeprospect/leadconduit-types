@@ -10,6 +10,7 @@ typeNames = [
   'postal_code'
   'range'
   'ssn'
+  'string'
   'time'
 ]
 
