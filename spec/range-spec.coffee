@@ -1,5 +1,6 @@
 assert = require('chai').assert
 range = require('../src/range')
+number = require('../src/number')
 
 
 describe 'Range', ->
@@ -49,7 +50,7 @@ describe 'Range', ->
     assert.isNull r.avg
     assert.isTrue r.valid
 
-  it 'should support single integer', ->
+  it 'should support single integer string', ->
     r = range.parse '10'
     assert.equal r.toString(), '10'
     assert.equal r.raw, '10'
@@ -58,8 +59,26 @@ describe 'Range', ->
     assert.equal r.avg, 10
     assert.isTrue r.valid
 
-  it 'should support single decimal', ->
+  it 'should support single integer', ->
+    r = range.parse 10
+    assert.equal r.toString(), '10'
+    assert.equal r.raw, '10'
+    assert.equal r.min, 10
+    assert.equal r.max, 10
+    assert.equal r.avg, 10
+    assert.isTrue r.valid
+
+  it 'should support single decimal strings', ->
     r = range.parse '5.5'
+    assert.equal r.toString(), '5.5'
+    assert.equal r.raw, '5.5'
+    assert.equal r.min, 5.5
+    assert.equal r.max, 5.5
+    assert.equal r.avg, 5.5
+    assert.isTrue r.valid
+
+  it 'should support single decimal strings', ->
+    r = range.parse 5.5
     assert.equal r.toString(), '5.5'
     assert.equal r.raw, '5.5'
     assert.equal r.min, 5.5
@@ -148,3 +167,11 @@ describe 'Range', ->
     assert.equal r.avg, 5.5
     assert.isTrue r.valid
 
+  it 'should parse a parsed number', ->
+    r = range.parse(number.parse('4'))
+    assert.equal r.toString(), '4'
+    assert.equal r.raw, '4'
+    assert.equal r.min, 4
+    assert.equal r.max, 4
+    assert.equal r.avg, 4
+    assert.isTrue r.valid

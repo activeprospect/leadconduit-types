@@ -8,6 +8,9 @@ rangeRegex = named /(:<min>\d+(?:\.\d+)?)\s+(:<max>\d+(?:\.\d+)?)/
 parse = (string) ->
   return string unless string?
 
+  # Don't re-parse parsed ranges, overwriting the original raw value
+  string = string.toString() unless string.replace?
+
   # Sanitize the string the remove non-numeric characters. The rangeRegex relies on this
   # sanitization routine in order to match range strings
   #  * replace '-' and 'to' with a space
