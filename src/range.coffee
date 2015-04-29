@@ -28,7 +28,7 @@ parse = (string) ->
     if _(min).isNumber() and _(max).isNumber()
       parsed = new String("#{min}-#{max}")
       parsed.raw = raw
-      parsed.avg = ((min + max) / 2).toFixed(2)
+      parsed.avg = parseFloat(((min + max) / 2).toFixed(2))
       parsed.min = min
       parsed.max = max
     else if _(min).isNumber()
