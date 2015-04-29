@@ -8,6 +8,9 @@ rangeRegex = named /(:<min>\d+(?:\.\d+)?)\s+(:<max>\d+(?:\.\d+)?)/
 parse = (string) ->
   return string unless string?
 
+  # Don't re-parse parsed ranges, overwriting the original raw value
+  string = string.toString() unless string.replace?
+
   # Sanitize the string the remove non-numeric characters. The rangeRegex relies on this
   # sanitization routine in order to match range strings
   #  * replace '-' and 'to' with a space
@@ -25,7 +28,7 @@ parse = (string) ->
     if _(min).isNumber() and _(max).isNumber()
       parsed = new String("#{min}-#{max}")
       parsed.raw = raw
-      parsed.avg = ((min + max) / 2).toFixed(2)
+      parsed.avg = parseFloat(((min + max) / 2).toFixed(2))
       parsed.min = min
       parsed.max = max
     else if _(min).isNumber()
