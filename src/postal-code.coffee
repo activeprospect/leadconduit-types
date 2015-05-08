@@ -49,7 +49,7 @@ components = [
   { name: 'four', type: 'string', description: 'US zip code (last 4 digits)' }
   { name: 'fsa', type: 'string', description: 'Canadian forward sortation area' }
   { name: 'ldu', type: 'string', description: 'Canadian local delivery unit' }
-  { name: 'outcode', type: 'string', description: 'Great Britian outward code' }
+  { name: 'outcode', type: 'string', description: 'Great Britain outward code' }
   { name: 'incode', type: 'string', description: 'Great Britain inward code' }
 ]
 
