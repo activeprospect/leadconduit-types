@@ -26,26 +26,33 @@ digit = /^\d+$/
 
 module.exports.normalize = normalize = (obj) ->
   return obj unless obj?
-  if obj instanceof String or obj instanceof Boolean or obj instanceof Number
+
+  if obj instanceof String or obj instanceof Boolean or obj instanceof Number or obj instanceof Date
     extendedKeys = Object.keys(obj).filter (key) ->
-      !key.match(digit)
+      !key.match(digit) and typeof obj[key] != 'function'
 
     if extendedKeys.length
-      str =
-        normal: obj.valueOf()
+      normal =
+        if _.isDate(obj)
+          new Date(obj.getTime())
+        else
+          obj.valueOf()
+      rtn = { normal: normal }
       for key in extendedKeys
-        str[key] = normalize(obj[key])
-      obj = str
+        rtn[key] = normalize(obj[key])
+      obj = rtn
     else
       obj = obj.valueOf()
   else if obj instanceof Array
-    obj = obj.map (i) ->
-      normalize(i)
+    obj = _.compact obj.map (i) ->
+      normalize(i) unless typeof i == 'function'
   else if typeof obj == 'object'
     rtn = {}
     for key, value of obj
+      continue if typeof value == 'function'
       rtn[key] = normalize(value)
     obj = rtn
+
   obj
 
 
@@ -70,7 +77,7 @@ module.exports.mask = mask = (obj, doMask=false) ->
     obj = obj.map (i) ->
       mask(i, doMask)
   else if typeof obj == 'object'
-    if obj.masked == false and (obj instanceof String or obj instanceof Boolean or obj instanceof Number)
+    if obj.masked == false and (obj instanceof String or obj instanceof Boolean or obj instanceof Number or obj instanceof Date)
       str = new String(mask(obj.toString(), true))
       for key, value of obj
         continue if key == 'valid'
@@ -82,7 +89,7 @@ module.exports.mask = mask = (obj, doMask=false) ->
         continue if key == 'valid'
         obj[key] = mask(value, obj.masked? or doMask)
       obj.masked = true if obj.masked?
-  else if _.isString(obj) or _.isNumber(obj)
+  else if _.isString(obj) or _.isNumber(obj) or _.isDate(obj)
     obj = obj.toString().replace(/./g, '*') if doMask
   else if _.isBoolean(obj)
     obj = '*' if doMask

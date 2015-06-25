@@ -3,35 +3,47 @@ date = require('../src/date')
 
 describe 'Date', ->
 
-  it 'should return a String object', ->
-    parsed = date.parse 'Mon Jun 02 2014'
-    assert.instanceOf parsed, String
-    assert.equal parsed.toString(), '2014-06-02'
+  strings = [
+    'Mon Jun 02 2014'
+    'Jun 02 2014'
+    '06/02/2014'
+    '2014-06-02'
+  ]
 
-  it 'should parse the year', ->
-    assert.equal date.parse('Mon Jun 02 2014').year, 2014
+  for string in strings
 
-  it 'should parse the month', ->
-    assert.equal date.parse('Mon Jun 02 2014').month, 6
+    do (string) ->
 
-  it 'should parse the day', ->
-    assert.equal date.parse('Mon Jun 02 2014').day, 2
+      describe string, ->
 
-  it 'should parse the weekday', ->
-    assert.equal date.parse('Mon Jun 02 2014').wday, 1
+        it 'should return a Date object', ->
+          parsed = date.parse string
+          assert.instanceOf parsed, Date
+          assert.equal parsed.toISOString(), '2014-06-02T12:00:00.000Z'
 
-  it 'should be valid', ->
-    assert.isTrue date.parse('Mon Jun 02 2014').valid
+        it 'should have string value', ->
+          parsed = date.parse string
+          assert.equal parsed.toString(), '2014-06-02'
+          assert.equal parsed.valueOf(), '2014-06-02'
+
+        it 'should have raw value', ->
+          assert.equal date.parse(string).raw, string
+
+        it 'should be valid', ->
+          assert.isTrue date.parse(string).valid
+
 
   it 'should not parse garbage', ->
     parsed = date.parse 'garbage'
     assert.equal parsed.toString(), 'garbage'
+    assert.equal parsed.valueOf(), 'garbage'
     assert.equal parsed.raw, 'garbage'
     assert.isFalse parsed.valid
 
   it 'should handle parsing a parsed date', ->
     parsed = date.parse(date.parse('Mon Jun 02 2014'))
-    assert.instanceOf parsed, String
+    assert.instanceOf parsed, Date
     assert.equal parsed.toString(), '2014-06-02'
+    assert.equal parsed.valueOf(), '2014-06-02'
     assert.equal parsed.raw, 'Mon Jun 02 2014'
 

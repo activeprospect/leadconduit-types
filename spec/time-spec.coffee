@@ -6,59 +6,44 @@ describe 'Time', ->
   strings = [
     'Sat Jun 14 2014 13:27:33 GMT-0500 (CDT)'
     '06/14/2014 6:27:33 PM'
+    '2014-06-14T18:27:33Z'
+    '2014-06-14T18:27:33.000Z'
   ]
 
   for string in strings
     do (string) ->
       describe string, ->
-        it 'should return a String object', ->
+        it 'should return a Date object', ->
           date = time.parse string
-          assert.instanceOf date, String
-          assert.equal date.toString(), '2014-06-14T18:27:33.000Z'
-            
-        it 'should parse the year', ->
+          assert.instanceOf date, Date
+
+        it 'should retain raw value', ->
           date = time.parse string
-          assert.equal date.year, 2014
-            
-        it 'should parse the month', ->
-          date = time.parse string
-          assert.equal date.month, 6
-            
-        it 'should parse the day', ->
-          date = time.parse string
-          assert.equal date.day, 14
-            
-        it 'should parse the hour', ->
-          date = time.parse string
-          assert.equal date.hour, 18
-            
-        it 'should parse the minute', ->
-          date = time.parse string
-          assert.equal date.min, 27
-            
-        it 'should parse the second', ->
-          date = time.parse string
-          assert.equal date.sec, 33
-            
-        it 'should parse the meridiem', ->
-          date = time.parse string
-          assert.equal date.meridiem, 'pm'
+          assert.equal date.raw, string
 
         it 'should be marked valid', ->
           date = time.parse string
           assert.isTrue date.valid
+
+        it 'should have ISO string value', ->
+          date = time.parse string
+          assert.equal date.valueOf(), '2014-06-14T18:27:33.000Z'
+          assert.equal date.toString(), '2014-06-14T18:27:33.000Z'
 
             
   it 'should not parse garbage', ->
     date = time.parse 'garbage'
     assert.equal date.toString(), 'garbage'
     assert.equal date.raw, 'garbage'
+    assert.equal date.toString(), 'garbage'
+    assert.equal date.valueOf(), 'garbage'
     assert.isFalse date.valid
 
   it 'should parse a parsed time', ->
     date = time.parse(time.parse('06/14/2014 6:27:33 PM'))
-    assert.instanceOf date, String
+    assert.instanceOf date, Date
     assert.equal date.toString(), '2014-06-14T18:27:33.000Z'
+    assert.equal date.valueOf(), '2014-06-14T18:27:33.000Z'
     assert.equal date.raw, '06/14/2014 6:27:33 PM'
     assert.isTrue date.valid
 

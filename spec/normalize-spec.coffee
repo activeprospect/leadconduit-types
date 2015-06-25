@@ -47,6 +47,14 @@ describe 'Normalize utility', ->
     ext.foo = 'bar'
     assert.deepEqual normalize(boolean: ext), boolean: { normal: true, foo: 'bar' }
 
+  it 'should normalize extended Date to object', ->
+    ext = new Date(1435166689060)
+    ext.foo = 'bar'
+    assert.deepEqual normalize(date: ext), date: { normal: new Date(1435166689060), foo: 'bar' }
+
+  it 'should omit functions', ->
+    assert.deepEqual normalize(foo: 'bar', baz: () ->), foo: 'bar'
+
   it 'should normalize deeply', ->
     ext = new String('bar')
     ext.baz = new String('bip')
