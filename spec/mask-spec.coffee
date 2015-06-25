@@ -91,3 +91,12 @@ describe 'Mask utility', ->
     masked = mask(str)
     assert.equal masked.toString(), 'foo***'
     assert.isTrue masked.masked
+
+
+  it 'should handle function', ->
+    str = new String("foo")
+    str.masked = false
+    str.foo = ->
+    masked = mask(str)
+    assert.equal masked.toString(), '***'
+    assert.isTrue masked.masked

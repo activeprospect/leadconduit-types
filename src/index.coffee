@@ -93,6 +93,8 @@ module.exports.mask = mask = (obj, doMask=false) ->
     obj = obj.toString().replace(/./g, '*') if doMask
   else if _.isBoolean(obj)
     obj = '*' if doMask
+  else if _.isFunction(obj)
+    undefined
   else
     throw "Don't know how to mask #{obj}"
   obj
