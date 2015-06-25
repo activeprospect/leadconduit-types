@@ -51,4 +51,3 @@ describe 'Email', ->
     assert.instanceOf parsed, String
     assert.equal parsed.toString(), 'user@domain.com'
     assert.equal parsed.raw, 'USER@domain.com'
-

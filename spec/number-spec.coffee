@@ -93,3 +93,15 @@ describe 'Number', ->
     assert.equal parsed.raw, '11'
     assert.isTrue parsed.valid
 
+  it 'should parse empty string', ->
+    parsed = number.parse(number.parse(''))
+    assert isNaN parsed.valueOf()
+    assert.equal parsed.raw, ''
+    assert.isFalse parsed.valid
+
+  it 'should parse NaN', ->
+    parsed = number.parse(parseInt('sports'))
+    assert isNaN parsed.valueOf()
+    assert isNaN parsed.raw
+    assert.isFalse parsed.valid
+
