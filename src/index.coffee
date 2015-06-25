@@ -41,7 +41,7 @@ module.exports.normalize = normalize = (obj) ->
       for key in extendedKeys
         rtn[key] = normalize(obj[key])
       obj = rtn
-    else
+    else if !_.isDate(obj)
       obj = obj.valueOf()
   else if obj instanceof Array
     obj = _.compact obj.map (i) ->

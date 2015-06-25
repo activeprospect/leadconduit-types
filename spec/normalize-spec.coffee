@@ -52,6 +52,10 @@ describe 'Normalize utility', ->
     ext.foo = 'bar'
     assert.deepEqual normalize(date: ext), date: { normal: new Date(1435166689060), foo: 'bar' }
 
+  it 'should not normalize regular Date', ->
+    date = new Date(1435166689060)
+    assert.deepEqual normalize(date: date), date: new Date(1435166689060)
+
   it 'should omit functions', ->
     assert.deepEqual normalize(foo: 'bar', baz: () ->), foo: 'bar'
 
