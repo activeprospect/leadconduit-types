@@ -2,6 +2,8 @@ chrono = require('chrono-node')
 moment = require('moment')
 
 parse = (string) ->
+  return string unless string?
+
   raw = string.raw ? string
   results = chrono.parse(string.toString())
 
