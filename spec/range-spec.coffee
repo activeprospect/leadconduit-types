@@ -1,6 +1,7 @@
 assert = require('chai').assert
 range = require('../src/range')
 number = require('../src/number')
+date = require('../src/date')
 
 
 describe 'Range', ->
@@ -175,3 +176,22 @@ describe 'Range', ->
     assert.equal r.max, 4
     assert.equal r.avg, 4
     assert.isTrue r.valid
+
+  it 'should parse a date string', ->
+    r = range.parse('2015-07-25')
+    assert.equal r.toString(), '2015-07-25'
+    assert.equal r.raw, '2015-07-25'
+    assert.equal r.min, 1437825600000
+    assert.equal r.max, 1437825600000
+    assert.equal r.avg, 1437825600000
+    assert.isTrue r.valid
+
+  it 'should parse a parsed date', ->
+    r = range.parse(date.parse('2015-07-25'))
+    assert.equal r.toString(), '2015-07-25'
+    assert.equal r.raw, '2015-07-25'
+    assert.equal r.min, 1437825600000
+    assert.equal r.max, 1437825600000
+    assert.equal r.avg, 1437825600000
+    assert.isTrue r.valid
+
