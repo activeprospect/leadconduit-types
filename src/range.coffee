@@ -1,9 +1,11 @@
 _ = require('lodash')
 named = require('named-regexp').named
 number = require('./number')
+date = require('./date')
 
 minRegex = named /(:<min>\d+(?:\.\d+)?)\s*\+/
 rangeRegex = named /(:<min>\d+(?:\.\d+)?)\s+(:<max>\d+(?:\.\d+)?)/
+dateRegex = /^\d{4}-\d{1,2}-\d{1,2}$/
 
 parse = (string) ->
   return string unless string?
@@ -20,7 +22,15 @@ parse = (string) ->
   raw = string.raw ? string
 
   match = minRegex.exec(sanitized) or rangeRegex.exec(sanitized)
-  if match
+  if dateRegex.exec(string)
+    day = date.parse(string)
+    parsed = new String(string)
+    parsed.raw = raw
+    parsed.min = day.getTime()
+    parsed.max = day.getTime()
+    parsed.avg = day.getTime()
+    parsed.valid = day.valid
+  else if match
     captures = match.captures
     min = captures.min?[0]? and parseFloat(captures.min[0])
     max = captures.max?[0]? and parseFloat(captures.max[0])
