@@ -5,7 +5,7 @@ date = require('./date')
 
 minRegex = named /(:<min>\d+(?:\.\d+)?)\s*\+/
 rangeRegex = named /(:<min>\d+(?:\.\d+)?)\s+(:<max>\d+(?:\.\d+)?)/
-dateRegex = /^\d{4}-\d{1,2}-\d{1,2}$/
+isoDateRegex = /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}\.\d{1,3}Z)?$/
 
 parse = (string) ->
   return string unless string?
@@ -13,24 +13,19 @@ parse = (string) ->
   # Don't re-parse parsed ranges, overwriting the original raw value
   string = string.toString() unless string.replace?
 
+  raw = string.raw ? string
+
+  if string.match(isoDateRegex)
+    string = new Date(string).getTime().toString()
+
   # Sanitize the string the remove non-numeric characters. The rangeRegex relies on this
   # sanitization routine in order to match range strings
   #  * replace '-' and 'to' with a space
   #  * remove anything other than digits, ., and +
   sanitized = string.replace(/-|(?:to)/, ' ').replace(/[^0-9 .+]/g, '')
 
-  raw = string.raw ? string
-
   match = minRegex.exec(sanitized) or rangeRegex.exec(sanitized)
-  if dateRegex.exec(string)
-    day = date.parse(string)
-    parsed = new String(string)
-    parsed.raw = raw
-    parsed.min = day.getTime()
-    parsed.max = day.getTime()
-    parsed.avg = day.getTime()
-    parsed.valid = day.valid
-  else if match
+  if match
     captures = match.captures
     min = captures.min?[0]? and parseFloat(captures.min[0])
     max = captures.max?[0]? and parseFloat(captures.max[0])

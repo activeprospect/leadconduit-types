@@ -2,6 +2,7 @@ assert = require('chai').assert
 range = require('../src/range')
 number = require('../src/number')
 date = require('../src/date')
+time = require('../src/time')
 
 
 describe 'Range', ->
@@ -179,19 +180,37 @@ describe 'Range', ->
 
   it 'should parse a date string', ->
     r = range.parse('2015-07-25')
-    assert.equal r.toString(), '2015-07-25'
+    assert.equal r.toString(), '1437782400000'
     assert.equal r.raw, '2015-07-25'
-    assert.equal r.min, 1437825600000
-    assert.equal r.max, 1437825600000
-    assert.equal r.avg, 1437825600000
+    assert.equal r.min, 1437782400000
+    assert.equal r.max, 1437782400000
+    assert.equal r.avg, 1437782400000
     assert.isTrue r.valid
 
   it 'should parse a parsed date', ->
     r = range.parse(date.parse('2015-07-25'))
-    assert.equal r.toString(), '2015-07-25'
+    assert.equal r.toString(), '1437782400000'
     assert.equal r.raw, '2015-07-25'
-    assert.equal r.min, 1437825600000
-    assert.equal r.max, 1437825600000
-    assert.equal r.avg, 1437825600000
+    assert.equal r.min, 1437782400000
+    assert.equal r.max, 1437782400000
+    assert.equal r.avg, 1437782400000
+    assert.isTrue r.valid
+
+  it 'should parse a time string', ->
+    r = range.parse('2015-07-25T01:59:32.021Z')
+    assert.equal r.toString(), '1437789572021'
+    assert.equal r.raw, '2015-07-25T01:59:32.021Z'
+    assert.equal r.min, 1437789572021
+    assert.equal r.max, 1437789572021
+    assert.equal r.avg, 1437789572021
+    assert.isTrue r.valid
+
+  it 'should parse a parsed time', ->
+    r = range.parse(time.parse('2015-07-25T01:59:32.021Z'))
+    assert.equal r.toString(), '1437789572021'
+    assert.equal r.raw, '2015-07-25T01:59:32.021Z'
+    assert.equal r.min, 1437789572021
+    assert.equal r.max, 1437789572021
+    assert.equal r.avg, 1437789572021
     assert.isTrue r.valid
 

@@ -8,7 +8,7 @@ parse = (string) ->
   results = chrono.parse(string.toString())
 
   if results.length
-    parsed = new Date(results[0].start.date())
+    parsed = moment(new Date(results[0].start.date())).startOf('day').toDate()
     parsed.raw = raw
     parsed.valid = true
     parsed.valueOf = ->
