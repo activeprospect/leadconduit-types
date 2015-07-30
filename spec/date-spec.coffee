@@ -19,7 +19,7 @@ describe 'Date', ->
         it 'should return a Date object', ->
           parsed = date.parse string
           assert.instanceOf parsed, Date
-          assert.equal parsed.toISOString(), '2014-06-02T12:00:00.000Z'
+          assert.equal parsed.toISOString(), '2014-06-02T00:00:00.000Z'
 
         it 'should have string value', ->
           parsed = date.parse string

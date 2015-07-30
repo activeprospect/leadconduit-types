@@ -36,4 +36,6 @@ module.exports =
     'is not blank'
     'format is valid'
     'format is invalid'
+    'is between'
+    'is not between'
   ]

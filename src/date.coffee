@@ -6,7 +6,7 @@ parse = (string) ->
   results = chrono.parse(string.toString())
 
   if results.length
-    parsed = new Date(results[0].start.date())
+    parsed = moment(new Date(results[0].start.date())).startOf('day').toDate()
     parsed.raw = raw
     parsed.valid = true
     parsed.valueOf = ->
@@ -31,8 +31,14 @@ module.exports =
   operators: [
     'is equal to'
     'is not equal to'
+    'is less than'
+    'is less than or equal to'
+    'is greater than'
+    'is greater than or equal to'
     'is blank'
     'is not blank'
     'format is valid'
     'format is invalid'
+    'is between'
+    'is not between'
   ]

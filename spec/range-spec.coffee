@@ -1,6 +1,8 @@
 assert = require('chai').assert
 range = require('../src/range')
 number = require('../src/number')
+date = require('../src/date')
+time = require('../src/time')
 
 
 describe 'Range', ->
@@ -175,3 +177,75 @@ describe 'Range', ->
     assert.equal r.max, 4
     assert.equal r.avg, 4
     assert.isTrue r.valid
+
+  it 'should parse a date string', ->
+    r = range.parse('2015-07-25')
+    assert.equal r.toString(), '1437782400000'
+    assert.equal r.raw, '2015-07-25'
+    assert.equal r.min, 1437782400000
+    assert.equal r.max, 1437782400000
+    assert.equal r.avg, 1437782400000
+    assert.isTrue r.valid
+
+  it 'should parse a parsed date', ->
+    r = range.parse(date.parse('2015-07-25'))
+    assert.equal r.toString(), '1437782400000'
+    assert.equal r.raw, '2015-07-25'
+    assert.equal r.min, 1437782400000
+    assert.equal r.max, 1437782400000
+    assert.equal r.avg, 1437782400000
+    assert.isTrue r.valid
+
+  it 'should parse a time string', ->
+    r = range.parse('2015-07-25T01:59:32.021Z')
+    assert.equal r.toString(), '1437789572021'
+    assert.equal r.raw, '2015-07-25T01:59:32.021Z'
+    assert.equal r.min, 1437789572021
+    assert.equal r.max, 1437789572021
+    assert.equal r.avg, 1437789572021
+    assert.isTrue r.valid
+
+  it 'should parse a parsed time', ->
+    r = range.parse(time.parse('2015-07-25T01:59:32.021Z'))
+    assert.equal r.toString(), '1437789572021'
+    assert.equal r.raw, '2015-07-25T01:59:32.021Z'
+    assert.equal r.min, 1437789572021
+    assert.equal r.max, 1437789572021
+    assert.equal r.avg, 1437789572021
+    assert.isTrue r.valid
+
+  it 'should parse a date range string', ->
+    r = range.parse('2015-07-01 - 2015-07-25')
+    assert.equal r.toString(), '1435708800000-1437782400000'
+    assert.equal r.raw, '2015-07-01 - 2015-07-25'
+    assert.equal r.min, 1435708800000
+    assert.equal r.max, 1437782400000
+    assert.equal r.avg, 1436745600000
+    assert.isTrue r.valid
+
+  it 'should parse the first two matches of a date range string', ->
+    r = range.parse('2015-07-01 - 2015-07-25 - 2015-07-30')
+    assert.equal r.toString(), '1435708800000-1437782400000'
+    assert.equal r.min, 1435708800000
+    assert.equal r.max, 1437782400000
+    assert.equal r.avg, 1436745600000
+    assert.isTrue r.valid
+
+  it 'should parse a time range string', ->
+    r = range.parse('2015-07-01T01:59:32.022Z - 2015-07-25T01:59:32:021Z')
+    assert.equal r.toString(), '1435715972022-1437782400000'
+    assert.equal r.raw, '2015-07-01T01:59:32.022Z - 2015-07-25T01:59:32:021Z'
+    assert.equal r.min, 1435715972022
+    assert.equal r.max, 1437782400000
+    assert.equal r.avg, 1436749186011
+    assert.isTrue r.valid
+
+  it 'should parse the first two matches of a time range string', ->
+    r = range.parse('2015-07-01T01:59:32.022Z - 2015-07-25T01:59:32:021Z - 2015-07-30T01:59:32:021Z')
+    assert.equal r.toString(), '1435715972022-1437782400000'
+    assert.equal r.min, 1435715972022
+    assert.equal r.max, 1437782400000
+    assert.equal r.avg, 1436749186011
+    assert.isTrue r.valid
+
+

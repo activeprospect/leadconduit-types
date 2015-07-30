@@ -4,6 +4,7 @@ number = require('./number')
 
 minRegex = named /(:<min>\d+(?:\.\d+)?)\s*\+/
 rangeRegex = named /(:<min>\d+(?:\.\d+)?)\s+(:<max>\d+(?:\.\d+)?)/
+isoDateRegex = /\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}\.\d{1,3}Z)?/g
 
 parse = (string) ->
   return string unless string?
@@ -11,13 +12,24 @@ parse = (string) ->
   # Don't re-parse parsed ranges, overwriting the original raw value
   string = string.toString() unless string.replace?
 
+  raw = string.raw ? string
+
+  if string.match(isoDateRegex)
+    parts = []
+
+    while (m = isoDateRegex.exec(string)) != null
+      parts.push m[0]
+
+    getTime = (s) ->
+      new Date(s).getTime().toString()
+
+    string = _.take(parts.map(getTime), 2).join('-')
+
   # Sanitize the string the remove non-numeric characters. The rangeRegex relies on this
   # sanitization routine in order to match range strings
   #  * replace '-' and 'to' with a space
   #  * remove anything other than digits, ., and +
   sanitized = string.replace(/-|(?:to)/, ' ').replace(/[^0-9 .+]/g, '')
-
-  raw = string.raw ? string
 
   match = minRegex.exec(sanitized) or rangeRegex.exec(sanitized)
   if match

@@ -20,6 +20,8 @@ supportedOperators = [
   'is not equal to'
   'is not included in'
   'is true'
+  'is between'
+  'is not between'
 ]
 
 describe 'Operators', ->
