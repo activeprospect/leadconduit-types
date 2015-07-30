@@ -1,7 +1,6 @@
 _ = require('lodash')
 named = require('named-regexp').named
 number = require('./number')
-date = require('./date')
 
 minRegex = named /(:<min>\d+(?:\.\d+)?)\s*\+/
 rangeRegex = named /(:<min>\d+(?:\.\d+)?)\s+(:<max>\d+(?:\.\d+)?)/
