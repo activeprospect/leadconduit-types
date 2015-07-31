@@ -32,6 +32,10 @@ module.exports =
   operators: [
     'is equal to'
     'is not equal to'
+    'is less than'
+    'is less than or equal to'
+    'is greater than'
+    'is greater than or equal to'
     'is blank'
     'is not blank'
     'format is valid'
