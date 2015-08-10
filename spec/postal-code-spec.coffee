@@ -9,7 +9,7 @@ describe 'Postal code', ->
     assert.equal pc.toString(), '78704'
     assert.equal pc.raw, '  78704  '
     assert.equal pc.zip, '78704'
-    assert.isUndefined pc.four
+    assert.isNull pc.four
     assert.equal pc.country_code, 'US'
     assert.isTrue pc.valid
 
@@ -18,7 +18,7 @@ describe 'Postal code', ->
     assert.equal pc.toString(), '78704'
     assert.equal pc.raw, '78704'
     assert.equal pc.zip, '78704'
-    assert.isUndefined pc.four
+    assert.isNull pc.four
     assert.equal pc.country_code, 'US'
     assert.isTrue pc.valid
       
