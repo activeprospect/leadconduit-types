@@ -32,7 +32,7 @@ parse = (string) ->
       parsed.raw = string.raw ? string
       parsed.country_code = region
       for key, value of captures
-        parsed[key] = value?.toUpperCase()
+        parsed[key] = value?.toUpperCase() ? null
       parsed.valid = true
       return parsed
 
