@@ -16,7 +16,7 @@ parse = (string, req) ->
   if number
     parts = decompose(raw, number, regionCode, mask)
     parts.type = type
-    parts.valid = true
+    parts.valid = parts.masked or phoneUtil.isValidNumber(number)
     parts
   else
     parts = new String(string)

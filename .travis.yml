@@ -1,6 +1,7 @@
 language: node_js
 node_js:
   - 0.10
+sudo: false
 notifications:
   slack:
     secure: v8CLsaQ8x4LGVi2ogGq2G35aowdaSAtAWS3NQk1/TrPjGuQ6D1/+sgx1hwFTUAMseWUx0fyyXThgmwU59P9nRxCjMQ2NJqgoJkNS0dqQZP6nURAAJ2HiCCXeYrw3EAfIS3uEpWKB5MBhKuWUgvX+ttyfvkX4EAiqt1TwrQc1QXQ=

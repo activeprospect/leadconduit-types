@@ -21,6 +21,12 @@ describe 'Phone', ->
     assert.isUndefined ph.masked
     assert.isFalse ph.valid
 
+  it 'should set valid to false for invalid phone numbers', ->
+    ph = phone.parse('964523331')
+    assert.equal ph.valueOf(), '964523331'
+    assert.equal ph.raw, '964523331'
+    assert.isFalse ph.valid
+
   it 'should parse US phone', ->
     ph = phone.parse('5127891111')
     assert.equal ph.valueOf(), '5127891111'
