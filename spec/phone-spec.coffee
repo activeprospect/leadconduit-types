@@ -21,6 +21,12 @@ describe 'Phone', ->
     assert.isUndefined ph.masked
     assert.isFalse ph.valid
 
+  it 'should set valid to false for invalid phone numbers', ->
+    ph = phone.parse('964523331')
+    assert.equal ph.valueOf(), '964523331'
+    assert.equal ph.raw, '964523331'
+    assert.isFalse ph.valid
+
   it 'should parse US phone', ->
     ph = phone.parse('5127891111')
     assert.equal ph.valueOf(), '5127891111'
@@ -102,52 +108,44 @@ describe 'Phone', ->
     assert phone.countryCodes.indexOf('GB') != -1
 
   it 'should parse mobile hint', ->
-    phone.parse '5127891111m', {}, (err, ph) ->
-      assert.equal ph.raw, '5127891111'
-      assert.equal ph.type, 'mobile'
-      done()
+    ph = phone.parse '5127891111m'
+    assert.equal ph.raw, '5127891111'
+    assert.equal ph.type, 'mobile'
 
   it 'should parse cell hint', ->
-    phone.parse '5127891111c', {}, (err, ph) ->
-      assert.equal ph.raw, '5127891111'
-      assert.equal ph.type, 'mobile'
-      done()
+    ph = phone.parse '5127891111c'
+    assert.equal ph.raw, '5127891111'
+    assert.equal ph.type, 'mobile'
 
   it 'should parse work hint', ->
-    phone.parse '5127891111w', {}, (err, ph) ->
-      assert.equal ph.raw, '5127891111'
-      assert.equal ph.type, 'work'
-      done()
+    ph = phone.parse '5127891111w'
+    assert.equal ph.raw, '5127891111'
+    assert.equal ph.type, 'work'
 
   it 'should parse home hint', ->
-    phone.parse '5127891111h', {}, (err, ph) ->
-      assert.equal ph.raw, '5127891111'
-      assert.equal ph.type, 'home'
-      done()
+    ph = phone.parse '5127891111h'
+    assert.equal ph.raw, '5127891111'
+    assert.equal ph.type, 'home'
 
   it 'should parse hint on invalid number', ->
-    phone.parse '1111m', {}, (err, ph) ->
-      assert.equal ph.raw, '1111'
-      assert.equal ph.type, 'mobile'
-      done()
+    ph = phone.parse '1111m'
+    assert.equal ph.raw, '1111'
+    assert.equal ph.type, 'mobile'
 
   it 'should allow optional parentheses in hint', ->
-    phone.parse '5127891111(h)', {}, (err, ph) ->
-      assert.equal ph.raw, '5127891111'
-      assert.equal ph.type, 'home'
-      done()
+    ph = phone.parse '5127891111(h)'
+    assert.equal ph.raw, '5127891111'
+    assert.equal ph.type, 'home'
 
   it 'should allow optional whitespace before hint', ->
-    phone.parse '5127891111 h', {}, (err, ph) ->
-      assert.equal ph.raw, '5127891111'
-      assert.equal ph.type, 'home'
-      done()
+    ph = phone.parse '5127891111 h'
+    assert.equal ph.raw, '5127891111'
+    assert.equal ph.type, 'home'
 
   it 'should strip leading and trailing whitespace', ->
-    phone.parse ' 5127891111 ', {}, (err, ph) ->
-      assert.equal ph.toString(), '5127891111'
-      assert.equal ph.raw, ' 5127891111 '
-      done()
+    ph = phone.parse ' 5127891111 '
+    assert.equal ph.toString(), '5127891111'
+    assert.equal ph.raw, ' 5127891111 '
 
 
   it 'should parse a parsed phone', ->
