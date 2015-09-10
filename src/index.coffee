@@ -99,6 +99,35 @@ module.exports.mask = mask = (obj, doMask=false) ->
     throw "Don't know how to mask #{obj}"
   obj
 
+clone = (vars) ->
+  if _.isArray(vars)
+    vars.map (v) ->
+      clone(v)
+  else if vars instanceof String
+    str = new String(vars.toString())
+    for name, value of vars
+      str[name] = value unless name.match(digit)
+    str
+  else if vars instanceof Number or vars instanceof Boolean or vars instanceof Date
+    obj = new vars.constructor(vars.valueOf())
+    for name, value of vars
+      obj[name] = value
+    obj
+  else if _.isNumber(vars) or _.isBoolean(vars)
+    vars.valueOf()
+  else if _.isDate(vars)
+    new Date(vars.getTime())
+  else if _.isFunction(vars)
+    vars
+  else if vars instanceof Object
+    obj = {}
+    for name, value of vars
+      obj[name] = clone(value)
+    obj
+  else
+    vars
+
+module.exports.clone = clone
 
 module.exports.isValid = (value) ->
   return true unless _.isPlainObject(value)
