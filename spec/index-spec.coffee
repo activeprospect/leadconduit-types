@@ -22,3 +22,10 @@ describe 'Index', ->
   it 'should not parse an invalid value twice', ->
     parsed = index.parse 'phone', 'dog'
     assert.equal index.parse('phone', parsed), parsed
+
+  it 'should clone a value', ->
+    obj = 
+      phone: index.parse 'phone', '5127891111'
+      ssn: index.parse 'ssn', '123456789'
+    objClone = index.clone(obj)
+    assert.deepEqual objClone, obj
