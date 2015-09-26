@@ -2,16 +2,21 @@ _ = require 'lodash'
 
 typeNames = [
   'boolean'
+  'city'
   'credential'
   'date'
   'email'
+  'first_name'
+  'last_name'
   'number'
   'phone'
   'postal_code'
   'range'
   'ssn'
+  'state'
   'string'
   'time'
+  'url'
 ]
 
 

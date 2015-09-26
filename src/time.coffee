@@ -1,3 +1,5 @@
+_ = require('lodash')
+moment = require('moment')
 chrono = require('chrono-node')
 
 parse = (string) ->
@@ -26,6 +28,14 @@ components = [
   { name: 'raw', type: 'string', description: 'Unmodified value' }
 ]
 
+
+exampleFormats = [
+  moment.defaultFormat
+  'MMMM Do YYYY, h:mm:ss a'
+  'MM/DD/YYYY h:mm a'
+  'LLL'
+]
+
 module.exports =
   parse: parse
   components: components
@@ -43,3 +53,5 @@ module.exports =
     'is between'
     'is not between'
   ]
+  example: ->
+    moment().format(exampleFormats[_.random(0, exampleFormats.length - 1)])

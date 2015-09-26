@@ -39,4 +39,6 @@ module.exports =
     'does not include'
     'is included in'
     'is not included in'
-  ]
+  ],
+  example: ->
+    _.random(1, 9999)
