@@ -51,5 +51,5 @@ module.exports =
     'is included in'
     'is not included in'
   ]
-  example: (lead, locale) ->
-    faker.email(lead.first_name, lead.last_name, locale)
+  example: (locale, lead) ->
+    faker.email(locale, lead.first_name, lead.last_name)

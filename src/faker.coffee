@@ -18,7 +18,7 @@ module.exports =
   lastName: (locale) ->
     forLocale locale, faker.name.lastName.bind(faker.name)
 
-  email: (firstName, lastName, locale) ->
+  email: (locale, firstName, lastName) ->
     forLocale locale, faker.internet.email.bind(faker.internet), firstName, lastName
 
   city: (locale) ->
