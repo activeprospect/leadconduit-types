@@ -26,6 +26,8 @@ parseBoolean = (value) ->
       bool.valid = false
       bool
 
+examples = [ 'true', 'false', 't', 'f', '1', '0', 'y', 'n' ]
+
 module.exports =
   parse: parse
   components: []
@@ -37,4 +39,11 @@ module.exports =
     'is not blank'
     'format is valid'
     'format is invalid'
-  ]
+  ],
+  example: ->
+    modifier = [
+      (str) -> str.toUpperCase()
+      (str) -> if str.length > 1 then _.capitalize(str) else str
+      (str) -> str
+    ][_.sample([0, 1, 2])]
+    modifier(_.sample(examples))

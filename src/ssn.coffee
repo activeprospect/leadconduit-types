@@ -1,3 +1,5 @@
+_ = require('lodash')
+
 parse = (string) ->
   return string unless string?
   raw = string.raw ? string
@@ -43,3 +45,12 @@ module.exports =
     'is included in'
     'is not included in'
   ]
+  example: ->
+    parts = [
+      _.random(100, 999)
+      _.padLeft _.random(0, 99), 2, 0
+      _.padLeft _.random(0, 9999), 4, 0
+    ]
+    delimiter = [ '', '-', ' '][_.random(0, 2)]
+    parts.join(delimiter)
+

@@ -1,8 +1,7 @@
-_ = require('lodash')
-faker = require('faker')
+faker = require('./faker')
 
 module.exports =
-  parse: (string) -> string
+  parse: (str) -> str
   components: []
   maskable: false
   operators: [
@@ -15,5 +14,4 @@ module.exports =
     'is included in'
     'is not included in'
   ]
-  example: ->
-    _.sample(faker.lorem.words())
+  example: faker.city

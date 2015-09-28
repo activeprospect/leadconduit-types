@@ -93,7 +93,21 @@ module.exports =
     'does not include'
     'is included in'
     'is not included in'
-  ]
+  ],
+  example: ->
+    min = _.random(0, 9999)
+    switch _.random(0, 2)
+      when 0
+        max = _.random(min + 1, min + 9999)
+        delimiter = [ ' to ', '-', ' '][_.random(0, 2)]
+        "#{min}#{delimiter}#{max}"
+      when 1
+        "#{min}+"
+      when 2
+        "#{min}"
+
+
+
 
 
 

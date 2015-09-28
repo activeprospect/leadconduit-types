@@ -1,5 +1,6 @@
 Handlebars = require('handlebars')
 named = require('named-regexp').named
+faker = require('./faker')
 
 supportedRegionCodes = [
   'US', # united states
@@ -68,4 +69,5 @@ module.exports =
     'does not include'
     'is included in'
     'is not included in'
-  ]
+  ],
+  example: faker.postalCode
