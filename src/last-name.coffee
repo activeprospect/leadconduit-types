@@ -1,4 +1,4 @@
-faker = require('faker')
+faker = require('./faker')
 
 module.exports =
   parse: (str) -> str
