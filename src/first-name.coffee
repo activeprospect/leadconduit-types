@@ -1,5 +1,3 @@
-faker = require('./faker')
-
 module.exports =
   parse: (str) -> str
   components: []
@@ -10,4 +8,8 @@ module.exports =
     'is blank'
     'is not blank'
   ]
-  example: faker.firstName
+  examples: [
+    'Mike'
+    'Robert'
+    'Janet'
+  ]

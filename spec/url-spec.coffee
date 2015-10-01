@@ -24,8 +24,8 @@ describe 'URL', ->
     assert.equal parsed.raw, 'donkey'
     assert !parsed.valid
 
-  it 'should get example', ->
-    assert url.parse(url.example()).valid
+  it 'should have examples', ->
+    assert url.examples.length
 
 
   describe 'valid values', ->

@@ -1,5 +1,4 @@
 _ = require('lodash')
-faker = require('faker')
 
 module.exports =
   parse: (string) -> string
@@ -15,5 +14,6 @@ module.exports =
     'is included in'
     'is not included in'
   ]
-  example: ->
-    _.sample(faker.lorem.words())
+  examples: [
+    'some words'
+  ]

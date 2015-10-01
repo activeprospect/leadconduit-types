@@ -1,5 +1,4 @@
 _ = require('lodash')
-faker = require('./faker')
 phoneUtil = require('libphonenumber').phoneUtil
 
 supportedRegionCodes = [
@@ -149,4 +148,9 @@ module.exports =
     'is included in'
     'is not included in'
   ],
-  example: faker.phone
+  examples: [
+    '5127891111'
+    '512 789-1111'
+    '512-789-1111 x 44'
+    '1 (512) 789-1111'
+  ]

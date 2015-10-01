@@ -1,6 +1,4 @@
 url = require('url')
-faker = require('./faker')
-
 
 isValidUrl = (uri) ->
   uri.protocol? and
@@ -11,7 +9,7 @@ isValidUrl = (uri) ->
 module.exports =
   parse: (str) ->
     return str unless str?
-    uri = url.parse(str.raw or str)
+    uri = url.parse(str?.raw?.toString() or str)
     if isValidUrl(uri)
       parsed = new String(uri.href)
       parsed.raw = str.raw ? str
@@ -49,4 +47,8 @@ module.exports =
     'is included in'
     'is not included in'
   ]
-  example: faker.url
+  examples: [
+    'https://google.com'
+    'https://yourwebsite.com/some/file.asp?type=offer'
+    'http://referringurl.com/a/landing/page.html'
+  ]

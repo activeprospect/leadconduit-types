@@ -11,8 +11,7 @@ describe 'Index', ->
     expectedTypeNames = files.map (f) ->
       path.basename(f, '.coffee').replace('-', '_')
 
-    for file in ['index', 'faker']
-      expectedTypeNames.splice(expectedTypeNames.indexOf(file), 1)
+    expectedTypeNames.splice(expectedTypeNames.indexOf('index'), 1)
 
     assert.deepEqual index.names, expectedTypeNames
 

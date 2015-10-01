@@ -19,3 +19,7 @@ describe 'Credential', ->
 
   it 'should not be masked', ->
     assert.isFalse credential.parse('hi').masked
+
+
+  it 'should have examples', ->
+    assert credential.examples.length

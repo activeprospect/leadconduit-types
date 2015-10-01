@@ -3,6 +3,9 @@ time = require('../src/time')
 
 describe 'Time', ->
 
+  it 'should have examples', ->
+    assert time.examples.length
+
   strings = [
     'Sat Jun 14 2014 13:27:33 GMT-0500 (CDT)'
     '06/14/2014 6:27:33 PM'

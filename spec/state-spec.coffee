@@ -18,8 +18,8 @@ describe 'State', ->
     assert.equal parsed.name, 'Texas'
     assert.isTrue parsed.valid
 
-  it 'should get example', ->
-    assert state.parse(state.example())
+  it 'should have examples', ->
+    assert state.examples.length
 
 
   describe 'valid values', ->

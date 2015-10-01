@@ -72,3 +72,7 @@ describe 'Boolean', ->
     assert.isFalse parsed.valueOf()
     assert.equal parsed.raw, 'f'
     assert.isTrue parsed.valid
+
+  it 'should have examples', ->
+    assert boolean.examples.length
+

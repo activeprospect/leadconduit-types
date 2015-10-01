@@ -153,3 +153,7 @@ describe 'Phone', ->
     assert.equal ph.valueOf(), '5127891111'
     assert.equal ph.raw, '512-789-1111'
     assert.isTrue ph.valid
+
+
+  it 'should have examples', ->
+    assert phone.examples.length

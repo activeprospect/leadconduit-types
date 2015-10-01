@@ -40,5 +40,10 @@ module.exports =
     'is included in'
     'is not included in'
   ],
-  example: ->
-    _.random(1, 9999)
+  examples: [
+    '100'
+    '100.999'
+    '$100.99'
+    '1,000'
+    '1,000.00'
+  ]
