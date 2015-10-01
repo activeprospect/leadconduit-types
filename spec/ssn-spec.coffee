@@ -13,6 +13,10 @@ describe 'SSN', ->
     assert.isUndefined ssn.parse()
 
 
+  it 'should have examples', ->
+    assert ssn.examples.length
+
+
   describe 'Valid values', ->
 
     strings = [

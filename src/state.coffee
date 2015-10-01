@@ -1,5 +1,4 @@
 _ = require('lodash')
-faker = require('./faker')
 
 states = {
   AL: 'Alabama'
@@ -100,8 +99,9 @@ module.exports =
     'is included in'
     'is not included in'
   ]
-  example: (locale) ->
-    if _.sample([true, false])
-      faker.state(locale)
-    else
-      faker.stateAbbr(locale)
+  examples: [
+    'TX'
+    'Texas'
+    'Quebec'
+    'Île-de-France'
+  ]

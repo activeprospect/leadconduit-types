@@ -1,4 +1,3 @@
-faker = require('./faker')
 parseEmail = require('email-addresses').parseOneAddress
 parseDomain = require('domain-name-parser')
 
@@ -51,5 +50,8 @@ module.exports =
     'is included in'
     'is not included in'
   ]
-  example: (locale, lead) ->
-    faker.email(locale, lead.first_name, lead.last_name)
+  examples: [
+    'mikejones32@gmail.com'
+    'rcampbell1976@outlook.com'
+    'janets@somecompany.biz'
+  ]

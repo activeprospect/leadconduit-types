@@ -248,4 +248,8 @@ describe 'Range', ->
     assert.equal r.avg, 1436749186011
     assert.isTrue r.valid
 
+  it 'should have examples', ->
+    assert range.examples.length
+
+
 

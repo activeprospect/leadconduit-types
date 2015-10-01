@@ -105,3 +105,7 @@ describe 'Number', ->
     assert isNaN parsed.raw
     assert.isFalse parsed.valid
 
+  it 'should have examples', ->
+    assert number.examples.length
+
+

@@ -1,5 +1,3 @@
-faker = require('./faker')
-
 module.exports =
   parse: (str) -> str
   components: []
@@ -14,4 +12,9 @@ module.exports =
     'is included in'
     'is not included in'
   ]
-  example: faker.city
+  examples: [
+    'Austin'
+    'Dallas'
+    'Chicago'
+    'Paris'
+  ]

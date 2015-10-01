@@ -1,5 +1,3 @@
-faker = require('./faker')
-
 parse = (string) ->
   return string unless string?
   parsed = new String(string)
@@ -21,4 +19,8 @@ module.exports =
     'is included in'
     'is not included in'
   ],
-  example: faker.password
+  examples: [
+    'sekret-pazzward'
+    'befa4e7379d81173dfe8d1a53deaf591'
+    '483571ec0724b4c3243bdf142c8e75c99cae90ac'
+  ]

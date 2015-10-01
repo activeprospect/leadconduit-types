@@ -181,4 +181,7 @@ describe 'Postal code', ->
     assert.equal pc.four, '1234'
     assert.equal pc.country_code, 'US'
     assert.isTrue pc.valid
-      
+
+
+  it 'should have examples', ->
+    assert postalCode.examples.length

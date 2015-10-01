@@ -6,5 +6,5 @@ describe 'City', ->
   it 'should be no-op', ->
     assert.equal city.parse('Austin'), 'Austin'
 
-  it 'should get example', ->
-    assert city.example()
+  it 'should have examples', ->
+    assert city.examples.length

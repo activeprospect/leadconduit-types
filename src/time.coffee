@@ -3,7 +3,7 @@ moment = require('moment')
 chrono = require('chrono-node')
 
 parse = (string) ->
-  raw = string.raw ? string
+  raw = string?.raw?.toString() ? string
   results = chrono.parse(string.toString())
   if results.length
     parsed = new Date(results[0].start.date())
@@ -28,14 +28,6 @@ components = [
   { name: 'raw', type: 'string', description: 'Unmodified value' }
 ]
 
-
-exampleFormats = [
-  moment.defaultFormat
-  'MMMM Do YYYY, h:mm:ss a'
-  'MM/DD/YYYY h:mm a'
-  'LLL'
-]
-
 module.exports =
   parse: parse
   components: components
@@ -53,5 +45,9 @@ module.exports =
     'is between'
     'is not between'
   ]
-  example: ->
-    moment().format(exampleFormats[_.random(0, exampleFormats.length - 1)])
+  examples: [
+    'Sat Jun 14 2015 13:27:33 GMT-0500 (CDT)'
+    '06/14/2015 6:27:33 PM'
+    '2015-06-14T18:27:33Z'
+    '2015-06-14T18:27:33.000Z'
+  ]

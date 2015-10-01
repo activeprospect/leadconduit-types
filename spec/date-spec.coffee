@@ -47,3 +47,7 @@ describe 'Date', ->
     assert.equal parsed.valueOf(), '2014-06-02'
     assert.equal parsed.raw, 'Mon Jun 02 2014'
 
+  it 'should have examples', ->
+    assert date.examples.length
+
+
