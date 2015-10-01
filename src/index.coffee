@@ -7,6 +7,7 @@ typeNames = [
   'date'
   'email'
   'first_name'
+  'gender'
   'last_name'
   'number'
   'phone'
