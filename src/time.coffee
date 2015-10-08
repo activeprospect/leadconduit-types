@@ -1,6 +1,7 @@
 _ = require('lodash')
 moment = require('moment')
 chrono = require('chrono-node')
+normalize = require('./normalize')
 
 parse = (string) ->
   raw = string?.raw?.toString() ? string
@@ -50,4 +51,4 @@ module.exports =
     '06/14/2015 6:27:33 PM'
     '2015-06-14T18:27:33Z'
     '2015-06-14T18:27:33.000Z'
-  ]
+  ].map(parse).map(normalize)

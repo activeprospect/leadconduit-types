@@ -12,6 +12,7 @@ describe 'Index', ->
       path.basename(f, '.coffee').replace('-', '_')
 
     expectedTypeNames.splice(expectedTypeNames.indexOf('index'), 1)
+    expectedTypeNames.splice(expectedTypeNames.indexOf('normalize'), 1)
 
     assert.deepEqual index.names, expectedTypeNames
 

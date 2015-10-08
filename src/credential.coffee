@@ -1,3 +1,5 @@
+normalize = require('./normalize')
+
 parse = (string) ->
   return string unless string?
   parsed = new String(string)
@@ -23,4 +25,4 @@ module.exports =
     'sekret-pazzward'
     'befa4e7379d81173dfe8d1a53deaf591'
     '483571ec0724b4c3243bdf142c8e75c99cae90ac'
-  ]
+  ].map(parse).map(normalize)
