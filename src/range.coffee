@@ -1,6 +1,7 @@
 _ = require('lodash')
 named = require('named-regexp').named
 number = require('./number')
+normalize = require('./normalize')
 
 minRegex = named /(:<min>\d+(?:\.\d+)?)\s*\+/
 rangeRegex = named /(:<min>\d+(?:\.\d+)?)\s+(:<max>\d+(?:\.\d+)?)/
@@ -99,7 +100,7 @@ module.exports =
     '100 - 200'
     '100+'
     '100'
-  ]
+  ].map(parse).map(normalize)
 
 
 

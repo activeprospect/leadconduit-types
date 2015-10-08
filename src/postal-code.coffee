@@ -1,5 +1,6 @@
 Handlebars = require('handlebars')
 named = require('named-regexp').named
+normalize = require('./normalize')
 
 supportedRegionCodes = [
   'US', # united states
@@ -76,4 +77,4 @@ module.exports =
     'Q2E 4U7'
     'A11 1AA'
     'AA11A 1AA'
-  ]
+  ].map(parse).map(normalize)

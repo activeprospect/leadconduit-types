@@ -1,4 +1,5 @@
 url = require('url')
+normalize = require('./normalize')
 
 isValidUrl = (uri) ->
   uri.protocol? and
@@ -6,26 +7,28 @@ isValidUrl = (uri) ->
   uri.slashes and
   uri.hostname
 
+parse = (str) ->
+  return str unless str?
+  uri = url.parse(str?.raw?.toString() or str)
+  if isValidUrl(uri)
+    parsed = new String(uri.href)
+    parsed.raw = str.raw ? str
+    parsed.protocol = uri.protocol.replace(/:$/, '')
+    parsed.host = uri.host
+    parsed.port = uri.port
+    parsed.path = uri.pathname
+    parsed.query = uri.query
+    parsed.hash = uri.hash
+    parsed.valid = true
+    parsed
+  else
+    parsed = new String(str)
+    parsed.raw = str.raw or str
+    parsed.valid = false
+    parsed
+
 module.exports =
-  parse: (str) ->
-    return str unless str?
-    uri = url.parse(str?.raw?.toString() or str)
-    if isValidUrl(uri)
-      parsed = new String(uri.href)
-      parsed.raw = str.raw ? str
-      parsed.protocol = uri.protocol.replace(/:$/, '')
-      parsed.host = uri.host
-      parsed.port = uri.port
-      parsed.path = uri.pathname
-      parsed.query = uri.query
-      parsed.hash = uri.hash
-      parsed.valid = true
-      parsed
-    else
-      parsed = new String(str)
-      parsed.raw = str.raw or str
-      parsed.valid = false
-      parsed
+  parse: parse
 
   components: [
     { name: 'raw', type: 'string', description: 'Unmodified value' }
@@ -51,4 +54,4 @@ module.exports =
     'https://google.com'
     'https://yourwebsite.com/some/file.asp?type=offer'
     'http://referringurl.com/a/landing/page.html'
-  ]
+  ].map(parse).map(normalize)

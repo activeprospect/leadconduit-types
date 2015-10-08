@@ -1,4 +1,5 @@
 _ = require('lodash')
+normalize = require('./normalize')
 
 states = {
   AL: 'Alabama'
@@ -104,4 +105,4 @@ module.exports =
     'Texas'
     'Quebec'
     'Île-de-France'
-  ]
+  ].map(parse).map(normalize)

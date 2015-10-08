@@ -1,5 +1,6 @@
 _ = require('lodash')
 phoneUtil = require('libphonenumber').phoneUtil
+normalize = require('./normalize')
 
 supportedRegionCodes = [
   'US', # united states
@@ -153,4 +154,4 @@ module.exports =
     '512 789-1111'
     '512-789-1111 x 44'
     '1 (512) 789-1111'
-  ]
+  ].map(parse).map(normalize)

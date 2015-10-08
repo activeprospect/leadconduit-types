@@ -1,5 +1,6 @@
 parseEmail = require('email-addresses').parseOneAddress
 parseDomain = require('domain-name-parser')
+normalize = require('./normalize')
 
 stripRegex = /^\s+|\s+$/g
 
@@ -54,4 +55,4 @@ module.exports =
     'mikejones32@gmail.com'
     'rcampbell1976@outlook.com'
     'janets@somecompany.biz'
-  ]
+  ].map(parse).map(normalize)

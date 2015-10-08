@@ -1,4 +1,5 @@
 _ = require('lodash')
+normalize = require('./normalize')
 
 parse = (string) ->
   return string unless string?
@@ -46,4 +47,4 @@ module.exports =
     '$100.99'
     '1,000'
     '1,000.00'
-  ]
+  ].map(parse).map(normalize)

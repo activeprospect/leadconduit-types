@@ -1,4 +1,5 @@
 _ = require('lodash')
+normalize = require('./normalize')
 
 parse = (string) ->
   return string unless string?
@@ -49,5 +50,5 @@ module.exports =
     '123-45-6789'
     '123 45 6789'
     '123456789'
-  ]
+  ].map(parse).map(normalize)
 

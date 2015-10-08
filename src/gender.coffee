@@ -1,3 +1,5 @@
+normalize = require('./normalize')
+
 parse = (string) ->
   return string unless string?
   raw = string.raw ? string
@@ -34,4 +36,4 @@ module.exports =
     'M'
     'F'
     'O'
-  ]
+  ].map(parse).map(normalize)
