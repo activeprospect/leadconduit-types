@@ -47,6 +47,16 @@ describe 'Date', ->
     assert.equal parsed.valueOf(), '2014-06-02'
     assert.equal parsed.raw, 'Mon Jun 02 2014'
 
+  it 'should handle parsing a JavaScript date', ->
+    now = new Date(2015, 10, 6) # 0-based month index :-/
+    parsed = date.parse(now)
+    assert.instanceOf parsed, Date
+    assert.deepEqual parsed, now
+    assert.isTrue parsed.valid
+    assert.equal parsed.toString(), '2015-11-06'
+    assert.equal parsed.valueOf(), '2015-11-06'
+    assert.equal parsed.raw, now
+
   it 'should have examples', ->
     assert date.examples.length
 
