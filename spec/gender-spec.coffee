@@ -19,6 +19,7 @@ describe 'Gender', ->
         assert.equal parsed.valueOf(), 'male'
         assert.equal parsed.raw, val
         assert.isTrue parsed.valid
+        assert.equal parsed.abbr, 'M'
 
 
   females = [
@@ -37,6 +38,7 @@ describe 'Gender', ->
         assert.equal parsed.valueOf(), 'female'
         assert.equal parsed.raw, val
         assert.isTrue parsed.valid
+        assert.equal parsed.abbr, 'F'
 
 
   others = [
@@ -55,7 +57,7 @@ describe 'Gender', ->
         assert.equal parsed.valueOf(), 'other'
         assert.equal parsed.raw, val
         assert.isTrue parsed.valid
-
+        assert.equal parsed.abbr, 'O'
 
 
   invalids = [
@@ -73,6 +75,7 @@ describe 'Gender', ->
         assert.equal parsed.valueOf(), val.toString()
         assert.equal parsed.raw, val
         assert.isFalse parsed.valid
+        assert.isNull parsed.abbr
 
 
   it 'should handle parsing a parsed gender', ->
@@ -80,7 +83,7 @@ describe 'Gender', ->
     assert.equal parsed.valueOf(), 'female'
     assert.equal parsed.raw, 'f'
     assert.isTrue parsed.valid
+    assert.equal parsed.abbr, 'F'
 
   it 'should have examples', ->
     assert gender.examples.length
-

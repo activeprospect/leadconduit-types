@@ -15,6 +15,12 @@ parse = (string) ->
         invalid
   gender.raw = raw
   gender.valid ?= true
+  gender.abbr =
+    switch gender.valueOf()
+      when 'male' then 'M'
+      when 'female' then 'F'
+      when  'other' then 'O'
+      else null
   gender
 
 module.exports =
