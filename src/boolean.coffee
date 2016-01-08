@@ -1,5 +1,6 @@
 _ = require('lodash')
 number = require('./number')
+normalize = require('./normalize')
 
 parse = (string) ->
   return string unless string?
@@ -47,4 +48,4 @@ module.exports =
     '0'
     'Y'
     'N'
-  ]
+  ].map(parse).map(normalize)

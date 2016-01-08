@@ -1,7 +1,11 @@
 _ = require('lodash')
 
 module.exports =
-  parse: (string) -> string
+
+  parse: (value) ->
+    return value unless value?
+    value.toString()
+
   components: []
   maskable: false
   operators: [
