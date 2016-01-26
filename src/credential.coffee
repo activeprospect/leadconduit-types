@@ -3,6 +3,7 @@ normalize = require('./normalize')
 parse = (string) ->
   return string unless string?
   parsed = new String(string)
+  parsed.raw = string.raw ? string
   parsed.masked = false
   parsed.valid = true
   parsed
