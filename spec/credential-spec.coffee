@@ -21,5 +21,9 @@ describe 'Credential', ->
     assert.isFalse credential.parse('hi').masked
 
 
+  it 'should retain raw value', ->
+    assert.equal credential.parse('hi').raw, 'hi'
+
+
   it 'should have examples', ->
     assert credential.examples.length
