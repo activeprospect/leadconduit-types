@@ -39,12 +39,16 @@ describe 'Phone', ->
     assert.isUndefined ph.masked
     assert.isTrue ph.valid
 
+  it 'should include extension in normal form', ->
+    ph = phone.parse('5127891111x123')
+    assert.equal ph.valueOf(), '5127891111x123'
+    assert.isTrue ph.valid
+
   it 'should parse US phone extension', ->
     assert.equal phone.parse('5127891111').extension, null
     assert.equal phone.parse('5127891111x42').extension, '42'
     assert.equal phone.parse('5127891111 x43').extension, '43'
     assert.equal phone.parse('5127891111 x 44').extension, '44'
-
 
   it 'should parse masked US phone', ->
     ph = phone.parse('1-(512) *** ****')
@@ -59,7 +63,6 @@ describe 'Phone', ->
     assert.isTrue ph.masked
     assert.isTrue ph.valid
 
-
   it 'should parse partially masked US phone', ->
     ph = phone.parse('1-(5*2) *** **11')
     assert.equal ph.valueOf(), '5*2*****11'
@@ -73,6 +76,33 @@ describe 'Phone', ->
     assert.isTrue ph.masked
     assert.isTrue ph.valid
 
+  it 'should parse masked US phone with extension', ->
+    ph = phone.parse('1-(512) *** **** x**')
+    assert.equal ph.valueOf(), '512*******x**'
+    assert.equal ph.raw, '1-(512) *** **** x**'
+    assert.equal ph.area, '512'
+    assert.equal ph.exchange, '***'
+    assert.equal ph.line, '****'
+    assert.equal ph.number, '*******'
+    assert.equal ph.extension, '**'
+    assert.equal ph.country_code, 'US'
+    assert.isNull ph.type
+    assert.isTrue ph.masked
+    assert.isTrue ph.valid
+
+  it 'should parse masked US phone with unmasked extension', ->
+    ph = phone.parse('1-(512) *** **** x42')
+    assert.equal ph.valueOf(), '512*******x42'
+    assert.equal ph.raw, '1-(512) *** **** x42'
+    assert.equal ph.area, '512'
+    assert.equal ph.exchange, '***'
+    assert.equal ph.line, '****'
+    assert.equal ph.number, '*******'
+    assert.equal ph.extension, '42'
+    assert.equal ph.country_code, 'US'
+    assert.isNull ph.type
+    assert.isTrue ph.masked
+    assert.isTrue ph.valid
 
   it 'should handle completely masked US phone', ->
     ph = phone.parse('**********')
@@ -85,7 +115,6 @@ describe 'Phone', ->
     assert.equal ph.country_code, 'US'
     assert.isTrue ph.masked
     assert.isTrue ph.valid
-
 
   it 'should parse UK phone', ->
     ph = phone.parse '7981-555555'
@@ -147,13 +176,11 @@ describe 'Phone', ->
     assert.equal ph.toString(), '5127891111'
     assert.equal ph.raw, ' 5127891111 '
 
-
   it 'should parse a parsed phone', ->
     ph = phone.parse(phone.parse('512-789-1111'))
     assert.equal ph.valueOf(), '5127891111'
     assert.equal ph.raw, '512-789-1111'
     assert.isTrue ph.valid
-
 
   it 'should have examples', ->
     assert phone.examples.length
