@@ -48,7 +48,10 @@ resolve = (string, logger) ->
     char == '*'
 
   # mask is an array of booleans indicating whether the character at that index is masked.
-  # index 0 represents the last character.
+  # index 0 represents the last character. For example, for the number "512789****x***",
+  # the mask is [true, true, true, false, true, true, true, true, false, false, false, false, false, false].
+  # the mask is reversed in this way to allow for partially mapped numbers that have optional country and
+  # dialing codes.
   mask = mask.reverse()
 
   # remove all asterisks and replace with zero. this will allow the number to be parsed.
@@ -72,7 +75,8 @@ resolve = (string, logger) ->
 asterisk = (str, mask) ->
   maskChar = (char, index) ->
     if mask[index] then '*' else char
-  str.split('').reverse().map(maskChar).reverse().join('').split('x')[0]
+  str.split('').reverse().map(maskChar).reverse().join('')
+
 
 decompose = (raw, number, regionCode, mask) ->
   nationalPrefix = phoneUtil.getNddPrefixForRegion(regionCode, true)
@@ -92,13 +96,16 @@ decompose = (raw, number, regionCode, mask) ->
     ext = if extension then "x#{extension}" else ''
 
     if nationalDestinationCode
-      nationalDestinationCode = asterisk("#{nationalDestinationCode}#{subscriberNumber}#{ext}", mask).substring(0, nationalDestinationCode.length)
+      nationalDestinationCode = asterisk("#{nationalDestinationCode}#{subscriberNumber}#{ext}", mask).split('x')[0].substring(0, nationalDestinationCode.length)
 
     if nationalSignificantNumber
-      nationalSignificantNumber = asterisk("#{nationalSignificantNumber}#{ext}", mask)
+      nationalSignificantNumber = asterisk("#{nationalSignificantNumber}#{ext}", mask).split('x')[0]
 
     if subscriberNumber
-      subscriberNumber = asterisk("#{subscriberNumber}#{ext}", mask)
+      subscriberNumber = asterisk("#{subscriberNumber}#{ext}", mask).split('x')[0]
+
+    if extension
+      extension = asterisk(ext, mask).replace(/x/, '')
 
 
   if ['US', 'CA'].indexOf(regionCode) != -1
@@ -107,7 +114,13 @@ decompose = (raw, number, regionCode, mask) ->
   else
     null
 
-  phone = new String(nationalSignificantNumber or raw)
+  normal =
+    if nationalSignificantNumber
+      _.compact([nationalSignificantNumber, extension]).join('x')
+    else
+      raw
+
+  phone = new String(normal)
   phone.prefix = nationalPrefix
   phone.raw = raw
   phone.area = nationalDestinationCode
