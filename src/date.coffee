@@ -1,14 +1,22 @@
 _ = require('lodash')
-chrono = require('chrono-node')
 moment = require('moment')
 normalize = require('./normalize')
 
+formats = [
+  'ddd MMM DD YYYY' # 'Mon Jun 02 2014'
+  'MMM DD YYYY'     # 'Jun 02 2014'
+  'MM/DD/YYYY'      # '06/02/2014'
+  'YYYY-MM-DD'      # '2014-06-02'
+  'MM-DD-YYYY'      # '06-02-2014'
+  'MMDDYYYY'        # '06022014'
+]
+
 parse = (string) ->
   raw = string.raw ? string
-  results = chrono.parse(string.toString())
+  results = moment(string.toString(), formats)
 
-  if results.length
-    parsed = moment(new Date(results[0].start.date())).startOf('day').toDate()
+  if results.isValid()
+    parsed = results.toDate()
     parsed.raw = raw
     parsed.valid = true
     parsed.valueOf = ->
