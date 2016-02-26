@@ -8,6 +8,8 @@ describe 'Date', ->
     'Jun 02 2014'
     '06/02/2014'
     '2014-06-02'
+    '06-02-2014'
+    '06022014'
   ]
 
   for string in strings
