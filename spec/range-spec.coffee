@@ -14,6 +14,7 @@ describe 'Range', ->
     assert.equal r.min, 1
     assert.equal r.max, 10
     assert.equal r.avg, 5.5
+    assert.equal r.mid, 5
     assert.isTrue r.valid
 
   it 'should support "to" separator', ->
@@ -23,6 +24,7 @@ describe 'Range', ->
     assert.equal r.min, 1
     assert.equal r.max, 10
     assert.equal r.avg, 5.5
+    assert.equal r.mid, 5
     assert.isTrue r.valid
 
   it 'should support arbitrary spaces in separator', ->
@@ -32,6 +34,7 @@ describe 'Range', ->
     assert.equal r.min, 1
     assert.equal r.max, 10
     assert.equal r.avg, 5.5
+    assert.equal r.mid, 5
     assert.isTrue r.valid
 
   it 'should support greater than range', ->
@@ -41,6 +44,7 @@ describe 'Range', ->
     assert.equal r.min, 10
     assert.isNull r.max
     assert.isNull r.avg
+    assert.isNull r.mid
     assert.isTrue r.valid
 
   it 'should support greater than range with decimal', ->
@@ -50,6 +54,7 @@ describe 'Range', ->
     assert.equal r.min, 10.5
     assert.isNull r.max
     assert.isNull r.avg
+    assert.isNull r.mid
     assert.isTrue r.valid
 
   it 'should support single integer string', ->
@@ -59,6 +64,7 @@ describe 'Range', ->
     assert.equal r.min, 10
     assert.equal r.max, 10
     assert.equal r.avg, 10
+    assert.equal r.mid, 10
     assert.isTrue r.valid
 
   it 'should support single integer', ->
@@ -68,6 +74,7 @@ describe 'Range', ->
     assert.equal r.min, 10
     assert.equal r.max, 10
     assert.equal r.avg, 10
+    assert.equal r.mid, 10
     assert.isTrue r.valid
 
   it 'should support single decimal strings', ->
@@ -77,6 +84,7 @@ describe 'Range', ->
     assert.equal r.min, 5.5
     assert.equal r.max, 5.5
     assert.equal r.avg, 5.5
+    assert.equal r.mid, 5.5
     assert.isTrue r.valid
 
   it 'should support single decimal strings', ->
@@ -86,6 +94,7 @@ describe 'Range', ->
     assert.equal r.min, 5.5
     assert.equal r.max, 5.5
     assert.equal r.avg, 5.5
+    assert.equal r.mid, 5.5
     assert.isTrue r.valid
 
   it 'should support arbitrary leading space', ->
@@ -95,6 +104,7 @@ describe 'Range', ->
     assert.equal r.min, 1
     assert.equal r.max, 10
     assert.equal r.avg, 5.5
+    assert.equal r.mid, 5
     assert.isTrue r.valid
 
   it 'should support missing delimiter', ->
@@ -104,6 +114,7 @@ describe 'Range', ->
     assert.equal r.min, 1
     assert.equal r.max, 10
     assert.equal r.avg, 5.5
+    assert.equal r.mid, 5
     assert.isTrue r.valid
 
   it 'should support arbitrary trailing space', ->
@@ -113,6 +124,7 @@ describe 'Range', ->
     assert.equal r.min, 1
     assert.equal r.max, 10
     assert.equal r.avg, 5.5
+    assert.equal r.mid, 5
     assert.isTrue r.valid
 
   it 'should ignore currency characters', ->
@@ -122,6 +134,7 @@ describe 'Range', ->
     assert.equal r.min, 1
     assert.equal r.max, 10
     assert.equal r.avg, 5.5
+    assert.equal r.mid, 5
     assert.isTrue r.valid
 
   it 'should ignore commas in numbers', ->
@@ -131,6 +144,7 @@ describe 'Range', ->
     assert.equal r.min, 1000
     assert.equal r.max, 10000
     assert.equal r.avg, 5500
+    assert.equal r.mid, 5500
     assert.isTrue r.valid
 
   it 'should support ranges with decimals', ->
@@ -140,6 +154,7 @@ describe 'Range', ->
     assert.equal r.min, 999.95
     assert.equal r.max, 10000.95
     assert.equal r.avg, 5500.45
+    assert.equal r.mid, 5500
     assert.isTrue r.valid
 
   it 'should handle invalid string', ->
@@ -149,8 +164,9 @@ describe 'Range', ->
     assert.isNull r.min
     assert.isNull r.max
     assert.isNull r.avg
+    assert.isNull r.mid
     assert.isFalse r.valid
-  
+
   it 'should parse 0 as min and max', ->
     r = range.parse '0'
     assert.equal r.toString(), '0'
@@ -158,6 +174,7 @@ describe 'Range', ->
     assert.equal r.min, 0
     assert.equal r.max, 0
     assert.equal r.avg, 0
+    assert.equal r.mid, 0
     assert.isTrue r.valid
 
   it 'should parse a parsed range', ->
@@ -167,6 +184,7 @@ describe 'Range', ->
     assert.equal r.min, 1
     assert.equal r.max, 10
     assert.equal r.avg, 5.5
+    assert.equal r.mid, 5
     assert.isTrue r.valid
 
   it 'should parse a parsed number', ->
@@ -176,6 +194,7 @@ describe 'Range', ->
     assert.equal r.min, 4
     assert.equal r.max, 4
     assert.equal r.avg, 4
+    assert.equal r.mid, 4
     assert.isTrue r.valid
 
   it 'should parse a date string', ->
@@ -185,6 +204,7 @@ describe 'Range', ->
     assert.equal r.min, 1437782400000
     assert.equal r.max, 1437782400000
     assert.equal r.avg, 1437782400000
+    assert.equal r.mid, 1437782400000
     assert.isTrue r.valid
 
   it 'should parse a parsed date', ->
@@ -194,6 +214,7 @@ describe 'Range', ->
     assert.equal r.min, 1437782400000
     assert.equal r.max, 1437782400000
     assert.equal r.avg, 1437782400000
+    assert.equal r.mid, 1437782400000
     assert.isTrue r.valid
 
   it 'should parse a time string', ->
@@ -203,6 +224,7 @@ describe 'Range', ->
     assert.equal r.min, 1437789572021
     assert.equal r.max, 1437789572021
     assert.equal r.avg, 1437789572021
+    assert.equal r.mid, 1437789572021
     assert.isTrue r.valid
 
   it 'should parse a parsed time', ->
@@ -221,6 +243,7 @@ describe 'Range', ->
     assert.equal r.min, 1435708800000
     assert.equal r.max, 1437782400000
     assert.equal r.avg, 1436745600000
+    assert.equal r.mid, 1436745600000
     assert.isTrue r.valid
 
   it 'should parse the first two matches of a date range string', ->
@@ -238,6 +261,7 @@ describe 'Range', ->
     assert.equal r.min, 1435715972022
     assert.equal r.max, 1437782400000
     assert.equal r.avg, 1436749186011
+    assert.equal r.mid, 1436749186011
     assert.isTrue r.valid
 
   it 'should parse the first two matches of a time range string', ->
@@ -246,6 +270,7 @@ describe 'Range', ->
     assert.equal r.min, 1435715972022
     assert.equal r.max, 1437782400000
     assert.equal r.avg, 1436749186011
+    assert.equal r.mid, 1436749186011
     assert.isTrue r.valid
 
   it 'should have examples', ->

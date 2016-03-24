@@ -42,12 +42,14 @@ parse = (string) ->
       parsed = new String("#{min}-#{max}")
       parsed.raw = raw
       parsed.avg = parseFloat(((min + max) / 2).toFixed(2))
+      parsed.mid = parseInt((min + max) / 2)
       parsed.min = min
       parsed.max = max
     else if _(min).isNumber()
       parsed = new String("#{min}+")
       parsed.raw = raw
       parsed.avg = null
+      parsed.mid = null
       parsed.min = min
       parsed.max = null
     else
@@ -61,6 +63,7 @@ parse = (string) ->
     parsed.min = if num?.valid then num.valueOf() else null
     parsed.max = parsed.min
     parsed.avg = parsed.min
+    parsed.mid = parsed.min
     parsed.valid = num.valid
 
   parsed.valid ?= true
@@ -68,10 +71,10 @@ parse = (string) ->
 
 components = [
   { name: 'raw', type: 'string', description: 'Unmodified value' }
-  { name: 'normal', type: 'number', description: 'Average of max and min, rounded down to the nearest integer' }
-  { name: 'max', type: 'number', description: 'Range maximum' }
-  { name: 'min', type: 'number', description: 'Range minimum'}
-  { name: 'avg', type: 'number', description: 'Range average'}
+  { name: 'mid', type: 'number', description: 'Average of max and min, rounded down to the nearest whole number' }
+  { name: 'max', type: 'number', description: 'Highest number in range' }
+  { name: 'min', type: 'number', description: 'Lowest number in range'}
+  { name: 'avg', type: 'number', description: 'Average of min and max'}
 ]
 
 
