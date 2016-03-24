@@ -1,8 +1,9 @@
 assert = require('chai').assert
-range = require('../src/range')
-number = require('../src/number')
-date = require('../src/date')
-time = require('../src/time')
+types = require('../src')
+range = types.range
+number = types.number
+date = types.date
+time = types.time
 
 
 describe 'Range', ->
@@ -285,6 +286,9 @@ describe 'Range', ->
 
   it 'should have examples', ->
     assert range.examples.length
+
+  it 'should produce JSON', ->
+    assert.equal JSON.stringify(range.parse('500 to 1000')), '{"raw":"500 to 1000","normal":"500-1000","avg":750,"min":500,"max":1000,"valid":true}'
 
 
   describe 'With a negative minimum', ->

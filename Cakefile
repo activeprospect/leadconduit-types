@@ -9,8 +9,12 @@ task 'build', ->
   else
     console.log('> skipping build because coffee-script is not installed')
 
-task 'test', ->
-  run 'export TZ=GMT; ./node_modules/.bin/mocha spec/* --compilers coffee:coffee-script/register --reporter spec --colors'
+option '-p', '--path [DIR]', 'path to test file'
+task 'test', (options) ->
+  file = options.path or ''
+  pattern = "spec/**/#{file}*-spec.coffee"
+  console.log("\nRunning tests at #{pattern}...")
+  run "export TZ=GMT; ./node_modules/.bin/mocha \"#{pattern}\" --compilers coffee:coffee-script/register --reporter spec --colors"
 
 task 'clean', ->
   run 'rm -fr ./lib'

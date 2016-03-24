@@ -1,5 +1,5 @@
 assert = require('chai').assert
-boolean = require('../src/boolean')
+boolean = require('../src').boolean
 
 describe 'Boolean', ->
 
@@ -75,4 +75,8 @@ describe 'Boolean', ->
 
   it 'should have examples', ->
     assert boolean.examples.length
+
+  it 'should produce JSON', ->
+    assert.equal JSON.stringify(boolean.parse('f')), '{"raw":"f","normal":false,"valid":true}'
+
 

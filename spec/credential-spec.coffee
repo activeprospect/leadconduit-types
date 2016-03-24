@@ -1,5 +1,5 @@
 assert = require('chai').assert
-credential = require('../src/credential')
+credential = require('../src').credential
 
 
 describe 'Credential', ->
@@ -23,3 +23,6 @@ describe 'Credential', ->
 
   it 'should have examples', ->
     assert credential.examples.length
+
+  it 'should produce JSON', ->
+    assert.equal JSON.stringify(credential.parse('sekret')), '{"raw":"sekret","masked":false,"valid":true}'

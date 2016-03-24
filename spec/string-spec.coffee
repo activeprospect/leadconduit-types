@@ -1,18 +1,22 @@
 _ = require('lodash')
 assert = require('chai').assert
-types = require('../src/index')
+types = require('../src')
+string = types.string
 
 
 describe 'String', ->
 
   it 'should not parse null', ->
-    assert.isNull types.string.parse(null)
+    assert.isNull string.parse(null)
 
   it 'should not parse undefined', ->
-    assert.isUndefined types.string.parse()
+    assert.isUndefined string.parse()
 
   it 'should have examples', ->
-    assert types.string.examples.length
+    assert string.examples.length
+
+  it 'should produce JSON', ->
+    assert.equal JSON.stringify(string.parse('foo')), '"foo"'
 
   for name, type of types
     continue unless _.isPlainObject(type)
@@ -27,6 +31,6 @@ describe 'String', ->
         richValue = type.parse(raw)
 
         # and expect that the string representation is the normal form converted to a string
-        parsed = types.string.parse(richValue)
+        parsed = string.parse(richValue)
         assert.typeOf parsed, 'string'
         assert.equal parsed, richValue.toString()

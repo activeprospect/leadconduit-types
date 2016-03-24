@@ -1,5 +1,5 @@
 assert = require('chai').assert
-phone = require('../src/phone')
+phone = require('../src/types/phone')
 
 
 describe 'Phone', ->
@@ -136,26 +136,6 @@ describe 'Phone', ->
     assert.isFalse ph.is_tollfree
     assert.isTrue ph.valid
 
-  it 'should parse UK phone', ->
-    ph = phone.parse '7981-555555'
-#      assert.equal ph.valueOf(), '5127891111'
-#      assert.equal ph.raw, '5127891111'
-#      assert.equal ph.area, '512'
-#      assert.equal ph.exchange, '789'
-#      assert.equal ph.line, '1111'
-#      assert.equal ph.number, '7891111'
-#      assert.equal ph.country_code, 'US'
-
-
-  it 'should support United States', ->
-    assert phone.countryCodes.indexOf('US') != -1
-
-  it 'should support Canada', ->
-    assert phone.countryCodes.indexOf('CA') != -1
-
-  it 'should support UK', ->
-    assert phone.countryCodes.indexOf('GB') != -1
-
   it 'should parse mobile hint', ->
     ph = phone.parse '5127891111m'
     assert.equal ph.raw, '5127891111'
@@ -204,3 +184,6 @@ describe 'Phone', ->
 
   it 'should have examples', ->
     assert phone.examples.length
+
+  it 'should produce JSON', ->
+    assert.equal JSON.stringify(phone.parse('512-789-1111m')), '{"raw":"512-789-1111","type":"mobile","prefix":"1","normal":"5127891111","country_code":"US","area":"512","number":"7891111","extension":null,"exchange":"789","line":"1111","valid":true}'

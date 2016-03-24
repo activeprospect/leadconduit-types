@@ -1,18 +1,17 @@
 assert = require('chai').assert
 fs = require('fs')
 path = require('path')
-index = require('../src/index')
+index = require('../src')
 
 describe 'Index', ->
 
   it 'should list type names', ->
-    files = fs.readdirSync("#{__dirname}/../src/")
+    files = fs.readdirSync("#{__dirname}/../src/types")
 
     expectedTypeNames = files.map (f) ->
       path.basename(f, '.coffee').replace('-', '_')
 
     expectedTypeNames.splice(expectedTypeNames.indexOf('index'), 1)
-    expectedTypeNames.splice(expectedTypeNames.indexOf('normalize'), 1)
 
     assert.deepEqual index.names, expectedTypeNames
 
@@ -26,7 +25,7 @@ describe 'Index', ->
     assert.equal index.parse('phone', parsed), parsed
 
   it 'should clone a value', ->
-    obj = 
+    obj =
       phone: index.parse 'phone', '5127891111'
       ssn: index.parse 'ssn', '123456789'
     objClone = index.clone(obj)

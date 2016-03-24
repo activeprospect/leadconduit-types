@@ -1,5 +1,5 @@
 assert = require('chai').assert
-url = require('../src/url')
+url = require('../src').url
 
 
 describe 'URL', ->
@@ -26,6 +26,10 @@ describe 'URL', ->
 
   it 'should have examples', ->
     assert url.examples.length
+
+  it 'should produce JSON', ->
+    assert.equal JSON.stringify(url.parse('http://google.com/search?q=hi')), '{"raw":"http://google.com/search?q=hi","normal":"http://google.com/search?q=hi","protocol":"http","host":"google.com","port":null,"path":"/search","query":"q=hi","hash":null,"valid":true}'
+
 
 
   describe 'valid values', ->
@@ -73,7 +77,6 @@ describe 'URL', ->
   describe 'invalid values', ->
 
     strings = [
-      ''
       ' '
       'http'
       'https://'

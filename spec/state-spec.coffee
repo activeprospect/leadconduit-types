@@ -1,6 +1,6 @@
 _ = require('lodash')
 assert = require('chai').assert
-state = require('../src/state')
+state = require('../src').state
 
 
 describe 'State', ->
@@ -20,6 +20,9 @@ describe 'State', ->
 
   it 'should have examples', ->
     assert state.examples.length
+
+  it 'should produce JSON', ->
+    assert.equal JSON.stringify(state.parse('texas')), '{"raw":"texas","name":"Texas","abbr":"TX","valid":true}'
 
 
   describe 'valid values', ->
@@ -55,7 +58,6 @@ describe 'State', ->
 
     strings = [
       'DX'
-      ''
       '  '
       'Dexus'
       'DEXUS NEXUS'

@@ -1,5 +1,6 @@
 assert = require('chai').assert
-time = require('../src/time')
+moment = require('moment')
+time = require('../src').time
 
 describe 'Time', ->
 
@@ -18,7 +19,6 @@ describe 'Time', ->
       describe string, ->
         it 'should return a Date object', ->
           date = time.parse string
-          assert.instanceOf date, Date
 
         it 'should retain raw value', ->
           date = time.parse string
@@ -33,7 +33,7 @@ describe 'Time', ->
           assert.equal date.valueOf(), '2014-06-14T18:27:33.000Z'
           assert.equal date.toString(), '2014-06-14T18:27:33.000Z'
 
-            
+
   it 'should not parse garbage', ->
     date = time.parse 'garbage'
     assert.equal date.toString(), 'garbage'
@@ -44,7 +44,6 @@ describe 'Time', ->
 
   it 'should parse a parsed time', ->
     date = time.parse(time.parse('06/14/2014 6:27:33 PM'))
-    assert.instanceOf date, Date
     assert.equal date.toString(), '2014-06-14T18:27:33.000Z'
     assert.equal date.valueOf(), '2014-06-14T18:27:33.000Z'
     assert.equal date.raw, '06/14/2014 6:27:33 PM'
@@ -53,9 +52,10 @@ describe 'Time', ->
   it 'should handle parsing a JavaScript date', ->
     now = new Date(2015, 10, 6, 11, 47, 42) # 0-based month index :-/
     parsed = time.parse(now)
-    assert.instanceOf parsed, Date
-    assert.deepEqual parsed, now
     assert.isTrue parsed.valid
     assert.equal parsed.toString(), '2015-11-06T11:47:42.000Z'
     assert.equal parsed.valueOf(), '2015-11-06T11:47:42.000Z'
     assert.equal parsed.raw, now
+
+  it 'should produce JSON', ->
+    assert.equal JSON.stringify(time.parse('06/14/2014 6:27:33 PM')), '{"raw":"06/14/2014 6:27:33 PM","normal":"2014-06-14T18:27:33.000Z","valid":true}'
