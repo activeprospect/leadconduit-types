@@ -26,7 +26,7 @@ parse = (string, req) ->
     parts.valid = false
     parts
 
-hintRegex = /[(]?([hwcm])[)]?$/
+hintRegex = /[(]?([hwcmf])[)]?$/
 stripRegex = /^\s+|\s+$/g
 
 stripType = (string) ->
@@ -36,6 +36,7 @@ stripType = (string) ->
       when 'h' then 'home'
       when 'w' then 'work'
       when 'c', 'm' then 'mobile'
+      when 'f' then 'fax'
     [type, string.replace(hintRegex, '').replace(stripRegex,'')]
   else
     [null, string]
