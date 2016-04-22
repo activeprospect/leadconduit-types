@@ -156,6 +156,11 @@ describe 'Phone', ->
     assert.equal ph.raw, '5127891111'
     assert.equal ph.type, 'home'
 
+  it.only 'should parse fax hint', ->
+    ph = phone.parse '5127891111f'
+    assert.equal ph.raw, '5127891111'
+    assert.equal ph.type, 'fax'  
+
   it 'should parse hint on invalid number', ->
     ph = phone.parse '1111m'
     assert.equal ph.raw, '1111'
