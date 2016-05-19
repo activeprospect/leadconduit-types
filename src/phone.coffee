@@ -3,9 +3,18 @@ phoneUtil = require('libphonenumber').phoneUtil
 normalize = require('./normalize')
 
 supportedRegionCodes = [
-  'US', # united states
-  'CA', # canada
-  'GB'  # uk
+  'US' # united states
+  'CA' # canada
+  'GB' # uk
+]
+
+tollFreeAreaCodes = [
+  '800'
+  '844'
+  '855'
+  '866'
+  '877'
+  '888'
 ]
 
 parse = (string, req) ->
@@ -130,6 +139,7 @@ decompose = (raw, number, regionCode, mask) ->
   phone.extension = extension
   phone.country_code = regionCode
   phone.masked = true if _.contains(mask, true)
+  phone.is_tollfree = tollFreeAreaCodes.indexOf(phone.area) >= 0
   phone
 
 
@@ -142,6 +152,7 @@ components = [
   { name: 'extension', type: 'string', description: 'Extension' }
   { name: 'country_code', type: 'string', description: 'Country code' }
   { name: 'type', type: 'string', description: 'Number type: home, work, mobile' }
+  { name: 'is_tollfree', type: 'boolean', description: 'Whether the number is toll-free' }
 ]
 
 
