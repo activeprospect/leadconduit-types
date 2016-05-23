@@ -8,14 +8,13 @@ supportedRegionCodes = [
   'GB' # uk
 ]
 
-tollFreeAreaCodes = [
-  '800'
-  '844'
-  '855'
-  '866'
-  '877'
-  '888'
-]
+tollFreeAreaCodes =
+  '800': true
+  '844': true
+  '855': true
+  '866': true
+  '877': true
+  '888': true
 
 parse = (string, req) ->
   return string unless string?
@@ -139,7 +138,7 @@ decompose = (raw, number, regionCode, mask) ->
   phone.extension = extension
   phone.country_code = regionCode
   phone.masked = true if _.contains(mask, true)
-  phone.is_tollfree = tollFreeAreaCodes.indexOf(phone.area) >= 0
+  phone.is_tollfree = tollFreeAreaCodes[phone.area] ? false
   phone
 
 
