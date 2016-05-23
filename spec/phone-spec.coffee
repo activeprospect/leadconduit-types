@@ -19,6 +19,7 @@ describe 'Phone', ->
     assert.isUndefined ph.country_code
     assert.isUndefined ph.type
     assert.isUndefined ph.masked
+    assert.isUndefined ph.is_tollfree
     assert.isFalse ph.valid
 
   it 'should set valid to false for invalid phone numbers', ->
@@ -37,6 +38,20 @@ describe 'Phone', ->
     assert.equal ph.number, '7891111'
     assert.equal ph.country_code, 'US'
     assert.isUndefined ph.masked
+    assert.isFalse ph.is_tollfree
+    assert.isTrue ph.valid
+
+  it 'should parse US toll-free phone', ->
+    ph = phone.parse('8775551212')
+    assert.equal ph.valueOf(), '8775551212'
+    assert.equal ph.raw, '8775551212'
+    assert.equal ph.area, '877'
+    assert.equal ph.exchange, '555'
+    assert.equal ph.line, '1212'
+    assert.equal ph.number, '5551212'
+    assert.equal ph.country_code, 'US'
+    assert.isUndefined ph.masked
+    assert.isTrue ph.is_tollfree
     assert.isTrue ph.valid
 
   it 'should include extension in normal form', ->
@@ -61,6 +76,7 @@ describe 'Phone', ->
     assert.equal ph.country_code, 'US'
     assert.isNull ph.type
     assert.isTrue ph.masked
+    assert.isFalse ph.is_tollfree
     assert.isTrue ph.valid
 
   it 'should parse partially masked US phone', ->
@@ -74,6 +90,7 @@ describe 'Phone', ->
     assert.equal ph.country_code, 'US'
     assert.isNull ph.type
     assert.isTrue ph.masked
+    assert.isFalse ph.is_tollfree
     assert.isTrue ph.valid
 
   it 'should parse masked US phone with extension', ->
@@ -88,6 +105,7 @@ describe 'Phone', ->
     assert.equal ph.country_code, 'US'
     assert.isNull ph.type
     assert.isTrue ph.masked
+    assert.isFalse ph.is_tollfree
     assert.isTrue ph.valid
 
   it 'should parse masked US phone with unmasked extension', ->
@@ -102,6 +120,7 @@ describe 'Phone', ->
     assert.equal ph.country_code, 'US'
     assert.isNull ph.type
     assert.isTrue ph.masked
+    assert.isFalse ph.is_tollfree
     assert.isTrue ph.valid
 
   it 'should handle completely masked US phone', ->
@@ -114,6 +133,7 @@ describe 'Phone', ->
     assert.equal ph.number, '*******'
     assert.equal ph.country_code, 'US'
     assert.isTrue ph.masked
+    assert.isFalse ph.is_tollfree
     assert.isTrue ph.valid
 
   it 'should parse UK phone', ->
