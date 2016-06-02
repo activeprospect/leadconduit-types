@@ -23,9 +23,14 @@ parse = (string) ->
       else null
   gender
 
+components = [
+  { name: 'raw', type: 'string', description: 'Unmodified value'}
+  { name: 'abbr', type: 'string', description: 'Abbreviated name of gender'}
+]
+
 module.exports =
   parse: parse
-  components: []
+  components: components
   maskable: false
   operators: [
     'is equal to'
