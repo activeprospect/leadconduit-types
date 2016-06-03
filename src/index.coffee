@@ -16,6 +16,7 @@ typeNames = [
   'range'
   'ssn'
   'state'
+  'street'
   'string'
   'time'
   'url'
