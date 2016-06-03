@@ -27,8 +27,8 @@ module.exports =
   parse: parse
   components: [
     { name: 'raw', type: 'string', description: 'Unmodified value' }
-    { name: 'street_number', type: 'boolean', description: 'Street Number' }
-    { name: 'street_name', type: 'boolean', description: 'Street Name' }
+    { name: 'street_number', type: 'string', description: 'Street Number' }
+    { name: 'street_name', type: 'string', description: 'Street Name' }
   ]
   maskable: false
   operators: [
