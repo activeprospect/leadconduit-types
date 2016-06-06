@@ -29,4 +29,5 @@ In LeadConduit each field has an associated type, which is used to help make sen
 | gender      | Gender of the consumer | <sub>`Male`, `Female`, `Other`, `M`, `F`, `O`</sub>  |
 | phone       | A US phone number in a common format (optional extension must be preceded by the x character). To specify the type of the phone number append `h` for home, `w` for work, or `m` for mobile to the number. | <sub>`1-512-789-1111`, `512-789-1111 x1234`, `(512) 789-1111h`, `5127891111m`, `(512) 789-1111w`</sub>  |
 | email       | An email address | <sub>`foo@bar.com`, `foo+bar@baz.com`</sub>  |
+| street      | A street address | <sub>`4203 Guadalupe St`</sub>  |
 
