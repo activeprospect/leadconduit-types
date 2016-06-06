@@ -1,5 +1,4 @@
 _ = require('lodash')
-phoneUtil = require('libphonenumber').phoneUtil
 normalize = require('./normalize')
 
 
