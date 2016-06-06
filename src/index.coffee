@@ -110,5 +110,13 @@ module.exports.clone = clone
 module.exports.isValid = (value) ->
   return true unless _.isPlainObject(value)
 
-
+module.exports.expandExamples = (field) ->
+  return field unless field.type
+  return field unless field.examples?.length
+  field.examples = _.compact field.examples.map (example) ->
+    return example if field.type == 'string'
+    str = (example?.raw or example)?.trim()
+    return example unless str
+    normalize(module.exports[field.type]?.parse(str) or str)
+  field
 
