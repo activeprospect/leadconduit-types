@@ -8,10 +8,10 @@ describe 'Street', ->
     assert.instanceOf street.parse('4203 Guadalupe St'), String
 
   it 'should parse street number', ->
-    assert.equal street.parse('4203 Guadalupe St').street_number, '4203'
+    assert.equal street.parse('4203 Guadalupe St').number, '4203'
 
   it 'should parse street name', ->
-    assert.equal street.parse('4203 Guadalupe St').street_name, 'Guadalupe St'
+    assert.equal street.parse('4203 Guadalupe St').name, 'Guadalupe St'
 
   it 'should retain raw value', ->
     assert.equal street.parse('4203 Guadalupe St').raw, '4203 Guadalupe St'
@@ -23,8 +23,8 @@ describe 'Street', ->
     parsed = street.parse 'Asdf'
     assert.instanceOf parsed, String
     assert.equal parsed.raw, 'Asdf'
-    assert.isUndefined parsed.street_name
-    assert.isUndefined parsed.street_number
+    assert.isUndefined parsed.name
+    assert.isUndefined parsed.number
     assert.isFalse parsed.valid
 
   it 'should strip whitespace', ->
