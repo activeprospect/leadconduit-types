@@ -87,7 +87,7 @@ describe 'Range', ->
     assert.equal r.mid, 5.5
     assert.isTrue r.valid
 
-  it 'should support single decimal strings', ->
+  it 'should support single decimal numbers', ->
     r = range.parse 5.5
     assert.equal r.toString(), '5.5'
     assert.equal r.raw, '5.5'
@@ -217,6 +217,16 @@ describe 'Range', ->
     assert.equal r.mid, 1437782400000
     assert.isTrue r.valid
 
+  it 'should parse a parsed date prior to 1970', ->
+    r = range.parse(date.parse('1969-07-25'))
+    assert.equal r.toString(), '-13824000000'
+    assert.equal r.raw, '1969-07-25'
+    assert.equal r.min, -13824000000
+    assert.equal r.max, -13824000000
+    assert.equal r.avg, -13824000000
+    assert.equal r.mid, -13824000000
+    assert.isTrue r.valid
+
   it 'should parse a time string', ->
     r = range.parse('2015-07-25T01:59:32.021Z')
     assert.equal r.toString(), '1437789572021'
@@ -277,4 +287,55 @@ describe 'Range', ->
     assert range.examples.length
 
 
+  describe 'With a negative minimum', ->
 
+    it 'should support number with greater than range', ->
+      r = range.parse '-10+'
+      assert.equal r.toString(), '-10+'
+      assert.equal r.raw, '-10+'
+      assert.equal r.min, -10
+      assert.isNull r.max
+      assert.isNull r.avg
+      assert.isNull r.mid
+      assert.isTrue r.valid
+
+    it 'should support single integer string', ->
+      r = range.parse '-10'
+      assert.equal r.toString(), '-10'
+      assert.equal r.raw, '-10'
+      assert.equal r.min, -10
+      assert.equal r.max, -10
+      assert.equal r.avg, -10
+      assert.equal r.mid, -10
+      assert.isTrue r.valid
+
+    it 'should support single integer', ->
+      r = range.parse -10
+      assert.equal r.toString(), '-10'
+      assert.equal r.raw, '-10'
+      assert.equal r.min, -10
+      assert.equal r.max, -10
+      assert.equal r.avg, -10
+      assert.equal r.mid, -10
+      assert.isTrue r.valid
+
+    it 'should support single decimal strings', ->
+      r = range.parse '-5.5'
+      assert.equal r.toString(), '-5.5'
+      assert.equal r.raw, '-5.5'
+      assert.equal r.min, -5.5
+      assert.equal r.max, -5.5
+      assert.equal r.avg, -5.5
+      assert.equal r.mid, -5.5
+      assert.isTrue r.valid
+
+
+    it 'should parse a date range string prior to 1970', ->
+      r = range.parse('1969-07-01 - 2015-07-25')
+      assert.equal r.toString(), '-15897600000-1437782400000'
+      assert.equal r.raw, '1969-07-01 - 2015-07-25'
+      assert.equal r.min, -15897600000
+      assert.equal r.max, 1437782400000
+      assert.equal r.avg, 710942400000
+      assert.equal r.mid, 710942400000
+      assert.isTrue r.valid

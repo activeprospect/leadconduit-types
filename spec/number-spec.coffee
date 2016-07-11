@@ -109,3 +109,40 @@ describe 'Number', ->
     assert number.examples.length
 
 
+  describe 'Negatives', ->
+
+    it 'should parse string integer', ->
+      parsed = number.parse '-11'
+      assert.equal parsed.valueOf(), -11
+      assert.equal parsed.raw, '-11'
+      assert.isTrue parsed.valid
+
+    it 'should parse integer', ->
+      parsed = number.parse -11
+      assert.equal parsed.valueOf(), -11
+      assert.equal parsed.raw, -11
+      assert.isTrue parsed.valid
+
+    it 'should parse string decimal', ->
+      parsed = number.parse '-1.111'
+      assert.equal parsed.valueOf(), -1.111
+      assert.equal parsed.raw, '-1.111'
+      assert.isTrue parsed.valid
+
+    it 'should parse decimal', ->
+      parsed = number.parse -1.111
+      assert.equal parsed.valueOf(), -1.111
+      assert.equal parsed.raw, -1.111
+      assert.isTrue parsed.valid
+
+    it 'should ignore commas', ->
+      parsed = number.parse '-1,100'
+      assert.equal parsed.valueOf(), -1100
+      assert.equal parsed.raw, '-1,100'
+      assert.isTrue parsed.valid
+
+    it 'should ignore currency', ->
+      parsed = number.parse '-$1100'
+      assert.equal parsed.valueOf(), -1100
+      assert.equal parsed.raw, '-$1100'
+      assert.isTrue parsed.valid
