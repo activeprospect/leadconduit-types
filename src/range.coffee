@@ -3,8 +3,8 @@ named = require('named-regexp').named
 number = require('./number')
 normalize = require('./normalize')
 
-minRegex = named /(:<min>\d+(?:\.\d+)?)\s*\+/
-rangeRegex = named /(:<min>\d+(?:\.\d+)?)\s+(:<max>\d+(?:\.\d+)?)/
+minRegex = named /(:<min>-?\d+(?:\.\d+)?)\s*\+/                       # e.g., '10+', '-5.5+'
+rangeRegex = named /(:<min>-?\d+(?:\.\d+)?)\s+(:<max>\d+(?:\.\d+)?)/  # e.g., '1-6', '2 to 7', '-8 - 100.5'
 isoDateRegex = /\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}\.\d{1,3}Z)?/g
 
 parse = (string) ->
@@ -30,7 +30,7 @@ parse = (string) ->
   # sanitization routine in order to match range strings
   #  * replace '-' and 'to' with a space
   #  * remove anything other than digits, ., and +
-  sanitized = string.replace(/-|(?:to)/, ' ').replace(/[^0-9 .+]/g, '')
+  sanitized = string.replace(/(.+)-|(?:to)/, '$1 ').replace(/[^-0-9 .+]/g, '')
 
   match = minRegex.exec(sanitized) or rangeRegex.exec(sanitized)
   if match

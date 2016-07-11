@@ -8,7 +8,7 @@ parse = (string) ->
     if _.isNumber(string)
       new Number(string)
     else if _.isString(string)
-      sanitized = string.replace?(/[^\d.]/g, '')
+      sanitized = string.replace?(/[^-\d.]/g, '')
       if sanitized?.length
         new Number(sanitized)
       else
