@@ -40,12 +40,14 @@ module.exports =
     'format is invalid'
   ],
   examples: [
+    'yes'
+    'no'
+    'Y'
+    'N'
     'true'
     'false'
     'T'
     'F'
     '1'
     '0'
-    'Y'
-    'N'
   ].map(parse).map(normalize)
