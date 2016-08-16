@@ -1,6 +1,5 @@
 assert = require('chai').assert
-types = require('../src')
-street = types.street
+street = require('../src').street
 
 
 describe 'Street', ->
