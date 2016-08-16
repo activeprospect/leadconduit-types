@@ -3,8 +3,8 @@ named = require('named-regexp').named
 NumberType = require('./number')
 
 
-minRegex = named /(:<min>\d+(?:\.\d+)?)\s*\+/
-rangeRegex = named /(:<min>\d+(?:\.\d+)?)\s+(:<max>\d+(?:\.\d+)?)/
+minRegex = named /(:<min>-?\d+(?:\.\d+)?)\s*\+/                       # e.g., '10+', '-5.5+'
+rangeRegex = named /(:<min>-?\d+(?:\.\d+)?)\s+(:<max>\d+(?:\.\d+)?)/  # e.g., '1-6', '2 to 7', '-8 - 100.5'
 isoDateRegex = /\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}\.\d{1,3}Z)?/g
 
 
@@ -28,7 +28,7 @@ class RangeType
     # sanitization routine in order to match range strings
     #  * replace '-' and 'to' with a space
     #  * remove anything other than digits, ., and +
-    sanitized = string.replace(/-|(?:to)/, ' ').replace(/[^0-9 .+]/g, '')
+    sanitized = string.replace(/(.+)-|(?:to)/, '$1 ').replace(/[^-0-9 .+]/g, '')
 
     match = minRegex.exec(sanitized) or rangeRegex.exec(sanitized)
     if match
@@ -40,11 +40,13 @@ class RangeType
         @normal = "#{min}-#{max}"
         @avg = parseFloat(((min + max) / 2).toFixed(2))
         @min = min
+        @mid = parseInt((min + max) / 2)
         @max = max
       else if _(min).isNumber()
         @normal = "#{min}+"
         @avg = null
         @min = min
+        @mid = null
         @max = null
       else
         @normal = @raw
@@ -54,6 +56,7 @@ class RangeType
       @normal = if num.valid then num.normal else @raw
       @min = if num.valid then num.valueOf() else null
       @max = @min
+      @mid = @min
       @avg = @min
       @valid = num.valid
 
@@ -72,6 +75,7 @@ class RangeType
     { name: 'raw', type: 'string', description: 'Unmodified value', aggregated: false }
     { name: 'max', type: 'number', description: 'Range maximum', aggregated: true  }
     { name: 'min', type: 'number', description: 'Range minimum', aggregated: true }
+    { name: 'mid', type: 'number', description: 'Average of max and min, rounded down to the nearest whole number' }
     { name: 'avg', type: 'number', description: 'Average of max and min, rounded down to the nearest integer', aggregated: true }
   ]
 

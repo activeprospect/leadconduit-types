@@ -1,36 +1,36 @@
 _ = require('lodash')
-normalize = require('./normalize')
 
 
 parseRegex = /^(\S+)\s+(.+)$/
 
-parse = (string) ->
+class StreetType
 
-  addr = string.trim().match(parseRegex)
+  constructor: (@raw) ->
+    addr = @raw?.trim().match(parseRegex)
+    if addr?
+      @normal = null
+      @number = addr[1]?.trim()
+      @name = addr[2]?.trim()
+      @normal = "#{@number} #{@name }"
+      @valid = true
+    else
+      @valid = false
 
-  if addr?
-    parsed = new String(string.trim())
-    parsed.raw = string.raw ? string
-    parsed.number = addr[1]
-    parsed.name = addr[2]
-    parsed.valid = true
-  else
-    parsed = new String(string)
-    parsed.raw = string.raw ? string
-    parsed.valid = false
+  valueOf: ->
+    @normal
 
-  parsed
+  toString: ->
+    @normal.toString()
 
-
-module.exports =
-  parse: parse
-  components: [
+  @components: [
     { name: 'raw', type: 'string', description: 'Unmodified value' }
     { name: 'number', type: 'string', description: 'Street Number' }
     { name: 'name', type: 'string', description: 'Street Name' }
   ]
-  maskable: false
-  operators: [
+
+  @maskable: false
+
+  @operators: [
     'is equal to'
     'is not equal to'
     'is blank'
@@ -41,10 +41,14 @@ module.exports =
     'does not include'
     'is included in'
     'is not included in'
-  ],
-  examples: [
+  ]
+
+  @examples: [
     '4203 Guadalupe St',
     '00283 Ondricka Street',
     '0746 Monahan Islands',
     '73398 Tomas Club'
-  ].map(parse).map(normalize)
+  ].map (v) -> new StreetType(v)
+
+
+module.exports = StreetType

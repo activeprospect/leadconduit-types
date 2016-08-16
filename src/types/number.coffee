@@ -7,7 +7,7 @@ class NumberType
       if _.isNumber(@raw)
         @raw
       else if _.isString(@raw)
-        sanitized = @raw.replace?(/[^\d.]/g, '')
+        sanitized = @raw.replace?(/[^-\d.]/g, '')
         if sanitized?.length
           new Number(sanitized).valueOf()
         else

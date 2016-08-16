@@ -1,5 +1,6 @@
 assert = require('chai').assert
-phone = require('../src/types/phone')
+types = require('../src')
+phone = types.phone
 
 
 describe 'Phone', ->
@@ -186,4 +187,4 @@ describe 'Phone', ->
     assert phone.examples.length
 
   it 'should produce JSON', ->
-    assert.equal JSON.stringify(phone.parse('512-789-1111m')), '{"raw":"512-789-1111","type":"mobile","prefix":"1","normal":"5127891111","country_code":"US","area":"512","number":"7891111","extension":null,"exchange":"789","line":"1111","valid":true}'
+    assert.equal JSON.stringify(phone.parse('512-789-1111m')), '{"raw":"512-789-1111","normal":"5127891111","type":"mobile","country_code":"US","prefix":"1","area":"512","exchange":"789","line":"1111","number":"7891111","extension":null,"is_tollfree":false,"valid":true}'

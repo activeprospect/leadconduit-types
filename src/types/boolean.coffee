@@ -42,14 +42,16 @@ class BooleanType
   ]
 
   @examples: [
+    'yes'
+    'no'
+    'Y'
+    'N'
     'true'
     'false'
     'T'
     'F'
     '1'
     '0'
-    'Y'
-    'N'
   ].map (v) -> new BooleanType(v)
 
 

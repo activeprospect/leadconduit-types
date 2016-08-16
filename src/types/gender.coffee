@@ -13,7 +13,7 @@ class GenderType
       switch @normal
         when 'male' then 'M'
         when 'female' then 'F'
-        when  'other' then 'O'
+        when 'other' then 'O'
         else null
 
     @valid = @normal?
@@ -32,7 +32,10 @@ class GenderType
   toString: ->
     @normal
 
-  @components: []
+  @components: [
+    { name: 'raw', type: 'string', description: 'Unmodified value'}
+    { name: 'abbr', type: 'string', description: 'Abbreviated name of gender: M, F, or O'}
+  ]
 
   @maskable: false
 

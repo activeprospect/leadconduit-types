@@ -3,6 +3,13 @@ phoneUtil = require('libphonenumber').phoneUtil
 hintRegex = /\s*[(]?([hwcm])[)]?$/
 regionCode = 'US'
 
+tollFreeAreaCodes =
+  '800': true
+  '844': true
+  '855': true
+  '866': true
+  '877': true
+  '888': true
 
 class PhoneType
 
@@ -11,41 +18,57 @@ class PhoneType
     number = @_parseNumber()
 
     if number
-      @type = @_parseType()
-      @raw = @raw.replace(hintRegex, '')
-      @prefix = phoneUtil.getNddPrefixForRegion(regionCode, true)
-      @normal = phoneUtil.getNationalSignificantNumber(number)
-      @country_code = regionCode
+      nationalPrefix = phoneUtil.getNddPrefixForRegion(regionCode, true)
+      nationalSignificantNumber = phoneUtil.getNationalSignificantNumber(number)
+      nationalDestinationCodeLength = phoneUtil.getLengthOfNationalDestinationCode(number)
 
-      areaLength = phoneUtil.getLengthOfNationalDestinationCode(number)
-
-      if areaLength > 0
-        @area = @normal.substring(0, areaLength)
-        @number = @normal.substring(areaLength)
+      if nationalDestinationCodeLength > 0
+        nationalDestinationCode = nationalSignificantNumber.substring(0, nationalDestinationCodeLength)
+        subscriberNumber = nationalSignificantNumber.substring(nationalDestinationCodeLength)
       else
-        @area = null
-        @number = @normal.substring(areaLength)
+        nationalDestinationCode = null
+        subscriberNumber = nationalSignificantNumber.substring(nationalDestinationCodeLength)
 
-      @extension = number.getExtension()
+      extension = number.getExtension()
 
       mask = @_buildMask()
       masked = mask.indexOf(true) >= 0
       if masked
-        @masked = true
-        ext = if @extension then "x#{@extension}" else ''
+        ext = if extension then "x#{extension}" else ''
 
-        if @area
-          @area = PhoneType._asterisk("#{@area}#{@number}#{ext}", mask).substring(0, @area.length)
+        if nationalDestinationCode
+          nationalDestinationCode = PhoneType._asterisk("#{nationalDestinationCode}#{subscriberNumber}#{ext}", mask).split('x')[0].substring(0, nationalDestinationCode.length)
 
-        if @normal
-          @normal = PhoneType._asterisk("#{@normal}#{ext}", mask)
+        if nationalSignificantNumber
+          nationalSignificantNumber = PhoneType._asterisk("#{nationalSignificantNumber}#{ext}", mask).split('x')[0]
 
-        if @number
-          @number = PhoneType._asterisk("#{@number}#{ext}", mask)
+        if subscriberNumber
+          subscriberNumber = PhoneType._asterisk("#{subscriberNumber}#{ext}", mask).split('x')[0]
 
+        if extension
+          extension = PhoneType._asterisk(ext, mask).replace(/x/, '')
 
-      @exchange = @number.substring(0, 3)
-      @line = @number.substring(3)
+      exchange = subscriberNumber.substring(0, 3)
+      line = subscriberNumber.substring(3)
+
+      normal =
+        if nationalSignificantNumber
+          _.compact([nationalSignificantNumber, extension]).join('x')
+        else
+          raw
+
+      @normal = normal
+      @type = @_parseType()
+      @raw = @raw.replace(hintRegex, '')
+      @country_code = regionCode
+      @prefix = nationalPrefix
+      @area = nationalDestinationCode
+      @exchange = exchange
+      @line = line
+      @number = subscriberNumber
+      @extension = extension
+      @is_tollfree = tollFreeAreaCodes[@area] ? false
+      @masked = true if masked
       @valid = @masked or phoneUtil.isValidNumber(number)
 
     else
@@ -110,7 +133,7 @@ class PhoneType
   @_asterisk: (str, mask) ->
     maskChar = (char, index) ->
       if mask[index] then '*' else char
-    str.split('').reverse().map(maskChar).reverse().join('').split('x')[0]
+    str.split('').reverse().map(maskChar).reverse().join('')
 
 
   @maskable: false

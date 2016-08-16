@@ -1,15 +1,24 @@
 _ = require('lodash')
 chrono = require('chrono-node')
 moment = require('moment')
-normalize = require('./../normalize')
+normalize = require('../normalize')
+
+formats = [
+  'ddd MMM DD YYYY' # 'Mon Jun 02 2014'
+  'MMM DD YYYY'     # 'Jun 02 2014'
+  'MM/DD/YYYY'      # '06/02/2014'
+  'YYYY-MM-DD'      # '2014-06-02'
+  'MM-DD-YYYY'      # '06-02-2014'
+  'MMDDYYYY'        # '06022014'
+]
 
 
 class DateType
   constructor: (@raw) ->
-    results = chrono.parse(@raw.toString())
+    results = moment(@raw.toString(), formats)
 
-    if results.length
-      @normal = moment(new Date(results[0].start.date())).format('YYYY-MM-DD')
+    if results.isValid()
+      @normal = moment(results.toDate()).format('YYYY-MM-DD')
       @valid = true
 
     else
