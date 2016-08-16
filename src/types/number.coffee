@@ -23,7 +23,9 @@ class NumberType
   valueOf: ->
     @normal
 
-  @components: []
+  @components: [
+    { name: 'raw', type: 'string', description: 'Unmodified value', aggregated: false }
+  ]
 
   @maskable: false
 

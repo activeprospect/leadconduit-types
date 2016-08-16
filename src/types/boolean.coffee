@@ -30,7 +30,9 @@ class BooleanType
 
   @maskable: false
 
-  @components: []
+  @components: [
+    { name: 'raw', type: 'string', description: 'Unmodified value', aggregated: false }
+  ]
 
   @operators: [
     'is true'
