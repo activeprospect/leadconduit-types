@@ -1,5 +1,5 @@
 assert = require('chai').assert
-postalCode = require('../src/types/postal-code')
+postalCode = require('../src').postal_code
 
 
 describe 'Postal code', ->

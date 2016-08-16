@@ -1,6 +1,6 @@
 assert = require('chai').assert
-types = require('../src')
-number = types.number
+number = require('../src').number
+
 
 describe 'Number', ->
 

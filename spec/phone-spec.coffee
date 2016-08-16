@@ -1,6 +1,5 @@
 assert = require('chai').assert
-types = require('../src')
-phone = types.phone
+phone = require('../src').phone
 
 
 describe 'Phone', ->
