@@ -1,7 +1,5 @@
 _ = require('lodash')
-chrono = require('chrono-node')
 moment = require('moment')
-normalize = require('../normalize')
 
 formats = [
   'ddd MMM DD YYYY' # 'Mon Jun 02 2014'
