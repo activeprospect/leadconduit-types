@@ -46,10 +46,6 @@ describe 'Mask utility', ->
           assertMasked(masked, unmasked)
 
 
-        it 'should not mask valid property', ->
-          masked = mask(new Ctor('xxxx'))
-          assert.typeOf masked.valid, 'boolean'
-
 
 assertMasked = (masked, unmasked) ->
   # ensure valid property is not touched
