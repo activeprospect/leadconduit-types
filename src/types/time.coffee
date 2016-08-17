@@ -4,6 +4,7 @@ chrono = require('chrono-node')
 
 
 class TimeType
+  
   constructor: (@raw) ->
     results = chrono.parse(@raw.toString())
     if results.length
@@ -13,24 +14,32 @@ class TimeType
       @normal = @raw
       @valid = false
 
-  aggregate: ->
-    @normal
 
   valueOf: ->
     @toString()
 
+    
   toString: ->
     @normal
 
+    
   toISOString: ->
     @toString()
 
+    
+  aggregate: ->
+    return unless @valid
+    @toString() 
+    
+
   @maskable: false
 
+  
   @components: [
     { name: 'raw', type: 'string', description: 'Unmodified value' }
   ]
 
+  
   @operators: [
     'is equal to'
     'is not equal to'
@@ -46,6 +55,7 @@ class TimeType
     'is not between'
   ]
 
+  
   @examples: [
     'Sat Jun 14 2015 13:27:33 GMT-0500 (CDT)'
     '06/14/2015 6:27:33 PM'
@@ -53,4 +63,5 @@ class TimeType
     '2015-06-14T18:27:33.000Z'
   ].map (v) -> new TimeType(v)
 
+  
 module.exports = TimeType

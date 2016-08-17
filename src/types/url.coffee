@@ -29,7 +29,13 @@ class UrlType
   toString: ->
     @normal
 
+    
   valueOf: ->
+    @toString()
+
+    
+  aggregate: ->
+    return unless @valid
     @toString()
 
 

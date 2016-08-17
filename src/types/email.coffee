@@ -24,10 +24,9 @@ class EmailType
 
   aggregate: ->
     domain: @domain
-    hosts: @host
+    host: @host
     tld: @tld
     valid: @valid
-    type: 'email'
 
   valueOf: ->
     @normal

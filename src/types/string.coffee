@@ -15,6 +15,9 @@ class StringType
   toJSON: ->
     @toString()
 
+  aggregate: ->
+    @toString()
+
   @components: []
 
   @maskable: false

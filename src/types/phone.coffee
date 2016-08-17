@@ -84,13 +84,8 @@ class PhoneType
 
 
   aggregate: ->
-    type: @type
-    country_code: @country_code
-    prefix: @prefix
-    area: @area
-    exchange: @exchange
-    valid: @valid
-    type: 'phone'
+    return unless @valid
+    _.pick @, 'type', 'country_code', 'prefix', 'area', 'exchange', 'is_tollfree'
 
 
   _parseNumber: ->

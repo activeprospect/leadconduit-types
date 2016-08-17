@@ -71,6 +71,11 @@ class RangeType
     @normal
 
 
+  aggregate: ->
+    return unless @valid
+    _.pick @, 'min', 'max', 'mid', 'avg'
+
+
   @components: [
     { name: 'raw', type: 'string', description: 'Unmodified value', aggregated: false }
     { name: 'max', type: 'number', description: 'Range maximum', aggregated: true  }

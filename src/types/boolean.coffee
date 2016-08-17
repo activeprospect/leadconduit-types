@@ -28,6 +28,12 @@ class BooleanType
   toString: ->
     @normal.toString()
 
+
+  aggregate: ->
+    return unless @valid
+    @valueOf()
+    
+
   @maskable: false
 
   @components: [

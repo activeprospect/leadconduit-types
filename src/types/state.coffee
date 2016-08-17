@@ -24,9 +24,14 @@ class StateType
   toString: ->
     @abbr
 
+    
   valueOf: ->
     @toString()
 
+    
+  aggregate: ->
+    return unless @valid 
+    @toString()
 
   @states: {
     AL: 'Alabama'

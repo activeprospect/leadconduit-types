@@ -23,7 +23,6 @@ class GenderType
   aggregate: ->
     name: @normal
     valid: @valid
-    type: 'gender'
 
 
   valueOf: ->

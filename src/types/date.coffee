@@ -12,6 +12,7 @@ formats = [
 
 
 class DateType
+  
   constructor: (@raw) ->
     results = moment(@raw.toString(), formats)
 
@@ -23,17 +24,27 @@ class DateType
       @normal = @raw
       @valid = false
 
+      
   valueOf: ->
     @toString()
 
+    
   toString: ->
     @normal
 
+    
   toISOString: ->
     @toString()
 
+
+  aggregate: ->
+    return unless @valid
+    @toString()
+
+    
   @maskable: false
 
+  
   @components = [
     { name: 'raw', type: 'string', description: 'Unmodified value' }
   ]

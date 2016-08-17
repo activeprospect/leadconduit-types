@@ -17,19 +17,29 @@ class NumberType
 
     @valid = !isNaN(@normal)
 
+
   toString: ->
     @normal.toString()
 
+
   valueOf: ->
     @normal
+
+
+  aggregate: ->
+    return unless @valid
+    @valueOf()
+
 
   @components: [
     { name: 'raw', type: 'string', description: 'Unmodified value', aggregated: false }
   ]
 
+
   @maskable: false
 
   @operators: [
+
     'is equal to'
     'is not equal to'
     'is less than'
@@ -45,6 +55,7 @@ class NumberType
     'is included in'
     'is not included in'
   ]
+
 
   @examples: [
     '100'

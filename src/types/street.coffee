@@ -16,20 +16,30 @@ class StreetType
     else
       @valid = false
 
+      
   valueOf: ->
     @normal
 
+    
   toString: ->
     @normal.toString()
 
+
+  aggregate: ->
+    return unless @valid
+    @toString()
+
+    
   @components: [
     { name: 'raw', type: 'string', description: 'Unmodified value' }
     { name: 'number', type: 'string', description: 'Street Number' }
     { name: 'name', type: 'string', description: 'Street Name' }
   ]
 
+  
   @maskable: false
 
+  
   @operators: [
     'is equal to'
     'is not equal to'
@@ -42,6 +52,7 @@ class StreetType
     'is included in'
     'is not included in'
   ]
+  
 
   @examples: [
     '4203 Guadalupe St',

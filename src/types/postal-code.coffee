@@ -40,6 +40,10 @@ class PostalCodeType
   valueOf: ->
     @toString()
 
+    
+  aggregate: ->
+    return unless @valid
+    _.omit @, 'four' 
 
   @regionCodes: [
     'US', # united states
