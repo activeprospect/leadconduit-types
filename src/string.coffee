@@ -13,8 +13,6 @@ module.exports =
     'is not equal to'
     'is blank'
     'is not blank'
-    'includes'
-    'does not include'
     'is included in'
     'is not included in'
   ]
