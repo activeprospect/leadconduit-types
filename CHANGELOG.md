@@ -2,10 +2,6 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.9.1] - 2016-08-30
-### Removed
-- Remove unneeded `string` operators `includes` & `does not include` (issue #44)
-
 ## [4.9.0] - 2016-07-11
 ### Fixed
 - Add support for negative range minimums (_only;_ not maximums), including dates prior to Jan. 1, 1970
