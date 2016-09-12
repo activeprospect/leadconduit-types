@@ -1,11 +1,11 @@
 assert = require('chai').assert
-street = require('../src/street')
+street = require('../src').street
 
 
 describe 'Street', ->
 
-  it 'should return a String object', ->
-    assert.instanceOf street.parse('4203 Guadalupe St'), String
+  it 'should not parse null', ->
+    assert.isNull street.parse(null)
 
   it 'should parse street number', ->
     assert.equal street.parse('4203 Guadalupe St').number, '4203'
@@ -21,7 +21,7 @@ describe 'Street', ->
 
   it 'should handle invalid value', ->
     parsed = street.parse 'Asdf'
-    assert.instanceOf parsed, String
+    assert.instanceOf parsed, street
     assert.equal parsed.raw, 'Asdf'
     assert.isUndefined parsed.name
     assert.isUndefined parsed.number
@@ -34,7 +34,7 @@ describe 'Street', ->
 
   it 'should handle parsing a parsed street', ->
     parsed = street.parse(street.parse('4203 Guadalupe St'))
-    assert.instanceOf parsed, String
+    assert.instanceOf parsed, street
     assert.equal parsed.toString(), '4203 Guadalupe St'
     assert.equal parsed.raw, '4203 Guadalupe St'
 

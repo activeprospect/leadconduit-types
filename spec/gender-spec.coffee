@@ -1,5 +1,5 @@
 assert = require('chai').assert
-gender = require('../src/gender')
+gender = require('../src').gender
 
 describe 'Gender', ->
 
@@ -72,7 +72,7 @@ describe 'Gender', ->
     do (val) ->
       it "should parse #{val} as invalid", ->
         parsed = gender.parse val
-        assert.equal parsed.valueOf(), val.toString()
+        assert.equal parsed.valueOf(), val
         assert.equal parsed.raw, val
         assert.isFalse parsed.valid
         assert.isNull parsed.abbr
@@ -87,3 +87,7 @@ describe 'Gender', ->
 
   it 'should have examples', ->
     assert gender.examples.length
+
+  it 'should produce JSON', ->
+    assert.equal JSON.stringify(gender.parse('f')), '{"raw":"f","normal":"female","abbr":"F","valid":true}'
+

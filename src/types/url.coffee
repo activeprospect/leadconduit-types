@@ -1,36 +1,45 @@
 url = require('url')
-normalize = require('./normalize')
+normalize = require('./../normalize')
 
-isValidUrl = (uri) ->
-  uri.protocol? and
-  uri.protocol.match(/^http[s]?:/) and
-  uri.slashes and
-  uri.hostname
+class UrlType
 
-parse = (str) ->
-  return str unless str?
-  uri = url.parse(str?.raw?.toString() or str)
-  if isValidUrl(uri)
-    parsed = new String(uri.href)
-    parsed.raw = str.raw ? str
-    parsed.protocol = uri.protocol.replace(/:$/, '')
-    parsed.host = uri.host
-    parsed.port = uri.port
-    parsed.path = uri.pathname
-    parsed.query = uri.query
-    parsed.hash = uri.hash
-    parsed.valid = true
-    parsed
-  else
-    parsed = new String(str)
-    parsed.raw = str.raw or str
-    parsed.valid = false
-    parsed
+  constructor: (@raw) ->
+    uri = url.parse(@raw)
 
-module.exports =
-  parse: parse
+    isValidUrl =
+      uri.protocol? and
+      uri.protocol.match(/^http[s]?:/) and
+      uri.slashes and
+      uri.hostname
 
-  components: [
+    if isValidUrl
+      @normal = uri.href
+      @protocol = uri.protocol.replace(/:$/, '')
+      @host = uri.host
+      @port = uri.port
+      @path = uri.pathname
+      @query = uri.query
+      @hash = uri.hash
+      @valid = true
+    else
+      @normal = @raw
+      @valid = false
+
+
+  toString: ->
+    @normal
+
+    
+  valueOf: ->
+    @toString()
+
+    
+  aggregate: ->
+    return unless @valid
+    @toString()
+
+
+  @components: [
     { name: 'raw', type: 'string', description: 'Unmodified value' }
     { name: 'protocol', type: 'string', description: 'Protocol: http or https' }
     { name: 'host', type: 'string', description: 'The host name (i.e. google.com)' }
@@ -39,8 +48,10 @@ module.exports =
     { name: 'query', type: 'string', description: 'The query string (i.e. name=Joe&state=TX' }
     { name: 'hash', type: 'string', description: 'The trailing hash, if present (i.e. #docs)' }
   ]
-  maskable: false
-  operators: [
+
+  @maskable: false
+
+  @operators: [
     'is equal to'
     'is not equal to'
     'is blank'
@@ -50,8 +61,12 @@ module.exports =
     'is included in'
     'is not included in'
   ]
-  examples: [
+
+  @examples: [
     'https://google.com'
     'https://yourwebsite.com/some/file.asp?type=offer'
     'http://referringurl.com/a/landing/page.html'
-  ].map(parse).map(normalize)
+  ].map (v) -> new UrlType(v)
+
+
+module.exports = UrlType

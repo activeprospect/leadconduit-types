@@ -1,5 +1,6 @@
 assert = require('chai').assert
-number = require('../src/number')
+number = require('../src').number
+
 
 describe 'Number', ->
 
@@ -93,11 +94,8 @@ describe 'Number', ->
     assert.equal parsed.raw, '11'
     assert.isTrue parsed.valid
 
-  it 'should parse empty string', ->
-    parsed = number.parse(number.parse(''))
-    assert isNaN parsed.valueOf()
-    assert.equal parsed.raw, ''
-    assert.isFalse parsed.valid
+  it 'should not parse empty string', ->
+    assert.equal number.parse(''), ''
 
   it 'should parse NaN', ->
     parsed = number.parse(parseInt('sports'))
@@ -107,6 +105,9 @@ describe 'Number', ->
 
   it 'should have examples', ->
     assert number.examples.length
+
+  it 'should produce JSON', ->
+    assert.equal JSON.stringify(number.parse('500.00')), '{"raw":"500.00","normal":500,"valid":true}'
 
 
   describe 'Negatives', ->

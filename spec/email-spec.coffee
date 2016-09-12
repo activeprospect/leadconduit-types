@@ -1,11 +1,8 @@
 assert = require('chai').assert
-email = require('../src/email')
+email = require('../src').email
 
 
 describe 'Email', ->
-
-  it 'should return a String object', ->
-    assert.instanceOf email.parse('user@domain.com'), String
 
   it 'should parse user', ->
     assert.equal email.parse('user@domain.com').user, 'user'
@@ -30,7 +27,6 @@ describe 'Email', ->
 
   it 'should handle invalid value', ->
     parsed = email.parse 'Asdf'
-    assert.instanceOf parsed, String
     assert.equal parsed.raw, 'Asdf'
     assert.isUndefined parsed.user
     assert.isUndefined parsed.domain
@@ -48,10 +44,12 @@ describe 'Email', ->
 
   it 'should handle parsing a parsed email', ->
     parsed = email.parse(email.parse('USER@domain.com'))
-    assert.instanceOf parsed, String
     assert.equal parsed.toString(), 'user@domain.com'
     assert.equal parsed.raw, 'USER@domain.com'
 
   it 'should have examples', ->
     assert email.examples.length
+
+  it 'should produce JSON', ->
+    assert.equal JSON.stringify(email.parse('user@domain.com')), '{"raw":"user@domain.com","normal":"user@domain.com","user":"user","domain":"domain.com","host":"domain","tld":"com","valid":true}'
 

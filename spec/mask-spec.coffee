@@ -1,102 +1,64 @@
+_ = require('lodash')
 assert = require('chai').assert
-mask = require('../src/index').mask
+types = require('../src/types')
+mask = require('../src/mask')
 
 describe 'Mask utility', ->
 
-  it 'should mask primitives', ->
-    masked = mask
-      string: 'a string'
-      number: 102
-      boolean: true
-      masked: false
+  for Ctor in _.values(types)
+    continue unless Ctor.maskable
+    do (Ctor) ->
 
-    assert.equal masked.string, '********'
-    assert.equal masked.number, '***'
-    assert.equal masked.boolean, '*'
+      describe Ctor.name, ->
 
-
-  it 'should not mask null', ->
-    masked = mask(masked: false, null: null)
-    assert.isTrue masked.masked
-    assert.isNull masked.null
-
-  it 'should not mask masked flag', ->
-    masked = mask(masked: false)
-    assert.isTrue masked.masked
+        it 'should be masked', ->
+          raw = Ctor.examples[0].raw
+          masked = mask(new Ctor(raw))
+          unmasked = new Ctor(raw)
+          assertMasked(masked, unmasked)
 
 
-  it 'should not mask valid flag', ->
-    masked = mask(masked: false, valid: true)
-    assert.isTrue masked.valid
+        it 'should masked in deeply nested object', ->
+          raw = Ctor.examples[0].raw
+          masked = mask(foo: { bar: new Ctor(raw)}).foo.bar
+          unmasked = new Ctor(raw)
+          assertMasked(masked, unmasked)
 
 
-  it 'should mask deeply', ->
-    masked = mask
-      masked: false
-      string: 'a string'
-      object:
-        foo: 'bar'
-        baz:
-          bip: 'bap'
-
-    assert.deepEqual masked,
-      masked: true
-      string: '********'
-      object:
-        foo: '***'
-        baz:
-          bip: '***'
+        it 'should masked in array', ->
+          raw = Ctor.examples[0].raw
+          masked = mask([new Ctor(raw)])[0]
+          unmasked = new Ctor(raw)
+          assertMasked(masked, unmasked)
 
 
-  it 'should mask array', ->
-    masked = mask
-      masked: false,
-      array: [1, '23', true]
-
-    assert.deepEqual masked,
-      masked: true
-      array: [ '*', '**', '*' ]
+        it 'should masked in deeply nested array', ->
+          raw = Ctor.examples[0].raw
+          masked = mask(foo: { bar: [ 'foo', new Ctor(raw) ]}).foo.bar[1]
+          unmasked = new Ctor(raw)
+          assertMasked(masked, unmasked)
 
 
-  it 'should mask array of objects', ->
-    masked = mask
-      masked: false,
-      array: [
-        { string: 'a string', number: 103, boolean: false }
-        { string: 'another string', number: 1000, boolean: true }
-      ]
-
-    assert.deepEqual masked,
-      masked: true
-      array: [
-        { string: '********', number: '***', boolean: '*' }
-        { string: '**************', number: '****', boolean: '*' }
-      ]
-
-  it 'should mask String object with properties', ->
-    str = new String("foobar")
-    str.foo = 'bar'
-    str.bar = 'bazz'
-    str.masked = false
-    masked = mask(str)
-    assert.equal masked.foo, '***'
-    assert.equal masked.bar, '****'
-    assert.equal masked.toString(), '******'
-    assert.isTrue masked.masked
+        it 'should have no ill-effect from masking twice', ->
+          raw = Ctor.examples[0].raw
+          masked = mask(mask(new Ctor(raw)))
+          unmasked = new Ctor(raw)
+          assertMasked(masked, unmasked)
 
 
-  it 'should not mask twice', ->
-    str = new String("foo***")
-    str.masked = true
-    masked = mask(str)
-    assert.equal masked.toString(), 'foo***'
-    assert.isTrue masked.masked
+
+assertMasked = (masked, unmasked) ->
+  # ensure valid property is not touched
+  assert.isTrue masked.valid
+
+  # test toString
+  assert.equal masked.toString(), unmasked.toString().replace(/./g, '*')
+
+  # test the normal property if necessary
+  assert.equal masked.normal, unmasked.normal.toString().replace(/./g, '*') if unmasked.normal
+
+  # test all components
+  for component in masked.constructor.components
+    assert.equal masked[component.name], unmasked[component.name].toString().replace(/./g, '*')
 
 
-  it 'should handle function', ->
-    str = new String("foo")
-    str.masked = false
-    str.foo = ->
-    masked = mask(str)
-    assert.equal masked.toString(), '***'
-    assert.isTrue masked.masked

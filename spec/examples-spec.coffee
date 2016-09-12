@@ -1,14 +1,14 @@
 _ = require('lodash')
 assert = require('chai').assert
-index = require('../src/index')
+types = require('../src')
 
 
 describe 'Examples', ->
 
-  for typeName in index.names
+  for typeName in types.names
     do (typeName) ->
 
-      type = index[typeName]
+      type = types[typeName]
       if type.examples?.length
         it "should be valid for #{typeName}", ->
           for example in type.examples
@@ -24,38 +24,12 @@ describe 'Examples', ->
 
 
     it 'should expand based on type', ->
-      index.expandExamples(@field)
-      assert.deepEqual @field.examples, [
-        normal: '5127881111'
-        prefix: '1'
-        raw: '512-788-1111'
-        area: '512'
-        exchange: '788'
-        line: '1111'
-        number: '7881111'
-        extension: null
-        is_tollfree: false
-        country_code: 'US'
-        type: null
-        valid: true
-      ]
+      types.expandExamples(@field)
+      assert.deepEqual @field.examples, [ types.phone.parse('512-788-1111') ]
+
 
     it 'should re-expand expanded examples', ->
-      index.expandExamples(@field)
+      types.expandExamples(@field)
       @field.examples[0].prefix = '2'
-
-      index.expandExamples(@field)
-      assert.deepEqual @field.examples, [
-        normal: '5127881111'
-        prefix: '1'
-        raw: '512-788-1111'
-        area: '512'
-        exchange: '788'
-        line: '1111'
-        number: '7881111'
-        extension: null
-        is_tollfree: false
-        country_code: 'US'
-        type: null
-        valid: true
-      ]
+      types.expandExamples(@field)
+      assert.deepEqual @field.examples, [ types.phone.parse('512-788-1111') ]

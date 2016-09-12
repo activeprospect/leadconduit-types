@@ -1,5 +1,5 @@
 assert = require('chai').assert
-postalCode = require('../src/postal-code')
+postalCode = require('../src').postal_code
 
 
 describe 'Postal code', ->
@@ -21,7 +21,6 @@ describe 'Postal code', ->
     assert.isNull pc.four
     assert.equal pc.country_code, 'US'
     assert.isTrue pc.valid
-      
 
   it 'should parse US 5 digit plus 4 format', ->
     pc = postalCode.parse '78704-1234'
@@ -31,7 +30,6 @@ describe 'Postal code', ->
     assert.equal pc.four, '1234'
     assert.equal pc.country_code, 'US'
     assert.isTrue pc.valid
-      
 
   it 'should ignore whitespace in US 5 digit plus 4 format', ->
     pc = postalCode.parse '78704   - 1234'
@@ -41,7 +39,6 @@ describe 'Postal code', ->
     assert.equal pc.four, '1234'
     assert.equal pc.country_code, 'US'
     assert.isTrue pc.valid
-      
 
   it 'should not require dash in US 5 digit plus 4 format', ->
     pc = postalCode.parse '78704 1234'
@@ -51,7 +48,6 @@ describe 'Postal code', ->
     assert.equal pc.four, '1234'
     assert.equal pc.country_code, 'US'
     assert.isTrue pc.valid
-      
 
   it 'should not require any delimiter in US 5 digit plus 4 format', ->
     pc = postalCode.parse '787041234'
@@ -62,7 +58,6 @@ describe 'Postal code', ->
     assert.equal pc.country_code, 'US'
     assert.isTrue pc.valid
 
-
   it 'should parse Canadian format', ->
     pc = postalCode.parse 'q2e 4u7'
     assert.equal pc.toString(), 'Q2E 4U7'
@@ -72,7 +67,6 @@ describe 'Postal code', ->
     assert.equal pc.ldu, '4U7'
     assert.equal pc.country_code, 'CA'
     assert.isTrue pc.valid
-      
 
   it 'should add whitespace to Canadian format', ->
     pc = postalCode.parse 'q2e4u7'
@@ -83,7 +77,6 @@ describe 'Postal code', ->
     assert.equal pc.ldu, '4U7'
     assert.equal pc.country_code, 'CA'
     assert.isTrue pc.valid
-      
 
   it 'should remove extraneous whitespace from Canadian format', ->
     pc = postalCode.parse 'q2e      4u7'
@@ -95,7 +88,6 @@ describe 'Postal code', ->
     assert.equal pc.country_code, 'CA'
     assert.isTrue pc.valid
 
-
   it 'should parse UK format 1', ->
     pc = postalCode.parse 'A1 1AA'
     assert.equal pc.toString(), 'A1 1AA'
@@ -104,7 +96,6 @@ describe 'Postal code', ->
     assert.equal pc.incode, '1AA'
     assert.equal pc.country_code, 'GB'
     assert.isTrue pc.valid
-      
 
   it 'should parse UK format 2', ->
     pc = postalCode.parse 'A11 1AA'
@@ -114,7 +105,6 @@ describe 'Postal code', ->
     assert.equal pc.incode, '1AA'
     assert.equal pc.country_code, 'GB'
     assert.isTrue pc.valid
-      
 
   it 'should parse UK format 3', ->
     pc = postalCode.parse 'A1A 1AA'
@@ -124,7 +114,6 @@ describe 'Postal code', ->
     assert.equal pc.incode, '1AA'
     assert.equal pc.country_code, 'GB'
     assert.isTrue pc.valid
-      
 
   it 'should parse UK format 4', ->
     pc = postalCode.parse 'AA11 1AA'
@@ -134,7 +123,6 @@ describe 'Postal code', ->
     assert.equal pc.incode, '1AA'
     assert.equal pc.country_code, 'GB'
     assert.isTrue pc.valid
-      
 
   it 'should parse UK format 5', ->
     pc = postalCode.parse 'AA11A 1AA'
@@ -144,7 +132,7 @@ describe 'Postal code', ->
     assert.equal pc.incode, '1AA'
     assert.equal pc.country_code, 'GB'
     assert.isTrue pc.valid
-    
+
 
   it 'should add whitespace to UK format 1', ->
     pc = postalCode.parse 'A11AA'
@@ -154,7 +142,6 @@ describe 'Postal code', ->
     assert.equal pc.incode, '1AA'
     assert.equal pc.country_code, 'GB'
     assert.isTrue pc.valid
-      
 
   it 'should parse UK format 2', ->
     pc = postalCode.parse 'A111AA'
@@ -165,13 +152,11 @@ describe 'Postal code', ->
     assert.equal pc.country_code, 'GB'
     assert.isTrue pc.valid
 
-
   it 'should not parse garbage', ->
     pc = postalCode.parse 'garbage'
     assert.equal pc.toString(), 'garbage'
     assert.equal pc.raw, 'garbage'
     assert.isFalse pc.valid
-
 
   it 'should parse a parsed postal code', ->
     pc = postalCode.parse(postalCode.parse('78704 - 1234'))
@@ -182,6 +167,9 @@ describe 'Postal code', ->
     assert.equal pc.country_code, 'US'
     assert.isTrue pc.valid
 
-
   it 'should have examples', ->
     assert postalCode.examples.length
+
+  it 'should produce JSON', ->
+    assert.equal JSON.stringify(postalCode.parse('78704 - 1234')), '{"raw":"78704 - 1234","normal":"78704-1234","country_code":"US","zip":"78704","four":"1234","valid":true}'
+

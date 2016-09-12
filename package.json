@@ -8,19 +8,20 @@
     "prepublish": "cake build"
   },
   "dependencies": {
-    "chrono-node": "git://github.com/alexkwolfe/chrono.git#milliseconds",
+    "chrono-node": "^1.2.4",
     "domain-name-parser": "0.0.4",
     "email-addresses": "^1.1.1",
     "faker": "^3.0.1",
     "handlebars": "^2.0.0-alpha.4",
     "libphonenumber": "0.0.x",
-    "lodash": "^3.10.1",
+    "lodash": "^4.5.1",
     "moment": "^2.6.0",
     "named-regexp": "^0.1.1"
   },
   "devDependencies": {
+    "chai": ">= 1.9.0",
     "coffee-script": ">= 1.7.0",
-    "mocha": ">= 1.17.0",
-    "chai": ">= 1.9.0"
+    "lodash": "^4.5.1",
+    "mocha": ">= 1.17.0"
   }
 }

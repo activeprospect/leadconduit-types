@@ -1,5 +1,5 @@
 assert = require('chai').assert
-ssn = require('../src/ssn')
+ssn = require('../src').ssn
 
 
 describe 'SSN', ->
@@ -58,7 +58,6 @@ describe 'SSN', ->
 
     strings = [
       'abcd'
-      ''
       '   '
     ]
 
@@ -94,4 +93,5 @@ describe 'SSN', ->
     assert.equal parsed.raw, '123-12-1234'
     assert.isTrue parsed.valid
 
-
+  it 'should produce JSON', ->
+    assert.equal JSON.stringify(ssn.parse('123-12-1234')), '{"raw":"123-12-1234","normal":"123121234","first_three":"123","middle_two":"12","last_four":"1234","masked":false,"valid":true}'

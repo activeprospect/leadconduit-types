@@ -1,5 +1,5 @@
 assert = require('chai').assert
-date = require('../src/date')
+date = require('../src').date
 
 describe 'Date', ->
 
@@ -18,15 +18,11 @@ describe 'Date', ->
 
       describe string, ->
 
-        it 'should return a Date object', ->
-          parsed = date.parse string
-          assert.instanceOf parsed, Date
-          assert.equal parsed.toISOString(), '2014-06-02T00:00:00.000Z'
-
         it 'should have string value', ->
           parsed = date.parse string
           assert.equal parsed.toString(), '2014-06-02'
           assert.equal parsed.valueOf(), '2014-06-02'
+          assert.equal parsed.toISOString(), '2014-06-02'
 
         it 'should have raw value', ->
           assert.equal date.parse(string).raw, string
@@ -44,7 +40,7 @@ describe 'Date', ->
 
   it 'should handle parsing a parsed date', ->
     parsed = date.parse(date.parse('Mon Jun 02 2014'))
-    assert.instanceOf parsed, Date
+    assert.instanceOf parsed, date
     assert.equal parsed.toString(), '2014-06-02'
     assert.equal parsed.valueOf(), '2014-06-02'
     assert.equal parsed.raw, 'Mon Jun 02 2014'
@@ -52,8 +48,7 @@ describe 'Date', ->
   it 'should handle parsing a JavaScript date', ->
     now = new Date(2015, 10, 6) # 0-based month index :-/
     parsed = date.parse(now)
-    assert.instanceOf parsed, Date
-    assert.deepEqual parsed, now
+    assert.instanceOf parsed, date
     assert.isTrue parsed.valid
     assert.equal parsed.toString(), '2015-11-06'
     assert.equal parsed.valueOf(), '2015-11-06'
@@ -61,5 +56,8 @@ describe 'Date', ->
 
   it 'should have examples', ->
     assert date.examples.length
+
+  it 'should produce JSON', ->
+    assert.equal JSON.stringify(date.parse('Mon Jun 02 2014')), '{"raw":"Mon Jun 02 2014","normal":"2014-06-02","valid":true}'
 
 
