@@ -33,7 +33,9 @@ module.exports =
   maskable: false
   operators: [
     'is true'
+    'is not true'
     'is false'
+    'is not false'
     'is blank'
     'is not blank'
     'format is valid'
