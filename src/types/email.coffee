@@ -23,10 +23,10 @@ class EmailType
       @valid = false
 
   aggregate: ->
-    domain: @domain
-    host: @host
-    tld: @tld
-    valid: @valid
+    if @valid
+      domain: @domain
+      host: @host
+      tld: @tld
 
   valueOf: ->
     @normal

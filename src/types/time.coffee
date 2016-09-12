@@ -28,8 +28,7 @@ class TimeType
 
     
   aggregate: ->
-    return unless @valid
-    @toString() 
+    @toString() if @valid 
     
 
   @maskable: false

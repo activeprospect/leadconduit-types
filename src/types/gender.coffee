@@ -21,23 +21,26 @@ class GenderType
 
 
   aggregate: ->
-    name: @normal
-    valid: @valid
+    @normal if @valid
 
 
   valueOf: ->
     @normal
 
+    
   toString: ->
     @normal
 
+    
   @components: [
     { name: 'raw', type: 'string', description: 'Unmodified value'}
     { name: 'abbr', type: 'string', description: 'Abbreviated name of gender: M, F, or O'}
   ]
 
+  
   @maskable: false
 
+  
   @operators: [
     'is equal to'
     'is not equal to'
@@ -47,6 +50,7 @@ class GenderType
     'format is invalid'
   ]
 
+  
   @examples: [
     'male'
     'female'

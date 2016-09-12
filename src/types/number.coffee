@@ -27,8 +27,7 @@ class NumberType
 
 
   aggregate: ->
-    return unless @valid
-    @valueOf()
+    @valueOf() if @valid
 
 
   @components: [

@@ -26,8 +26,7 @@ class StreetType
 
 
   aggregate: ->
-    return unless @valid
-    @toString()
+    @toString() if @valid
 
     
   @components: [

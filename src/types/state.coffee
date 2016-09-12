@@ -30,8 +30,7 @@ class StateType
 
     
   aggregate: ->
-    return unless @valid 
-    @toString()
+    @toString() if @valid
 
   @states: {
     AL: 'Alabama'

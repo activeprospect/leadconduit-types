@@ -30,8 +30,7 @@ class BooleanType
 
 
   aggregate: ->
-    return unless @valid
-    @valueOf()
+    @valueOf() if @valid
     
 
   @maskable: false
