@@ -46,6 +46,21 @@ describe 'Mask utility', ->
           assertMasked(masked, unmasked)
 
 
+  for Ctor in _.values(types)
+    continue if Ctor.maskable
+    do (Ctor) ->
+
+      describe Ctor.name, ->
+
+        it 'should not mask', ->
+          raw = Ctor.examples[0].raw
+          masked = mask(new Ctor(raw))
+          unmasked = new Ctor(raw)
+          assert.deepEqual masked, unmasked
+
+
+
+
 
 assertMasked = (masked, unmasked) ->
   # ensure valid property is not touched
@@ -60,5 +75,4 @@ assertMasked = (masked, unmasked) ->
   # test all components
   for component in masked.constructor.components
     assert.equal masked[component.name], unmasked[component.name].toString().replace(/./g, '*')
-
 

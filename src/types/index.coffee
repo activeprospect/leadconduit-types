@@ -5,7 +5,11 @@ index = /^index/
 
 for file in fs.readdirSync __dirname
   continue if file.match(index)
-  Ctor = require("./#{path.basename(file, path.extname(file))}")
-  module.exports[Ctor.name] = Ctor
+  fileName = path.basename(file, path.extname(file))
+  if fileName == 'string'
+    module.exports.String = require('./string')
+  else
+    Ctor = require("./#{fileName}")
+    module.exports[Ctor.name] = Ctor
 
 
