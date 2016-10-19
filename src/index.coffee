@@ -1,38 +1,16 @@
 _ = require 'lodash'
 normalize = require('./normalize')
-
-typeNames = [
-  'boolean'
-  'city'
-  'credential'
-  'date'
-  'email'
-  'first_name'
-  'gender'
-  'last_name'
-  'number'
-  'phone'
-  'postal_code'
-  'range'
-  'ssn'
-  'state'
-  'street'
-  'string'
-  'time'
-  'url'
-]
-
-
-module.exports = {}
-
-module.exports.names = typeNames
-
-typeNames.forEach (name) ->
-  module.exports[name] = require("./#{name.replace('_', '-')}")
-
+aggregate = require('./aggregate')
+types = require('./types')
 digit = /^\d+$/
 
+module.exports.names = typeNames = Object.keys(types)
+
+for name, type of types
+  module.exports[name] = type
+
 module.exports.normalize = normalize
+module.exports.aggregate = aggregate
 
 module.exports.parse = (name, value, req) ->
   # Look up the type of the field, based on its name

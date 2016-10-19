@@ -1,6 +1,6 @@
 _ = require('lodash')
 assert = require('chai').assert
-state = require('../src/state')
+state = require('../src/types/state')
 
 
 describe 'State', ->

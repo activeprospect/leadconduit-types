@@ -1,11 +1,11 @@
 _ = require('lodash')
 assert = require('chai').assert
-index = require('../src/index')
+index = require('../src')
 
 
 describe 'Examples', ->
 
-  for typeName in index.names
+  for typeName in Object.keys(index)
     do (typeName) ->
 
       type = index[typeName]

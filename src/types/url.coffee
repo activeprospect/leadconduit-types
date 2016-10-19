@@ -1,5 +1,5 @@
 url = require('url')
-normalize = require('./normalize')
+normalize = require('../normalize')
 
 isValidUrl = (uri) ->
   uri.protocol? and

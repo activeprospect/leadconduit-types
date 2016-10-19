@@ -1,5 +1,5 @@
 assert = require('chai').assert
-types = require('../src/index')
+types = require('../src')
 
 supportedOperators = [
   'does not include'
@@ -32,4 +32,3 @@ describe 'Operators', ->
         assert supportedOperators.indexOf(op) >= 0, "The #{op} operator is not supported by LeadConduit"
 
   
-    

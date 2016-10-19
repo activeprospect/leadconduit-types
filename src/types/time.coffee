@@ -1,7 +1,7 @@
 _ = require('lodash')
 moment = require('moment')
 chrono = require('chrono-node')
-normalize = require('./normalize')
+normalize = require('../normalize')
 
 parse = (string) ->
   raw = string?.raw?.toString() ? string

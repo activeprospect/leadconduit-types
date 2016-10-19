@@ -1,7 +1,7 @@
 _ = require('lodash')
 named = require('named-regexp').named
 number = require('./number')
-normalize = require('./normalize')
+normalize = require('../normalize')
 
 minRegex = named /(:<min>-?\d+(?:\.\d+)?)\s*\+/                       # e.g., '10+', '-5.5+'
 rangeRegex = named /(:<min>-?\d+(?:\.\d+)?)\s+(:<max>\d+(?:\.\d+)?)/  # e.g., '1-6', '2 to 7', '-8 - 100.5'

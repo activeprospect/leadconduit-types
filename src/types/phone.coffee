@@ -1,6 +1,6 @@
 _ = require('lodash')
 phoneUtil = require('libphonenumber').phoneUtil
-normalize = require('./normalize')
+normalize = require('../normalize')
 
 supportedRegionCodes = [
   'US' # united states
@@ -137,7 +137,7 @@ decompose = (raw, number, regionCode, mask) ->
   phone.number = subscriberNumber
   phone.extension = extension
   phone.country_code = regionCode
-  phone.masked = true if _.contains(mask, true)
+  phone.masked = true if mask.indexOf(true) >= 0
   phone.is_tollfree = tollFreeAreaCodes[phone.area] ? false
   phone
 

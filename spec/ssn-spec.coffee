@@ -1,5 +1,5 @@
 assert = require('chai').assert
-ssn = require('../src/ssn')
+ssn = require('../src/types/ssn')
 
 
 describe 'SSN', ->
