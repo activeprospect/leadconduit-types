@@ -1,5 +1,5 @@
 assert = require('chai').assert
-mask = require('../src/index').mask
+mask = require('../src').mask
 
 describe 'Mask utility', ->
 

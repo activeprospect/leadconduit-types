@@ -1,6 +1,6 @@
 _ = require('lodash')
 number = require('./number')
-normalize = require('./normalize')
+normalize = require('../normalize')
 
 parse = (string) ->
   return string unless string?

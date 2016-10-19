@@ -1,5 +1,5 @@
 assert = require('chai').assert
-gender = require('../src/gender')
+gender = require('../src/types/gender')
 
 describe 'Gender', ->
 

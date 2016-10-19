@@ -1,5 +1,5 @@
 assert = require('chai').assert
-date = require('../src/date')
+date = require('../src/types/date')
 
 describe 'Date', ->
 

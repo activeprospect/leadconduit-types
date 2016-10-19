@@ -1,4 +1,4 @@
-normalize = require('./normalize')
+normalize = require('../normalize')
 
 parse = (string) ->
   return string unless string?

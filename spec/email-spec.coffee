@@ -1,5 +1,5 @@
 assert = require('chai').assert
-email = require('../src/email')
+email = require('../src/types/email')
 
 
 describe 'Email', ->

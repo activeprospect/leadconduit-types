@@ -1,5 +1,5 @@
 assert = require('chai').assert
-boolean = require('../src/boolean')
+boolean = require('../src/types/boolean')
 
 describe 'Boolean', ->
 

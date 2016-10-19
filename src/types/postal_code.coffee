@@ -1,6 +1,6 @@
 Handlebars = require('handlebars')
 named = require('named-regexp').named
-normalize = require('./normalize')
+normalize = require('../normalize')
 
 supportedRegionCodes = [
   'US', # united states

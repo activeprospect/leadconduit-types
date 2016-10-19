@@ -1,6 +1,6 @@
 _ = require('lodash')
 moment = require('moment')
-normalize = require('./normalize')
+normalize = require('../normalize')
 
 formats = [
   'ddd MMM DD YYYY' # 'Mon Jun 02 2014'

@@ -1,6 +1,6 @@
 parseEmail = require('email-addresses').parseOneAddress
 parseDomain = require('domain-name-parser')
-normalize = require('./normalize')
+normalize = require('../normalize')
 
 stripRegex = /^\s+|\s+$/g
 

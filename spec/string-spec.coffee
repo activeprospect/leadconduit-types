@@ -1,6 +1,6 @@
 _ = require('lodash')
 assert = require('chai').assert
-types = require('../src/index')
+types = require('../src')
 
 
 describe 'String', ->

@@ -1,5 +1,5 @@
 _ = require('lodash')
-normalize = require('./normalize')
+normalize = require('../normalize')
 
 states = {
   AL: 'Alabama'
