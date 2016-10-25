@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.11.2] - 2016-10-25
+### Fixed
+- fix bug where 'array'-type data was being mistakenly parsed
+
 ## [4.11.1] - 2016-10-25
 ### Fixed
 - change example text for strings to 'any text' (issue #47)

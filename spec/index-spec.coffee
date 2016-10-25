@@ -15,6 +15,9 @@ describe 'Index', ->
 
     assert.deepEqual index.names, expectedTypeNames
 
+  it 'should not try to parse an non-type (e.g., array)', ->
+    parsed = index.parse 'array', [1, 3, 5]
+    assert.deepEqual parsed, [1, 3, 5]
 
   it 'should not parse a value twice', ->
     parsed = index.parse 'phone', '5127891111'
