@@ -19,5 +19,5 @@ module.exports =
     'is not included in'
   ]
   examples: [
-    'some words'
+    'any text'
   ]
