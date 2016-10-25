@@ -14,15 +14,15 @@ module.exports.aggregate = aggregate
 
 module.exports.parse = (name, value, req) ->
   # Look up the type of the field, based on its name
-  type = module.exports[name] if typeNames.indexOf(name) != -1
+  fieldType = module.exports[name] if typeNames.indexOf(name) != -1
 
-  if type? and value?
-    if type.components?.length and value.valid?
+  if fieldType? and value?
+    if fieldType.components?.length and value.valid?
       # the value already has components, so parsing isn't necessary
       return value
     else
       # call its parse function and set the new value
-      type.parse value, req
+      fieldType.parse value, req
   else
     value
 
