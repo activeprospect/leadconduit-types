@@ -6,7 +6,7 @@ aggregate = require('../src/aggregate')
 describe 'Aggregation', ->
 
   it 'should exclude missing fields', ->
-    vars = phone_1: types.parse('phone', '(512) 789-1111')
+    vars = lead: { phone_1: types.parse('phone', '(512) 789-1111') }
     assert.isUndefined aggregate(vars, {}).phone_1
 
 
@@ -17,9 +17,9 @@ describe 'Phone aggregation', ->
   phone = null
 
   beforeEach ->
-    vars = phone_1: types.parse('phone', '(512) 789-1111 x123m')
+    vars = lead: { phone_1: types.parse('phone', '(512) 789-1111 x123m') }
     fieldTypes = phone_1: 'phone'
-    phone = aggregate(vars, fieldTypes).phone_1
+    phone = aggregate(vars, fieldTypes).lead.phone_1
 
 
   it 'should include type', ->
@@ -53,9 +53,9 @@ describe 'Email aggregation', ->
   email = null
 
   beforeEach ->
-    vars = email: types.parse('email', 'foo@bar.baz.com')
+    vars = lead: { email: types.parse('email', 'foo@bar.baz.com') }
     fieldTypes = email: 'email'
-    email = aggregate(vars, fieldTypes).email
+    email = aggregate(vars, fieldTypes).lead.email
 
 
   it 'should include domain', ->
@@ -80,9 +80,9 @@ describe 'Postal code aggregation', ->
   postalCode = null
 
   beforeEach ->
-    vars = postal_code: types.parse('postal_code', '78704-1234')
+    vars = lead: { postal_code: types.parse('postal_code', '78704-1234') }
     fieldTypes = postal_code: 'postal_code'
-    postalCode = aggregate(vars, fieldTypes).postal_code
+    postalCode = aggregate(vars, fieldTypes).lead.postal_code
 
 
   it 'should include zip', ->
@@ -103,9 +103,10 @@ describe 'SSN aggregation', ->
   ssn = null
 
   beforeEach ->
-    vars = ssn: types.parse('ssn', '123-45-6789')
+    vars = lead: { ssn: types.parse('ssn', '123-45-6789') }
     fieldTypes = ssn: 'ssn'
-    ssn = aggregate(vars, fieldTypes).ssn
+    console.log aggregate(vars, fieldTypes)
+    ssn = aggregate(vars, fieldTypes).lead.ssn
 
 
   it 'should not be aggregated', ->

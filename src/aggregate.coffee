@@ -3,18 +3,17 @@ normalize = require('./normalize')
 aggregations = require('./aggregations')
 
 module.exports = (vars, fieldTypes) ->
-  aggregateVars = {}
-
   for fieldId, type of fieldTypes
-
     aggregate = aggregations[type]
     continue unless aggregate?
+    lead = {}
+    value = _.get(vars, "lead.#{fieldId}")
+    if value?
+      valueForAggregation = aggregate?(value)
+      _.set(lead, fieldId, valueForAggregation) if valueForAggregation?
 
-    value = _.get(vars, fieldId)
-    continue unless value?
+  vars.lead = lead
 
-    aggregateVars[fieldId] = aggregate(value)
-
-  normalize(aggregateVars)
+  normalize(vars)
 
 
