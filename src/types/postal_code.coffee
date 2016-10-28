@@ -10,7 +10,7 @@ supportedRegionCodes = [
 
 handlers =
   US:
-    regex: named /^(:<code>(:<zip>\d{5})(?:(?:\s*(?:\-)?\s*)?(:<four>\d{4}))?)$/i
+    regex: named /^(:<code>(:<zip>\d{5})(?:\s*(?:\-)?\s*)?(:<four>\d{4})?)?$/i
     format: '{{zip}}{{#if four}}-{{four}}{{/if}}'
   CA:
     regex: named /^(:<code>(:<fsa>(:<district>[a-z])[0-9][a-z])\s*(:<ldu>[0-9][a-z][0-9]))$/i
