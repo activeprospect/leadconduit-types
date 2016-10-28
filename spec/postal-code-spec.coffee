@@ -183,5 +183,15 @@ describe 'Postal code', ->
     assert.isTrue pc.valid
 
 
+  it 'should ignore trailing dash', ->
+    pc = postalCode.parse(postalCode.parse('78704-'))
+    assert.equal pc.toString(), '78704'
+    assert.equal pc.raw, '78704-'
+    assert.equal pc.zip, '78704'
+    assert.isNull pc.four
+    assert.equal pc.country_code, 'US'
+    assert.isTrue pc.valid
+
+
   it 'should have examples', ->
     assert postalCode.examples.length
