@@ -9,6 +9,10 @@ describe 'Aggregation', ->
     vars = lead: { phone_1: types.parse('phone', '(512) 789-1111') }
     assert.isUndefined aggregate(vars, {}).phone_1
 
+  it 'should include fields with no aggregations', ->
+    vars = lead: { donkey: 'kong' }
+    assert.equal aggregate(vars, donkey: 'string').lead.donkey, 'kong'
+
 
 
 
