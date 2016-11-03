@@ -93,7 +93,8 @@ module.exports.expandExamples = (field) ->
   return field unless field.examples?.length
   field.examples = _.compact field.examples.map (example) ->
     return example if field.type == 'string'
-    str = (example?.raw or example)?.trim()
+    str = (example?.raw or example)
+    str = str?.trim() if str?.trim?
     return example unless str
     normalize(module.exports[field.type]?.parse(str) or str)
   field
