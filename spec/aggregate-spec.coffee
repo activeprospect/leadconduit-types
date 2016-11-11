@@ -54,12 +54,13 @@ describe 'Range aggregation', ->
   fieldTypes = range: 'range'
 
   it 'should be object', ->
-    vars = range: types.parse('range', '1-10')
+    vars = range: types.parse('range', '1 to 10')
     range = aggregate(vars, fieldTypes).range
     assert.equal range.min, 1
     assert.equal range.max, 10
     assert.equal range.avg, 5.5
     assert.equal range.mid, 5
+    assert.equal range.normal, '1-10'
 
 
   it 'should be undefined for invalid range', ->
