@@ -6,12 +6,84 @@ aggregate = require('../src/aggregate')
 describe 'Aggregation', ->
 
   it 'should exclude missing fields', ->
-    vars = lead: { phone_1: types.parse('phone', '(512) 789-1111') }
+    vars = phone_1: types.parse('phone', '(512) 789-1111')
     assert.isUndefined aggregate(vars, {}).phone_1
 
   it 'should include fields with no aggregations', ->
-    vars = lead: { donkey: 'kong' }
-    assert.equal aggregate(vars, donkey: 'string').lead.donkey, 'kong'
+    vars = donkey: 'kong'
+    assert.equal aggregate(vars, 'donkey': 'string').donkey, 'kong'
+
+
+
+describe 'Boolean aggregation', ->
+
+  fieldTypes = boolean: 'boolean'
+
+  it 'should be primitive', ->
+    vars = boolean: types.parse('boolean', 'true')
+    boolean = aggregate(vars, fieldTypes).boolean
+    assert.equal boolean, true
+
+
+  it 'should be undefined for invalid boolean', ->
+    vars = boolean: types.parse('boolean', 'donkey')
+    boolean = aggregate(vars, fieldTypes).boolean
+    assert.isUndefined boolean
+
+
+
+describe 'Number aggregation', ->
+
+  fieldTypes = number: 'number'
+
+  it 'should be primitive', ->
+    vars = number: types.parse('number', '1')
+    number = aggregate(vars, fieldTypes).number
+    assert.equal number, 1
+
+
+  it 'should be undefined for invalid number', ->
+    vars = lead: { number: types.parse('number', 'donkey') }
+    number = aggregate(vars, fieldTypes).number
+    assert.isUndefined number
+
+
+
+describe 'Range aggregation', ->
+
+  fieldTypes = range: 'range'
+
+  it 'should be object', ->
+    vars = range: types.parse('range', '1-10')
+    range = aggregate(vars, fieldTypes).range
+    assert.equal range.min, 1
+    assert.equal range.max, 10
+    assert.equal range.avg, 5.5
+    assert.equal range.mid, 5
+
+
+  it 'should be undefined for invalid range', ->
+    vars = lead: { range: types.parse('range', 'donkey') }
+    range = aggregate(vars, fieldTypes).range
+    assert.isUndefined range
+
+
+
+
+describe 'State aggregation', ->
+
+  fieldTypes = state: 'state'
+
+  it 'should be string', ->
+    vars = state: types.parse('state', 'tx')
+    state = aggregate(vars, fieldTypes).state
+    assert.equal state, 'TX'
+
+
+  it 'should be undefined for invalid range', ->
+    vars = range: types.parse('state', 'donkey')
+    state = aggregate(vars, fieldTypes).state
+    assert.isUndefined state
 
 
 
@@ -21,9 +93,9 @@ describe 'Phone aggregation', ->
   phone = null
 
   beforeEach ->
-    vars = lead: { phone_1: types.parse('phone', '(512) 789-1111 x123m') }
+    vars = phone_1: types.parse('phone', '(512) 789-1111 x123m')
     fieldTypes = phone_1: 'phone'
-    phone = aggregate(vars, fieldTypes).lead.phone_1
+    phone = aggregate(vars, fieldTypes).phone_1
 
 
   it 'should include type', ->
@@ -57,9 +129,9 @@ describe 'Email aggregation', ->
   email = null
 
   beforeEach ->
-    vars = lead: { email: types.parse('email', 'foo@bar.baz.com') }
+    vars = email: types.parse('email', 'foo@bar.baz.com')
     fieldTypes = email: 'email'
-    email = aggregate(vars, fieldTypes).lead.email
+    email = aggregate(vars, fieldTypes).email
 
 
   it 'should include domain', ->
@@ -84,9 +156,9 @@ describe 'Postal code aggregation', ->
   postalCode = null
 
   beforeEach ->
-    vars = lead: { postal_code: types.parse('postal_code', '78704-1234') }
+    vars = postal_code: types.parse('postal_code', '78704-1234')
     fieldTypes = postal_code: 'postal_code'
-    postalCode = aggregate(vars, fieldTypes).lead.postal_code
+    postalCode = aggregate(vars, fieldTypes).postal_code
 
 
   it 'should include zip', ->
@@ -107,10 +179,9 @@ describe 'SSN aggregation', ->
   ssn = null
 
   beforeEach ->
-    vars = lead: { ssn: types.parse('ssn', '123-45-6789') }
+    vars = ssn: types.parse('ssn', '123-45-6789')
     fieldTypes = ssn: 'ssn'
-    console.log aggregate(vars, fieldTypes)
-    ssn = aggregate(vars, fieldTypes).lead.ssn
+    ssn = aggregate(vars, fieldTypes).ssn
 
 
   it 'should not be aggregated', ->
