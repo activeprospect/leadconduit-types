@@ -6,11 +6,11 @@ aggregate = require('../src/aggregate')
 describe 'Aggregation', ->
 
   it 'should exclude missing fields', ->
-    vars = phone_1: types.parse('phone', '(512) 789-1111')
+    vars = types.normalize(phone_1: types.parse('phone', '(512) 789-1111'))
     assert.isUndefined aggregate(vars, {}).phone_1
 
   it 'should include fields with no aggregations', ->
-    vars = donkey: 'kong'
+    vars = types.normalize(donkey: 'kong')
     assert.equal aggregate(vars, 'donkey': 'string').donkey, 'kong'
 
 
@@ -20,13 +20,13 @@ describe 'Boolean aggregation', ->
   fieldTypes = boolean: 'boolean'
 
   it 'should be primitive', ->
-    vars = boolean: types.parse('boolean', 'true')
+    vars = types.normalize(boolean: types.parse('boolean', 'true'))
     boolean = aggregate(vars, fieldTypes).boolean
     assert.equal boolean, true
 
 
   it 'should be undefined for invalid boolean', ->
-    vars = boolean: types.parse('boolean', 'donkey')
+    vars = types.normalize(boolean: types.parse('boolean', 'donkey'))
     boolean = aggregate(vars, fieldTypes).boolean
     assert.isUndefined boolean
 
@@ -37,13 +37,13 @@ describe 'Number aggregation', ->
   fieldTypes = number: 'number'
 
   it 'should be primitive', ->
-    vars = number: types.parse('number', '1')
+    vars = types.normalize(number: types.parse('number', '1'))
     number = aggregate(vars, fieldTypes).number
     assert.equal number, 1
 
 
   it 'should be undefined for invalid number', ->
-    vars = lead: { number: types.parse('number', 'donkey') }
+    vars = types.normalize(lead: { number: types.parse('number', 'donkey') })
     number = aggregate(vars, fieldTypes).number
     assert.isUndefined number
 
@@ -54,7 +54,7 @@ describe 'Range aggregation', ->
   fieldTypes = range: 'range'
 
   it 'should be object', ->
-    vars = range: types.parse('range', '1 to 10')
+    vars = types.normalize(range: types.parse('range', '1 to 10'))
     range = aggregate(vars, fieldTypes).range
     assert.equal range.min, 1
     assert.equal range.max, 10
@@ -64,9 +64,21 @@ describe 'Range aggregation', ->
 
 
   it 'should be undefined for invalid range', ->
-    vars = lead: { range: types.parse('range', 'donkey') }
+    vars = types.normalize(lead: { range: types.parse('range', 'donkey') })
     range = aggregate(vars, fieldTypes).range
     assert.isUndefined range
+
+
+
+
+describe 'Street aggregation', ->
+
+  fieldTypes = address_1: 'street'
+
+  it 'should be undefined', ->
+    vars = types.normalize(address_1: types.parse('street', '123 Main Street'))
+    address = aggregate(vars, fieldTypes).address_1
+    assert.isUndefined address
 
 
 
@@ -76,15 +88,15 @@ describe 'State aggregation', ->
   fieldTypes = state: 'state'
 
   it 'should be string', ->
-    vars = state: types.parse('state', 'tx')
+    vars = types.normalize(state: types.parse('state', 'tx'))
     state = aggregate(vars, fieldTypes).state
     assert.equal state, 'TX'
 
 
-  it 'should be undefined for invalid range', ->
-    vars = range: types.parse('state', 'donkey')
+  it 'should not be undefined for invalid state', ->
+    vars = types.normalize(state: types.parse('state', 'donkey'))
     state = aggregate(vars, fieldTypes).state
-    assert.isUndefined state
+    assert.equal state, 'donkey'
 
 
 
@@ -94,7 +106,7 @@ describe 'Phone aggregation', ->
   phone = null
 
   beforeEach ->
-    vars = phone_1: types.parse('phone', '(512) 789-1111 x123m')
+    vars = types.normalize(phone_1: types.parse('phone', '(512) 789-1111 x123m'))
     fieldTypes = phone_1: 'phone'
     phone = aggregate(vars, fieldTypes).phone_1
 
@@ -130,7 +142,7 @@ describe 'Email aggregation', ->
   email = null
 
   beforeEach ->
-    vars = email: types.parse('email', 'foo@bar.baz.com')
+    vars = types.normalize(email: types.parse('email', 'foo@bar.baz.com'))
     fieldTypes = email: 'email'
     email = aggregate(vars, fieldTypes).email
 
@@ -157,7 +169,7 @@ describe 'Postal code aggregation', ->
   postalCode = null
 
   beforeEach ->
-    vars = postal_code: types.parse('postal_code', '78704-1234')
+    vars = types.normalize(postal_code: types.parse('postal_code', '78704-1234'))
     fieldTypes = postal_code: 'postal_code'
     postalCode = aggregate(vars, fieldTypes).postal_code
 
@@ -180,7 +192,7 @@ describe 'SSN aggregation', ->
   ssn = null
 
   beforeEach ->
-    vars = ssn: types.parse('ssn', '123-45-6789')
+    vars = types.normalize(ssn: types.parse('ssn', '123-45-6789'))
     fieldTypes = ssn: 'ssn'
     ssn = aggregate(vars, fieldTypes).ssn
 
