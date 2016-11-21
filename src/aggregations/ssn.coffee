@@ -1,2 +1,2 @@
 module.exports = ->
-  return undefined
+  undefined

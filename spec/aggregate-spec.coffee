@@ -75,10 +75,10 @@ describe 'Street aggregation', ->
 
   fieldTypes = address_1: 'street'
 
-  it 'should be string', ->
+  it 'should be undefined', ->
     vars = types.normalize(address_1: types.parse('street', '123 Main Street'))
     address = aggregate(vars, fieldTypes).address_1
-    assert.equal address, '123 Main Street'
+    assert.isUndefined address
 
 
 

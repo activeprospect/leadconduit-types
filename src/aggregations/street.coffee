@@ -1,2 +1,2 @@
-module.exports = (street) ->
-  street?.normal
+module.exports = ->
+  undefined
