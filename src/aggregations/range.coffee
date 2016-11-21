@@ -2,6 +2,4 @@ _ = require 'lodash'
 
 module.exports = (range) ->
   return unless range.valid == true
-  rtn = _.pick range, 'min', 'max', 'avg', 'mid'
-  rtn.normal = range.toString()
-  rtn
+  _.pick range, 'normal', 'min', 'max', 'avg', 'mid'

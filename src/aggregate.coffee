@@ -39,9 +39,8 @@ module.exports = (event, fieldTypes) ->
     aggregate = aggregations[type]
     value = _.get(event, fieldId)
     value = aggregate?(value) if aggregate? and value?
-    if value != undefined
-      _.set(aggregateVars, fieldId, value)
+    _.set(aggregateVars, fieldId, value) if value != undefined
 
-  normalize(aggregateVars)
+  aggregateVars
 
 
