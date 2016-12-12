@@ -1,4 +1,5 @@
 assert = require('chai').assert
+moment = require('moment')
 types = require('../src')
 aggregate = require('../src/aggregate')
 
@@ -199,3 +200,37 @@ describe 'SSN aggregation', ->
 
   it 'should not be aggregated', ->
     assert.isUndefined ssn
+
+
+
+describe 'Time aggregation', ->
+
+  time = null
+  expected = null
+
+  beforeEach ->
+    expected = new Date().toISOString()
+    vars = types.normalize(timestamp: types.parse('time', expected))
+    fieldTypes = timestamp: 'time'
+    time = aggregate(vars, fieldTypes).timestamp
+
+
+  it 'should aggregate as normal value', ->
+    assert.equal time, expected
+
+
+
+describe 'Date aggregation', ->
+
+  date = null
+  expected = null
+
+  beforeEach ->
+    expected = moment().format('YYYY-MM-DD')
+    vars = types.normalize(dob: types.parse('date', expected))
+    fieldTypes = dob: 'date'
+    date = aggregate(vars, fieldTypes).dob
+
+
+  it 'should aggregate as normal value', ->
+    assert.equal date, expected
