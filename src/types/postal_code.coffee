@@ -69,6 +69,8 @@ module.exports =
     'does not include'
     'is included in'
     'is not included in'
+    'matches pattern'
+    'does not match pattern'
   ],
   examples: [
     '78751'

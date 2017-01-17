@@ -7,6 +7,8 @@ module.exports =
     'is not equal to'
     'is blank'
     'is not blank'
+    'matches pattern'
+    'does not match pattern'
   ]
   examples: [
     'Jones'
