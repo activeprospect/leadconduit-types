@@ -73,16 +73,36 @@ describe 'Mask utility', ->
         { string: '**************', number: '****', boolean: '*' }
       ]
 
+
+  it 'should mask array of objects with valid flags', ->
+    masked = mask
+      masked: false,
+      array: [
+        { string: 'a string', number: 103, boolean: false, valid: true }
+        { string: 'another string', number: 1000, boolean: true, valid: false }
+      ]
+
+    assert.deepEqual masked,
+      masked: true
+      array: [
+        { string: '********', number: '***', boolean: '*', valid: true }
+        { string: '**************', number: '****', boolean: '*', valid: false }
+      ]
+
+
+  # this is the same form as 'rich types' (phone, ssn, email, etc.)
   it 'should mask String object with properties', ->
     str = new String("foobar")
     str.foo = 'bar'
     str.bar = 'bazz'
     str.masked = false
+    str.valid = true
     masked = mask(str)
     assert.equal masked.foo, '***'
     assert.equal masked.bar, '****'
     assert.equal masked.toString(), '******'
     assert.isTrue masked.masked
+    assert.isTrue masked.valid
 
 
   it 'should not mask twice', ->

@@ -36,8 +36,10 @@ module.exports.mask = mask = (obj, doMask=false) ->
     if obj.masked == false and (obj instanceof String or obj instanceof Boolean or obj instanceof Number or obj instanceof Date)
       str = new String(mask(obj.toString(), true))
       for key, value of obj
-        continue if key == 'valid'
-        str[key] = mask(value, true) unless key.match(digit)
+        if key == 'valid'
+          str[key] = value
+        else
+          str[key] = mask(value, true) unless key.match(digit)
       str.masked = true
       obj = str
     else

@@ -5,6 +5,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [4.14.0] - 2017-01-23
 ## Added
 - add Canada provinces to `state` type (fixes #87)
+## Fixed
+- retain `.valid` attribute on masked objects (fixes #56)
 
 ## [4.13.0] - 2017-01-17
 ## Added
