@@ -18,6 +18,13 @@ describe 'State', ->
     assert.equal parsed.name, 'Texas'
     assert.isTrue parsed.valid
 
+  it 'should parse a parsed province', ->
+    parsed = state.parse(state.parse('ON'))
+    assert.equal parsed.toString(), 'ON'
+    assert.equal parsed.raw, 'ON'
+    assert.equal parsed.name, 'Ontario'
+    assert.isTrue parsed.valid
+
   it 'should have examples', ->
     assert state.examples.length
 

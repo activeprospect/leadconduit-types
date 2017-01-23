@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.14.0] - 2017-01-23
+## Added
+- add Canada provinces to `state` type (fixes #87)
+
+## [4.13.0] - 2017-01-17
+## Added
+- add 'matches pattern' operator where appropriate
+
+## [4.12.0] - 2016-11-11
+### Added
+- add aggregations for boolean, number, range, and state
+
 ## [4.11.2] - 2016-10-25
 ### Fixed
 - fix bug where 'array'-type data was being mistakenly parsed
