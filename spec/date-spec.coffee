@@ -61,5 +61,3 @@ describe 'Date', ->
 
   it 'should have examples', ->
     assert date.examples.length
-
-
