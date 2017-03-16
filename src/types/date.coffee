@@ -11,9 +11,14 @@ formats = [
   'MMDDYYYY'        # '06022014'
 ]
 
-parse = (string) ->
+parse = (string, req) ->
   raw = string.raw ? string
-  results = moment(string.toString(), formats)
+  results = moment(string.toString(), formats, true)
+
+  if !results.isValid()
+    # strict mode parsing failed; log what failed and try again in forgiving mode [todo: this is temporary! 3/17]
+    results = moment(string.toString(), formats)
+    req?.logger?.info "strict mode date-parsing failed for [#{string}]; forgiving mode gave: #{results.toString()}"
 
   if results.isValid()
     parsed = results.toDate()

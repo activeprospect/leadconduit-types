@@ -3,6 +3,8 @@
   "description": "A Node.JS module that parses data by type",
   "version": "4.14.0",
   "main": "lib/index",
+  "license": "CC-BY-NC-ND-4.0",
+  "repository": "https://github.com/activeprospect/leadconduit-types",
   "scripts": {
     "test": "cake test",
     "prepublish": "cake build"
@@ -17,7 +19,7 @@
     "handlebars": "^2.0.0-alpha.4",
     "libphonenumber": "0.0.x",
     "lodash": "^4.16.2",
-    "moment": "^2.6.0",
+    "moment": "^2.14.0",
     "named-regexp": "^0.1.1"
   },
   "devDependencies": {

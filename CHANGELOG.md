@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.14.1] - 2017-03-15
+## Added
+- logging of when "strict" date-parsing fails
+
 ## [4.14.0] - 2017-01-23
 ## Added
 - add Canada provinces to `state` type (fixes #87)
