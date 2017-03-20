@@ -5,10 +5,12 @@ normalize = require('../normalize')
 formats = [
   'ddd MMM DD YYYY' # 'Mon Jun 02 2014'
   'MMM DD YYYY'     # 'Jun 02 2014'
-  'MM/DD/YYYY'      # '06/02/2014'
+  'M/D/YYYY'        # '6/2/2014', '06/02/2014'
+  'M/D/YY'          # '6/2/14'
   'YYYY-MM-DD'      # '2014-06-02'
   'MM-DD-YYYY'      # '06-02-2014'
   'MMDDYYYY'        # '06022014'
+  'YYYYMMDD'        # '06022014'
 ]
 
 parse = (string, req) ->
