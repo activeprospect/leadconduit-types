@@ -14,10 +14,9 @@
     "chrono-node": "git://github.com/alexkwolfe/chrono.git#milliseconds",
     "domain-name-parser": "0.0.4",
     "email-addresses": "^1.1.1",
-    "faker": "^3.0.1",
     "flat": "^2.0.1",
+    "google-libphonenumber": "^2.0.15",
     "handlebars": "^2.0.0-alpha.4",
-    "libphonenumber": "0.0.x",
     "lodash": "^4.16.2",
     "moment": "^2.14.0",
     "named-regexp": "^0.1.1"
