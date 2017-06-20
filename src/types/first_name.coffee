@@ -9,6 +9,10 @@ module.exports =
     'is not blank'
     'matches pattern'
     'does not match pattern'
+    'includes'
+    'does not include'
+    'is included in'
+    'is not included in'
   ]
   examples: [
     'Mike'
