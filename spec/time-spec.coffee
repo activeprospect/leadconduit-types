@@ -54,7 +54,7 @@ describe 'Time', ->
     now = new Date(2015, 10, 6, 11, 47, 42) # 0-based month index :-/
     parsed = time.parse(now)
     assert.instanceOf parsed, Date
-    assert.deepEqual parsed, now
+    assert.deepEqual parsed.toString(), now.toISOString()
     assert.isTrue parsed.valid
     assert.equal parsed.toString(), '2015-11-06T11:47:42.000Z'
     assert.equal parsed.valueOf(), '2015-11-06T11:47:42.000Z'
