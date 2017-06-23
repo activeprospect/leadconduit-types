@@ -22,4 +22,10 @@ module.exports =
   ]
   examples: [
     'any text'
+    'Jones'
+    'Campbell'
+    'Smith'
+    'Mike'
+    'Robert'
+    'Janet'
   ]
