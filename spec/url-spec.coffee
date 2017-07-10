@@ -27,6 +27,14 @@ describe 'URL', ->
   it 'should have examples', ->
     assert url.examples.length
 
+  it 'should prepend http when protocol is missing', ->
+    parsed =  url.parse('donkey.com');
+    assert.equal parsed.raw, 'http://donkey.com'
+
+  it 'should prepend http when protocol is missing and slashes are in front of the URL', ->
+    parsed =  url.parse('//donkey.com');
+    assert.equal parsed.raw, 'http://donkey.com'
+
 
   describe 'valid values', ->
 

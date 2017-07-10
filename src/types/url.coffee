@@ -9,6 +9,10 @@ isValidUrl = (uri) ->
 
 parse = (str) ->
   return str unless str?
+  if str.includes('.') 
+    subStr = str.split('.')
+    if subStr[1] and !subStr[0].startsWith('http') and !subStr[0].includes('://')
+      str = if subStr[0].includes('//') then "http:#{str}"  else "http://#{str}"
   uri = url.parse(str?.raw?.toString() or str)
   if isValidUrl(uri)
     parsed = new String(uri.href)
