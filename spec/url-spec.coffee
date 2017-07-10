@@ -31,7 +31,7 @@ describe 'URL', ->
     parsed =  url.parse('donkey.com');
     assert.equal parsed.raw, 'http://donkey.com'
 
-  it 'should prepend http when protocol is missing and slashes are in front of the URL', ->
+  it 'should prepend http when protocol is missing and slashes are at the beginning of the URL', ->
     parsed =  url.parse('//donkey.com');
     assert.equal parsed.raw, 'http://donkey.com'
 
