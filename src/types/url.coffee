@@ -9,7 +9,12 @@ isValidUrl = (uri) ->
 
 parse = (str) ->
   return str unless str?
-  uri = url.parse(str?.raw?.toString() or str)
+
+  toParse = str.raw?.toString() or str
+  toParse = "http://#{toParse}" unless toParse.match(/:\/\//) # if no '://' found, add protocol prefix before parsing
+
+  uri = url.parse(toParse)
+
   if isValidUrl(uri)
     parsed = new String(uri.href)
     parsed.raw = str.raw ? str

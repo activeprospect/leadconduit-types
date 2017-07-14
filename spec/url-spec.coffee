@@ -19,11 +19,6 @@ describe 'URL', ->
     assert.equal parsed.query, 'q=hi'
     assert.isTrue parsed.valid
 
-  it 'should not parse invalid', ->
-    parsed =  url.parse('donkey')
-    assert.equal parsed.raw, 'donkey'
-    assert !parsed.valid
-
   it 'should have examples', ->
     assert url.examples.length
 
@@ -70,15 +65,36 @@ describe 'URL', ->
             assert.isTrue @parsed.valid
 
 
+  describe 'values that get coerced to valid', ->
+
+    strings = [
+      'centennialbulb.org'
+      'whatever'
+      '172.0.0.1'
+      'http'
+    ]
+
+    for string in strings
+      do (string) ->
+        describe "'#{string}'", ->
+
+          beforeEach ->
+            @parsed = url.parse(string)
+
+          it 'should keep raw value', ->
+            assert.equal @parsed.raw, string
+
+          it 'should be valid', ->
+            assert.isTrue @parsed.valid
+
+
   describe 'invalid values', ->
 
     strings = [
       ''
       ' '
-      'http'
       'https://'
       'donkey://google.com'
-      'whatever'
     ]
 
     for string in strings
