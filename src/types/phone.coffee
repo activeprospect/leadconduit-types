@@ -1,5 +1,5 @@
 _ = require('lodash')
-phoneUtil = require('libphonenumber').phoneUtil
+phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance()
 normalize = require('../normalize')
 
 supportedRegionCodes = [
