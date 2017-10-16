@@ -22,6 +22,10 @@ describe 'Email', ->
   it 'should parse tld', ->
     assert.equal email.parse('user@domain.com').tld, 'com'
 
+  it 'should correctly determine if account is from free domain', ->
+    assert.equal email.parse('user@domain.com').is_free, false
+    assert.equal email.parse('user@gmail.com').is_free, true
+
   it 'should retain raw value', ->
     assert.equal email.parse('User@Domain.Com').raw, 'User@Domain.Com'
 
@@ -54,4 +58,3 @@ describe 'Email', ->
 
   it 'should have examples', ->
     assert email.examples.length
-
