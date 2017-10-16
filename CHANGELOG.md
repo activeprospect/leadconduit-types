@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.14.3] - 2017-10-16
+## [4.15.3] - 2017-10-16
 ## Added
 - add support for free and disposable email validation
 
