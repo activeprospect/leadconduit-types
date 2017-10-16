@@ -11,9 +11,7 @@ parse = (string) ->
     parsed = new String(string.toLowerCase().replace(stripRegex, ''))
     parsed.raw = string.raw ? string
     parsed.user = addr.local
-    # add parsed.is_free and parsed.is_disposable here
     parsed.is_free = freemail.isFree(string.raw ? string)
-    console.log('freemail: ', freemail.isDisposable(string.raw ? string))
     parsed.is_disposable = freemail.isDisposable(string.raw ? string)
 
     domain = parseDomain(addr.domain)
