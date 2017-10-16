@@ -26,6 +26,10 @@ describe 'Email', ->
     assert.equal email.parse('user@domain.com').is_free, false
     assert.equal email.parse('user@gmail.com').is_free, true
 
+  it 'should correctly determine if email account is disposable', ->
+    assert.equal email.parse('user@domain.com').is_disposable, false
+    assert.equal email.parse('user@mailinator.com').is_disposable, true
+
   it 'should retain raw value', ->
     assert.equal email.parse('User@Domain.Com').raw, 'User@Domain.Com'
 
