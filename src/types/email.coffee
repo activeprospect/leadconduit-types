@@ -1,7 +1,7 @@
 parseEmail = require('email-addresses').parseOneAddress
 parseDomain = require('domain-name-parser')
 normalize = require('../normalize')
-freemail = require('freemail')
+freemail = require('@activeprospect/freemail')
 
 stripRegex = /^\s+|\s+$/g
 
