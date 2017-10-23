@@ -1,17 +1,20 @@
 parseEmail = require('email-addresses').parseOneAddress
 parseDomain = require('domain-name-parser')
 normalize = require('../normalize')
+{handleFreemailValidation} = require('@activeprospect/freemail')
 
 stripRegex = /^\s+|\s+$/g
 
 parse = (string) ->
-
   addr = parseEmail(string)
+  freemailValidationData = handleFreemailValidation(string.raw ? string)
 
   if addr?
     parsed = new String(string.toLowerCase().replace(stripRegex, ''))
     parsed.raw = string.raw ? string
     parsed.user = addr.local
+    parsed.is_free = freemailValidationData.isFree
+    parsed.is_disposable = freemailValidationData.isDisposable
 
     domain = parseDomain(addr.domain)
     parsed.domain = addr.domain
@@ -24,14 +27,16 @@ parse = (string) ->
     parsed.valid = false
 
   parsed
-  
-  
+
+
 components = [
   { name: 'raw', type: 'string', description: 'Unmodified value' }
   { name: 'user', type: 'string', description: 'User name (everything to the left of @)' }
   { name: 'domain', type: 'string', description: 'Domain name (everything to the right of @)' }
   { name: 'host', type: 'string', description: 'Domain excluding top level domain' }
   { name: 'tld', type: 'string', description: 'Top level domain (.com, .net, etc)' }
+  { name: 'is_free', type: 'boolean', description: 'Whether or not the email is from a free domain (ex: gmail, yahoo, etc)' }
+  { name: 'is_disposable', type: 'boolean', description: 'Whether or not the email is disposable' }
 ]
 
 
