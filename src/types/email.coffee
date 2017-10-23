@@ -1,18 +1,20 @@
 parseEmail = require('email-addresses').parseOneAddress
 parseDomain = require('domain-name-parser')
 normalize = require('../normalize')
-freemail = require('@activeprospect/freemail')
+{handleFreemailValidation} = require('@activeprospect/freemail')
 
 stripRegex = /^\s+|\s+$/g
 
 parse = (string) ->
   addr = parseEmail(string)
+  freemailValidationData = handleFreemailValidation(string.raw ? string)
+
   if addr?
     parsed = new String(string.toLowerCase().replace(stripRegex, ''))
     parsed.raw = string.raw ? string
     parsed.user = addr.local
-    parsed.is_free = freemail.isFree(string.raw ? string)
-    parsed.is_disposable = freemail.isDisposable(string.raw ? string)
+    parsed.is_free = freemailValidationData.isFree
+    parsed.is_disposable = freemailValidationData.isDisposable
 
     domain = parseDomain(addr.domain)
     parsed.domain = addr.domain
