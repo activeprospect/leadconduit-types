@@ -151,9 +151,8 @@ components = [
   { name: 'extension', type: 'string', description: 'Extension' }
   { name: 'country_code', type: 'string', description: 'Country code' }
   { name: 'type', type: 'string', description: 'Number type: home, work, mobile' }
-  { name: 'is_tollfree', type: 'boolean', description: 'Whether the number is toll-free (Area Codes: 800, 844, 855, 866, 877, 888)' }
+  { name: 'is_tollfree', type: 'boolean', description: "Whether the number is toll-free (#{Object.keys(tollFreeAreaCodes).join(', ')})" }
 ]
-
 
 module.exports =
   parse: parse
