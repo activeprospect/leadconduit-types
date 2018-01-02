@@ -2,9 +2,21 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.15.3] - 2017-10-16
+## [4.16.1] - 2018-01-01
+## Fixed
+- upgrade handlebars to ^4.0.0 (#105)
+
+## [4.16.0] - 2017-10-16
 ## Added
 - add support for free and disposable email validation
+
+## [4.15.1] - 2017-07-31
+## Fixed
+- Use a more recent version of linphonenumber (#99)
+
+## [4.15.0] - 2017-07-17
+## Fixed
+- include http protocol in parsing of url fields
 
 ## [4.14.2] - 2017-03-22
 ## Added
