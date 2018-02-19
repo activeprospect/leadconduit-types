@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.16.2] - 2018-02-16
+## Fixed
+- corrected state abbreviations (#108)
+
 ## [4.16.1] - 2018-01-01
 ## Fixed
 - upgrade handlebars to ^4.0.0 (#105)
