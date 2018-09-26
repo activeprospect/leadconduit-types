@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [4.17.0] - 2018-09-26
 ## Fixed
-- Support European date formats
+- Support European date formats (https://activeprospect.tpondemand.com/entity/4350-leadconduit-does-not-properly-parse-dates)
 
 ## [4.16.2] - 2018-02-16
 ## Fixed
