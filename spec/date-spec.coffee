@@ -15,6 +15,18 @@ describe 'Date', ->
     '20140602'
   ]
 
+  euroStrings = [
+    'Mon 18 July 2014'
+    '18 July 2014'
+    '18/07/2014'
+    '18/7/2014'
+    '18/7/14'
+    '2014-18-07'
+    '18-07-2014'
+    '18072014'
+    '20141807'
+  ]
+
   for string in strings
 
     do (string) ->
@@ -37,6 +49,27 @@ describe 'Date', ->
         it 'should be valid', ->
           assert.isTrue date.parse(string).valid
 
+  for string in euroStrings
+
+    do (string) ->
+
+      describe string, ->
+
+        it 'should return a Date object', ->
+          parsed = date.parse string
+          assert.instanceOf parsed, Date
+          assert.equal parsed.toISOString(), '2014-07-18T00:00:00.000Z'
+
+        it 'should have string value', ->
+          parsed = date.parse string
+          assert.equal parsed.toString(), '2014-07-18'
+          assert.equal parsed.valueOf(), '2014-07-18'
+
+        it 'should have raw value', ->
+          assert.equal date.parse(string).raw, string
+
+        it 'should be valid', ->
+          assert.isTrue date.parse(string).valid
 
   it 'should not parse garbage', ->
     parsed = date.parse 'garbage'
@@ -54,4 +87,3 @@ describe 'Date', ->
 
   it 'should have examples', ->
     assert date.examples.length
-

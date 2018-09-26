@@ -11,7 +11,18 @@ formats = [
   'MM-DD-YYYY'      # '06-02-2014'
   'MMDDYYYY'        # '06022014'
   'YYYYMMDD'        # '06022014'
+
+  # European formats (month first)
+  'ddd DD MMM YYYY'   # 'Mon Jun 02 2014'
+  'DD MMM YYYY'       # '18 July 2014'
+  'D/M/YYYY'          # '18/7/2014'
+  'D/M/YY'            # '18/7/14'
+  'YYYY-DD-MM'        # '2014-18-07'
+  'DD-MM-YYYY'        # '18-07-2014'
+  'DDMMYYYY'          # '18072014'
+  'YYYY-DD-MM'        # '2014-18-07' 
 ]
+
 
 parse = (string, req) ->
   raw = string.raw ? string
