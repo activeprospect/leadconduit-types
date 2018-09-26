@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.17.0] - 2018-09-26
+## Fixed
+- Support European date formats
+
 ## [4.16.2] - 2018-02-16
 ## Fixed
 - corrected state abbreviations (#108)
