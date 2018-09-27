@@ -2,6 +2,9 @@ _ = require('lodash')
 moment = require('moment')
 normalize = require('../normalize')
 
+# Because the  European formats come later in the `formats` array, the Date type should prefer non-euro formats (all things being equal).
+# ie: '6/2/14' should be parsed as June 2nd, and not February 6th.
+# Link to relevant Moment documentation: https://momentjs.com/docs/#/parsing/string-formats/
 formats = [
   'ddd MMM DD YYYY' # 'Mon Jun 02 2014'
   'MMM DD YYYY'     # 'Jun 02 2014'
@@ -11,7 +14,18 @@ formats = [
   'MM-DD-YYYY'      # '06-02-2014'
   'MMDDYYYY'        # '06022014'
   'YYYYMMDD'        # '06022014'
+
+  # European formats (month first)
+  'ddd DD MMM YYYY'   # 'Fri 18 July 2014'
+  'DD MMM YYYY'       # '18 July 2014'
+  'D/M/YYYY'          # '18/7/2014'
+  'D/M/YY'            # '18/7/14'
+  'YYYY-DD-MM'        # '2014-18-07'
+  'DD-MM-YYYY'        # '18-07-2014'
+  'DDMMYYYY'          # '18072014'
+  'YYYY-DD-MM'        # '2014-18-07' 
 ]
+
 
 parse = (string, req) ->
   raw = string.raw ? string
