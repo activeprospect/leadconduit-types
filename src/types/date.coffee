@@ -13,7 +13,7 @@ formats = [
   'YYYYMMDD'        # '06022014'
 
   # European formats (month first)
-  'ddd DD MMM YYYY'   # 'Mon Jun 02 2014'
+  'ddd DD MMM YYYY'   # 'Fri 18 July 2014'
   'DD MMM YYYY'       # '18 July 2014'
   'D/M/YYYY'          # '18/7/2014'
   'D/M/YY'            # '18/7/14'

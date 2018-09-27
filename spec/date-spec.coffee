@@ -16,7 +16,7 @@ describe 'Date', ->
   ]
 
   euroStrings = [
-    'Mon 18 July 2014'
+    'Fri 18 July 2014'
     '18 July 2014'
     '18/07/2014'
     '18/7/2014'
