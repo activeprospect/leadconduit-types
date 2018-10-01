@@ -17,15 +17,15 @@
     "email-addresses": "^1.1.1",
     "faker": "^3.0.1",
     "flat": "^2.0.1",
-    "google-libphonenumber": "^3.0.0",
+    "google-libphonenumber": "^3.1.14",
     "handlebars": "^4.0.0",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "named-regexp": "^0.1.1"
   },
   "devDependencies": {
-    "chai": ">= 1.9.0",
-    "coffee-script": ">= 1.7.0",
+    "chai": "^4.2.0",
+    "coffee-script": "^1.12.7",
     "leadconduit-cakefile": "^0.3.1"
   }
 }
