@@ -21,7 +21,7 @@ In LeadConduit each field has an associated type, which is used to help make sen
 |-------------|-------------|----------|
 | string      | Any string data which can include alphanumeric characters, whitespace, special characters, new lines, etc. | <sub>`John`, `I would like some information on your product`, `0123`</sub> |
 | number      | Any string which can be parsed to a number | <sub>`1000`, `9,998.99`</sub> |
-| date, dob   | Most strings which are reasonably recognizable as a date | <sub>`1995-12-25` (recommended), `Dec 25, 1995`, `12/25/1995`</sub>  |
+| date, dob   | Most strings which are reasonably recognizable as a date, including European formats (month before day) | <sub>`1995-12-25` (recommended), `Dec 25, 1995`, `12/25/1995`, `25/12/1995`</sub>  |
 | ssn         | A US Social Security Number. Data submitted in this field transient. It is never stored or logged by LeadConduit.  | <sub>`123-45-6789`, `123 45 6789`, `123456789`</sub>  |
 | postal code | A US, UK, or Canadian postal code | <sub>`78751`, `78751-4424`, `AA11A 1AA`</sub>  |
 | state       | A US State abbreviation, or international locality | <sub>`TX`, `Quebec`</sub>  |
