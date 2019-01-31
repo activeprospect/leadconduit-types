@@ -40,6 +40,8 @@ module.exports =
     'does not include'
     'is included in'
     'is not included in'
+    'is between'
+    'is not between'
   ],
   examples: [
     '100'
