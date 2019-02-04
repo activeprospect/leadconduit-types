@@ -93,10 +93,10 @@ decompose = (raw, number, regionCode, mask) ->
 
   if nationalDestinationCodeLength > 0
     nationalDestinationCode = nationalSignificantNumber.substring(0, nationalDestinationCodeLength)
-    subscriberNumber = nationalSignificantNumber.substring(nationalDestinationCodeLength)
   else
     nationalDestinationCode = null
-    subscriberNumber = nationalSignificantNumber.substring(nationalDestinationCodeLength)
+
+  subscriberNumber = nationalSignificantNumber.substring(nationalDestinationCodeLength)
 
   extension = number.getExtension()
 
@@ -105,12 +105,16 @@ decompose = (raw, number, regionCode, mask) ->
 
     if nationalDestinationCode
       nationalDestinationCode = asterisk("#{nationalDestinationCode}#{subscriberNumber}#{ext}", mask).split('x')[0].substring(0, nationalDestinationCode.length)
+    else
+      nationalDestinationCode = '***' # default to NANPA length now that libphonenumber returns null NDC for masked numbers
 
     if nationalSignificantNumber
       nationalSignificantNumber = asterisk("#{nationalSignificantNumber}#{ext}", mask).split('x')[0]
 
     if subscriberNumber
       subscriberNumber = asterisk("#{subscriberNumber}#{ext}", mask).split('x')[0]
+      # force to 7 characters now that libphonenumber returns longer NSN for masked numbers
+      subscriberNumber = subscriberNumber.substring(0, 7) if ['US', 'CA'].includes(regionCode)
 
     if extension
       extension = asterisk(ext, mask).replace(/x/, '')
