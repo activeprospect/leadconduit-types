@@ -2,10 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.17.1] - 2018-10-01
+## [4.17.1] - 2019-01-31
 ## Fixed
 - Update docs
-- Update dependencies to resolve markdown-pdf security vuln
+- add "is[/not] between" operator for `number` type
 
 ## [4.17.0] - 2018-09-26
 ## Fixed
