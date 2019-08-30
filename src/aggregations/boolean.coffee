@@ -1,3 +1,7 @@
+_ = require('lodash')
 module.exports = (boolean) ->
   return unless boolean?.valid == true
-  boolean.normal
+  if _.isBoolean(boolean)
+    boolean.valueOf()
+  else if boolean.normal?
+    boolean.normal

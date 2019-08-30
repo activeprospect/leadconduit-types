@@ -26,6 +26,12 @@ describe 'Boolean aggregation', ->
     assert.equal boolean, true
 
 
+  it 'should work on boolean type', ->
+    vars = boolean: types.parse('boolean', 'true')
+    boolean = aggregate(vars, fieldTypes).boolean
+    assert.equal boolean, true
+
+
   it 'should be undefined for invalid boolean', ->
     vars = types.normalize(boolean: types.parse('boolean', 'donkey'))
     boolean = aggregate(vars, fieldTypes).boolean
@@ -43,6 +49,12 @@ describe 'Number aggregation', ->
     assert.equal number, 1
 
 
+  it 'should work on number type', ->
+    vars = number: types.parse('number', '1')
+    number = aggregate(vars, fieldTypes).number
+    assert.equal number, 1
+
+
   it 'should be undefined for invalid number', ->
     vars = types.normalize(lead: { number: types.parse('number', 'donkey') })
     number = aggregate(vars, fieldTypes).number
@@ -56,6 +68,16 @@ describe 'Range aggregation', ->
 
   it 'should be object', ->
     vars = types.normalize(range: types.parse('range', '1 to 10'))
+    range = aggregate(vars, fieldTypes).range
+    assert.equal range.min, 1
+    assert.equal range.max, 10
+    assert.equal range.avg, 5.5
+    assert.equal range.mid, 5
+    assert.equal range.normal, '1-10'
+
+
+  it 'should work on range type', ->
+    vars = range: types.parse('range', '1 to 10')
     range = aggregate(vars, fieldTypes).range
     assert.equal range.min, 1
     assert.equal range.max, 10
@@ -90,6 +112,12 @@ describe 'State aggregation', ->
 
   it 'should be string', ->
     vars = types.normalize(state: types.parse('state', 'tx'))
+    state = aggregate(vars, fieldTypes).state
+    assert.equal state, 'TX'
+
+
+  it 'should work on state type', ->
+    vars = state: types.parse('state', 'tx')
     state = aggregate(vars, fieldTypes).state
     assert.equal state, 'TX'
 
@@ -205,32 +233,37 @@ describe 'SSN aggregation', ->
 
 describe 'Time aggregation', ->
 
-  time = null
-  expected = null
-
-  beforeEach ->
-    expected = new Date().toISOString()
-    vars = types.normalize(timestamp: types.parse('time', expected))
-    fieldTypes = timestamp: 'time'
-    time = aggregate(vars, fieldTypes).timestamp
-
+  fieldTypes = timestamp: 'time'
 
   it 'should aggregate as normal value', ->
+    expected = new Date().toISOString()
+    vars = types.normalize(timestamp: types.parse('time', expected))
+    time = aggregate(vars, fieldTypes).timestamp
+    assert.equal time, expected
+
+
+  it 'should work on time type', ->
+    expected = new Date().toISOString()
+    vars = timestamp: types.parse('time', expected)
+    time = aggregate(vars, fieldTypes).timestamp
     assert.equal time, expected
 
 
 
 describe 'Date aggregation', ->
 
-  date = null
-  expected = null
+  fieldTypes = dob: 'date'
 
-  beforeEach ->
+  it 'should aggregate as normal value', ->
     expected = moment().format('YYYY-MM-DD')
     vars = types.normalize(dob: types.parse('date', expected))
     fieldTypes = dob: 'date'
     date = aggregate(vars, fieldTypes).dob
+    assert.equal date, expected
 
 
-  it 'should aggregate as normal value', ->
+  it 'should work on date type', ->
+    expected = moment().format('YYYY-MM-DD')
+    vars = dob: types.parse('date', expected)
+    date = aggregate(vars, fieldTypes).dob
     assert.equal date, expected

@@ -1,3 +1,8 @@
+_ = require('lodash')
 module.exports = (number) ->
   return unless number?.valid == true
-  number.normal
+  if _.isNumber(number)
+    number.valueOf()
+  else if number.normal?
+    number.normal
+

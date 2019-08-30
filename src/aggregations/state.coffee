@@ -1,2 +1,2 @@
 module.exports = (state) ->
-  state?.normal
+  state?.normal or state?.valueOf()
