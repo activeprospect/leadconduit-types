@@ -1,1 +1,1 @@
-require('@activeprospect/indexer')(__dirname, module)
+require('@activeprospect/indexer')(__dirname, module);

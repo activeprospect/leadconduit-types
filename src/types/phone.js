@@ -1,183 +1,223 @@
-_ = require('lodash')
-phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance()
-normalize = require('../normalize')
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+const _ = require('lodash');
+const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+const normalize = require('../normalize');
 
-supportedRegionCodes = [
-  'US' # united states
-  'CA' # canada
-  'GB' # uk
-]
+const supportedRegionCodes = [
+  'US', // united states
+  'CA', // canada
+  'GB' // uk
+];
 
-tollFreeAreaCodes =
-  '800': true
-  '844': true
-  '855': true
-  '866': true
-  '877': true
+const tollFreeAreaCodes = {
+  '800': true,
+  '844': true,
+  '855': true,
+  '866': true,
+  '877': true,
   '888': true
+};
 
-parse = (string, req) ->
-  return string unless string?
+const parse = function(string, req) {
+  let parts, type;
+  if (string == null) { return string; }
 
-  [type, string] = stripType(string)
-  [number, regionCode, mask] = resolve(string, req?.logger)
-  raw = string.raw ? string
-  if number
-    parts = decompose(raw, number, regionCode, mask)
-    parts.type = type
-    parts.valid = parts.masked or phoneUtil.isValidNumber(number)
-    parts
-  else
-    parts = new String(string)
-    parts.raw = raw
-    parts.type = type if type?
-    parts.valid = false
-    parts
+  [type, string] = Array.from(stripType(string));
+  const [number, regionCode, mask] = Array.from(resolve(string, req != null ? req.logger : undefined));
+  const raw = string.raw != null ? string.raw : string;
+  if (number) {
+    parts = decompose(raw, number, regionCode, mask);
+    parts.type = type;
+    parts.valid = parts.masked || phoneUtil.isValidNumber(number);
+    return parts;
+  } else {
+    parts = new String(string);
+    parts.raw = raw;
+    if (type != null) { parts.type = type; }
+    parts.valid = false;
+    return parts;
+  }
+};
 
-hintRegex = /[(]?([hwcm])[)]?$/
-stripRegex = /^\s+|\s+$/g
+const hintRegex = /[(]?([hwcm])[)]?$/;
+const stripRegex = /^\s+|\s+$/g;
 
-stripType = (string) ->
-  match = string.match(hintRegex)
-  if match
-    type = switch match[1]
-      when 'h' then 'home'
-      when 'w' then 'work'
-      when 'c', 'm' then 'mobile'
-    [type, string.replace(hintRegex, '').replace(stripRegex,'')]
-  else
-    [null, string]
-
-
-resolve = (string, logger) ->
-  # normalize the number by removing everything except digits, asterisks, and the 'x' character
-  # then create the mask to track the position of asterisks.
-  mask = string.replace(/[^x\d\*]/g, '').split('').map (char) ->
-    char == '*'
-
-  # mask is an array of booleans indicating whether the character at that index is masked.
-  # index 0 represents the last character. For example, for the number "512789****x***",
-  # the mask is [true, true, true, false, true, true, true, true, false, false, false, false, false, false].
-  # the mask is reversed in this way to allow for partially mapped numbers that have optional country and
-  # dialing codes.
-  mask = mask.reverse()
-
-  # remove all asterisks and replace with zero. this will allow the number to be parsed.
-  string = string.replace(/[*]/g, '0')
-
-  number = null
-  for regionCode in supportedRegionCodes
-    try
-      number = phoneUtil.parse(string, regionCode)
-    catch e
-      logger?.error?(e)
-      number = null
-    break if number?
-
-  if number
-    [number, regionCode, mask]
-  else
-    [null, null, null]
+var stripType = function(string) {
+  const match = string.match(hintRegex);
+  if (match) {
+    const type = (() => { switch (match[1]) {
+      case 'h': return 'home';
+      case 'w': return 'work';
+      case 'c': case 'm': return 'mobile';
+    } })();
+    return [type, string.replace(hintRegex, '').replace(stripRegex,'')];
+  } else {
+    return [null, string];
+  }
+};
 
 
-asterisk = (str, mask) ->
-  maskChar = (char, index) ->
-    if mask[index] then '*' else char
-  str.split('').reverse().map(maskChar).reverse().join('')
+var resolve = function(string, logger) {
+  // normalize the number by removing everything except digits, asterisks, and the 'x' character
+  // then create the mask to track the position of asterisks.
+  let regionCode;
+  let mask = string.replace(/[^x\d\*]/g, '').split('').map(char => char === '*');
+
+  // mask is an array of booleans indicating whether the character at that index is masked.
+  // index 0 represents the last character. For example, for the number "512789****x***",
+  // the mask is [true, true, true, false, true, true, true, true, false, false, false, false, false, false].
+  // the mask is reversed in this way to allow for partially mapped numbers that have optional country and
+  // dialing codes.
+  mask = mask.reverse();
+
+  // remove all asterisks and replace with zero. this will allow the number to be parsed.
+  string = string.replace(/[*]/g, '0');
+
+  let number = null;
+  for (regionCode of Array.from(supportedRegionCodes)) {
+    try {
+      number = phoneUtil.parse(string, regionCode);
+    } catch (e) {
+      __guardMethod__(logger, 'error', o => o.error(e));
+      number = null;
+    }
+    if (number != null) { break; }
+  }
+
+  if (number) {
+    return [number, regionCode, mask];
+  } else {
+    return [null, null, null];
+  }
+};
 
 
-decompose = (raw, number, regionCode, mask) ->
-  nationalPrefix = phoneUtil.getNddPrefixForRegion(regionCode, true)
-  nationalSignificantNumber = phoneUtil.getNationalSignificantNumber(number)
-  nationalDestinationCodeLength = phoneUtil.getLengthOfNationalDestinationCode(number)
-
-  if nationalDestinationCodeLength > 0
-    nationalDestinationCode = nationalSignificantNumber.substring(0, nationalDestinationCodeLength)
-  else
-    nationalDestinationCode = null
-
-  subscriberNumber = nationalSignificantNumber.substring(nationalDestinationCodeLength)
-
-  extension = number.getExtension()
-
-  if mask
-    ext = if extension then "x#{extension}" else ''
-
-    if nationalDestinationCode
-      nationalDestinationCode = asterisk("#{nationalDestinationCode}#{subscriberNumber}#{ext}", mask).split('x')[0].substring(0, nationalDestinationCode.length)
-    else
-      nationalDestinationCode = '***' # default to NANPA length now that libphonenumber returns null NDC for masked numbers
-
-    if nationalSignificantNumber
-      nationalSignificantNumber = asterisk("#{nationalSignificantNumber}#{ext}", mask).split('x')[0]
-
-    if subscriberNumber
-      subscriberNumber = asterisk("#{subscriberNumber}#{ext}", mask).split('x')[0]
-      # force to 7 characters now that libphonenumber returns longer NSN for masked numbers
-      subscriberNumber = subscriberNumber.substring(0, 7) if ['US', 'CA'].includes(regionCode)
-
-    if extension
-      extension = asterisk(ext, mask).replace(/x/, '')
+const asterisk = function(str, mask) {
+  const maskChar = function(char, index) {
+    if (mask[index]) { return '*'; } else { return char; }
+  };
+  return str.split('').reverse().map(maskChar).reverse().join('');
+};
 
 
-  if ['US', 'CA'].indexOf(regionCode) != -1
-    exchange = subscriberNumber.substring(0, 3)
-    line = subscriberNumber.substring(3)
-  else
-    null
+var decompose = function(raw, number, regionCode, mask) {
+  let exchange, line, nationalDestinationCode;
+  const nationalPrefix = phoneUtil.getNddPrefixForRegion(regionCode, true);
+  let nationalSignificantNumber = phoneUtil.getNationalSignificantNumber(number);
+  const nationalDestinationCodeLength = phoneUtil.getLengthOfNationalDestinationCode(number);
 
-  normal =
-    if nationalSignificantNumber
+  if (nationalDestinationCodeLength > 0) {
+    nationalDestinationCode = nationalSignificantNumber.substring(0, nationalDestinationCodeLength);
+  } else {
+    nationalDestinationCode = null;
+  }
+
+  let subscriberNumber = nationalSignificantNumber.substring(nationalDestinationCodeLength);
+
+  let extension = number.getExtension();
+
+  if (mask) {
+    const ext = extension ? `x${extension}` : '';
+
+    if (nationalDestinationCode) {
+      nationalDestinationCode = asterisk(`${nationalDestinationCode}${subscriberNumber}${ext}`, mask).split('x')[0].substring(0, nationalDestinationCode.length);
+    } else {
+      nationalDestinationCode = '***'; // default to NANPA length now that libphonenumber returns null NDC for masked numbers
+    }
+
+    if (nationalSignificantNumber) {
+      nationalSignificantNumber = asterisk(`${nationalSignificantNumber}${ext}`, mask).split('x')[0];
+    }
+
+    if (subscriberNumber) {
+      subscriberNumber = asterisk(`${subscriberNumber}${ext}`, mask).split('x')[0];
+      // force to 7 characters now that libphonenumber returns longer NSN for masked numbers
+      if (['US', 'CA'].includes(regionCode)) { subscriberNumber = subscriberNumber.substring(0, 7); }
+    }
+
+    if (extension) {
+      extension = asterisk(ext, mask).replace(/x/, '');
+    }
+  }
+
+
+  if (['US', 'CA'].indexOf(regionCode) !== -1) {
+    exchange = subscriberNumber.substring(0, 3);
+    line = subscriberNumber.substring(3);
+  } else {
+    null;
+  }
+
+  const normal =
+    nationalSignificantNumber ?
       _.compact([nationalSignificantNumber, extension]).join('x')
-    else
-      raw
+    :
+      raw;
 
-  phone = new String(normal)
-  phone.prefix = nationalPrefix
-  phone.raw = raw
-  phone.area = nationalDestinationCode
-  phone.exchange = exchange
-  phone.line = line
-  phone.number = subscriberNumber
-  phone.extension = extension
-  phone.country_code = regionCode
-  phone.masked = true if mask.indexOf(true) >= 0
-  phone.is_tollfree = tollFreeAreaCodes[phone.area] ? false
-  phone
+  const phone = new String(normal);
+  phone.prefix = nationalPrefix;
+  phone.raw = raw;
+  phone.area = nationalDestinationCode;
+  phone.exchange = exchange;
+  phone.line = line;
+  phone.number = subscriberNumber;
+  phone.extension = extension;
+  phone.country_code = regionCode;
+  if (mask.indexOf(true) >= 0) { phone.masked = true; }
+  phone.is_tollfree = tollFreeAreaCodes[phone.area] != null ? tollFreeAreaCodes[phone.area] : false;
+  return phone;
+};
 
 
-components = [
-  { name: 'raw', type: 'string', description: 'Unmodified value' }
-  { name: 'area', type: 'string', description: 'Area code' }
-  { name: 'exchange', type: 'string', description: 'Exchange' }
-  { name: 'line', type: 'string', description: 'Line' }
-  { name: 'number', type: 'string', description: 'Full number' }
-  { name: 'extension', type: 'string', description: 'Extension' }
-  { name: 'country_code', type: 'string', description: 'Country code' }
-  { name: 'type', type: 'string', description: 'Number type: home, work, mobile' }
-  { name: 'is_tollfree', type: 'boolean', description: "Whether the number is toll-free (#{Object.keys(tollFreeAreaCodes).join(', ')})" }
-]
+const components = [
+  { name: 'raw', type: 'string', description: 'Unmodified value' },
+  { name: 'area', type: 'string', description: 'Area code' },
+  { name: 'exchange', type: 'string', description: 'Exchange' },
+  { name: 'line', type: 'string', description: 'Line' },
+  { name: 'number', type: 'string', description: 'Full number' },
+  { name: 'extension', type: 'string', description: 'Extension' },
+  { name: 'country_code', type: 'string', description: 'Country code' },
+  { name: 'type', type: 'string', description: 'Number type: home, work, mobile' },
+  { name: 'is_tollfree', type: 'boolean', description: `Whether the number is toll-free (${Object.keys(tollFreeAreaCodes).join(', ')})` }
+];
 
-module.exports =
-  parse: parse
-  components: components
-  countryCodes: supportedRegionCodes
-  maskable: false
+module.exports = {
+  parse,
+  components,
+  countryCodes: supportedRegionCodes,
+  maskable: false,
   operators: [
-    'is equal to'
-    'is not equal to'
-    'is blank'
-    'is not blank'
-    'format is valid'
-    'format is invalid'
-    'includes'
-    'does not include'
-    'is included in'
+    'is equal to',
+    'is not equal to',
+    'is blank',
+    'is not blank',
+    'format is valid',
+    'format is invalid',
+    'includes',
+    'does not include',
+    'is included in',
     'is not included in'
   ],
   examples: [
-    '5127891111'
-    '512 789-1111'
-    '512-789-1111 x 44'
+    '5127891111',
+    '512 789-1111',
+    '512-789-1111 x 44',
     '1 (512) 789-1111'
   ].map(parse).map(normalize)
+};
+
+function __guardMethod__(obj, methodName, transform) {
+  if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {
+    return transform(obj, methodName);
+  } else {
+    return undefined;
+  }
+}
