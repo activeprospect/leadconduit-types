@@ -1,236 +1,272 @@
-assert = require('chai').assert
-moment = require('moment')
-types = require('../lib')
-aggregate = require('../lib/aggregate')
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+const {
+  assert
+} = require('chai');
+const moment = require('moment');
+const types = require('../lib');
+const aggregate = require('../lib/aggregate');
 
 
-describe 'Aggregation', ->
+describe('Aggregation', function() {
 
-  it 'should exclude missing fields', ->
-    vars = types.normalize(phone_1: types.parse('phone', '(512) 789-1111'))
-    assert.isUndefined aggregate(vars, {}).phone_1
+  it('should exclude missing fields', function() {
+    const vars = types.normalize({phone_1: types.parse('phone', '(512) 789-1111')});
+    return assert.isUndefined(aggregate(vars, {}).phone_1);
+  });
 
-  it 'should include fields with no aggregations', ->
-    vars = types.normalize(donkey: 'kong')
-    assert.equal aggregate(vars, 'donkey': 'string').donkey, 'kong'
+  return it('should include fields with no aggregations', function() {
+    const vars = types.normalize({donkey: 'kong'});
+    return assert.equal(aggregate(vars, {'donkey': 'string'}).donkey, 'kong');
+  });
+});
 
 
 
-describe 'Boolean aggregation', ->
+describe('Boolean aggregation', function() {
 
-  fieldTypes = boolean: 'boolean'
+  const fieldTypes = {boolean: 'boolean'};
 
-  it 'should be primitive', ->
-    vars = types.normalize(boolean: types.parse('boolean', 'true'))
-    boolean = aggregate(vars, fieldTypes).boolean
-    assert.equal boolean, true
+  it('should be primitive', function() {
+    const vars = types.normalize({boolean: types.parse('boolean', 'true')});
+    const {
+      boolean
+    } = aggregate(vars, fieldTypes);
+    return assert.equal(boolean, true);
+  });
 
 
-  it 'should be undefined for invalid boolean', ->
-    vars = types.normalize(boolean: types.parse('boolean', 'donkey'))
-    boolean = aggregate(vars, fieldTypes).boolean
-    assert.isUndefined boolean
+  return it('should be undefined for invalid boolean', function() {
+    const vars = types.normalize({boolean: types.parse('boolean', 'donkey')});
+    const {
+      boolean
+    } = aggregate(vars, fieldTypes);
+    return assert.isUndefined(boolean);
+  });
+});
 
 
 
-describe 'Number aggregation', ->
+describe('Number aggregation', function() {
 
-  fieldTypes = number: 'number'
+  const fieldTypes = {number: 'number'};
 
-  it 'should be primitive', ->
-    vars = types.normalize(number: types.parse('number', '1'))
-    number = aggregate(vars, fieldTypes).number
-    assert.equal number, 1
+  it('should be primitive', function() {
+    const vars = types.normalize({number: types.parse('number', '1')});
+    const {
+      number
+    } = aggregate(vars, fieldTypes);
+    return assert.equal(number, 1);
+  });
 
 
-  it 'should be undefined for invalid number', ->
-    vars = types.normalize(lead: { number: types.parse('number', 'donkey') })
-    number = aggregate(vars, fieldTypes).number
-    assert.isUndefined number
+  return it('should be undefined for invalid number', function() {
+    const vars = types.normalize({lead: { number: types.parse('number', 'donkey') }});
+    const {
+      number
+    } = aggregate(vars, fieldTypes);
+    return assert.isUndefined(number);
+  });
+});
 
 
 
-describe 'Range aggregation', ->
+describe('Range aggregation', function() {
 
-  fieldTypes = range: 'range'
+  const fieldTypes = {range: 'range'};
 
-  it 'should be object', ->
-    vars = types.normalize(range: types.parse('range', '1 to 10'))
-    range = aggregate(vars, fieldTypes).range
-    assert.equal range.min, 1
-    assert.equal range.max, 10
-    assert.equal range.avg, 5.5
-    assert.equal range.mid, 5
-    assert.equal range.normal, '1-10'
+  it('should be object', function() {
+    const vars = types.normalize({range: types.parse('range', '1 to 10')});
+    const {
+      range
+    } = aggregate(vars, fieldTypes);
+    assert.equal(range.min, 1);
+    assert.equal(range.max, 10);
+    assert.equal(range.avg, 5.5);
+    assert.equal(range.mid, 5);
+    return assert.equal(range.normal, '1-10');
+  });
 
 
-  it 'should be undefined for invalid range', ->
-    vars = types.normalize(lead: { range: types.parse('range', 'donkey') })
-    range = aggregate(vars, fieldTypes).range
-    assert.isUndefined range
+  return it('should be undefined for invalid range', function() {
+    const vars = types.normalize({lead: { range: types.parse('range', 'donkey') }});
+    const {
+      range
+    } = aggregate(vars, fieldTypes);
+    return assert.isUndefined(range);
+  });
+});
 
 
 
 
-describe 'Street aggregation', ->
+describe('Street aggregation', function() {
 
-  fieldTypes = address_1: 'street'
+  const fieldTypes = {address_1: 'street'};
 
-  it 'should be undefined', ->
-    vars = types.normalize(address_1: types.parse('street', '123 Main Street'))
-    address = aggregate(vars, fieldTypes).address_1
-    assert.isUndefined address
+  return it('should be undefined', function() {
+    const vars = types.normalize({address_1: types.parse('street', '123 Main Street')});
+    const address = aggregate(vars, fieldTypes).address_1;
+    return assert.isUndefined(address);
+  });
+});
 
 
 
 
-describe 'State aggregation', ->
+describe('State aggregation', function() {
 
-  fieldTypes = state: 'state'
+  const fieldTypes = {state: 'state'};
 
-  it 'should be string', ->
-    vars = types.normalize(state: types.parse('state', 'tx'))
-    state = aggregate(vars, fieldTypes).state
-    assert.equal state, 'TX'
+  it('should be string', function() {
+    const vars = types.normalize({state: types.parse('state', 'tx')});
+    const {
+      state
+    } = aggregate(vars, fieldTypes);
+    return assert.equal(state, 'TX');
+  });
 
 
-  it 'should not be undefined for invalid state', ->
-    vars = types.normalize(state: types.parse('state', 'donkey'))
-    state = aggregate(vars, fieldTypes).state
-    assert.equal state, 'donkey'
+  return it('should not be undefined for invalid state', function() {
+    const vars = types.normalize({state: types.parse('state', 'donkey')});
+    const {
+      state
+    } = aggregate(vars, fieldTypes);
+    return assert.equal(state, 'donkey');
+  });
+});
 
 
 
 
-describe 'Phone aggregation', ->
+describe('Phone aggregation', function() {
 
-  phone = null
+  let phone = null;
 
-  beforeEach ->
-    vars = types.normalize(phone_1: types.parse('phone', '(512) 789-1111 x123m'))
-    fieldTypes = phone_1: 'phone'
-    phone = aggregate(vars, fieldTypes).phone_1
+  beforeEach(function() {
+    const vars = types.normalize({phone_1: types.parse('phone', '(512) 789-1111 x123m')});
+    const fieldTypes = {phone_1: 'phone'};
+    return phone = aggregate(vars, fieldTypes).phone_1;
+  });
 
 
-  it 'should include type', ->
-    assert.equal phone.type, 'mobile'
+  it('should include type', () => assert.equal(phone.type, 'mobile'));
 
 
-  it 'should include area code', ->
-    assert.equal phone.area, '512'
+  it('should include area code', () => assert.equal(phone.area, '512'));
 
 
-  it 'should include exchange', ->
-    assert.equal phone.exchange, '789'
+  it('should include exchange', () => assert.equal(phone.exchange, '789'));
 
 
-  it 'should include country code', ->
-    assert.equal phone.country_code, 'US'
+  it('should include country code', () => assert.equal(phone.country_code, 'US'));
 
 
-  it 'should not include line number', ->
-    assert.isUndefined phone.line
+  it('should not include line number', () => assert.isUndefined(phone.line));
 
 
-  it 'should not include extension', ->
-    assert.isUndefined phone.extension
+  return it('should not include extension', () => assert.isUndefined(phone.extension));
+});
 
 
 
-describe 'Email aggregation', ->
+describe('Email aggregation', function() {
 
 
-  email = null
+  let email = null;
 
-  beforeEach ->
-    vars = types.normalize(email: types.parse('email', 'foo@bar.baz.com'))
-    fieldTypes = email: 'email'
-    email = aggregate(vars, fieldTypes).email
+  beforeEach(function() {
+    const vars = types.normalize({email: types.parse('email', 'foo@bar.baz.com')});
+    const fieldTypes = {email: 'email'};
+    return email = aggregate(vars, fieldTypes).email;
+  });
 
 
-  it 'should include domain', ->
-    assert.equal email.domain, 'bar.baz.com'
+  it('should include domain', () => assert.equal(email.domain, 'bar.baz.com'));
 
 
-  it 'should include host', ->
-    assert.equal email.host, 'bar.baz'
+  it('should include host', () => assert.equal(email.host, 'bar.baz'));
 
 
-  it 'should include tld', ->
-    assert.equal email.tld, 'com'
+  it('should include tld', () => assert.equal(email.tld, 'com'));
 
 
-  it 'should not include user', ->
-    assert.isUndefined email.user
+  return it('should not include user', () => assert.isUndefined(email.user));
+});
 
 
 
-describe 'Postal code aggregation', ->
+describe('Postal code aggregation', function() {
 
-  postalCode = null
+  let postalCode = null;
 
-  beforeEach ->
-    vars = types.normalize(postal_code: types.parse('postal_code', '78704-1234'))
-    fieldTypes = postal_code: 'postal_code'
-    postalCode = aggregate(vars, fieldTypes).postal_code
+  beforeEach(function() {
+    const vars = types.normalize({postal_code: types.parse('postal_code', '78704-1234')});
+    const fieldTypes = {postal_code: 'postal_code'};
+    return postalCode = aggregate(vars, fieldTypes).postal_code;
+  });
 
 
-  it 'should include zip', ->
-    assert.equal postalCode.zip, '78704'
+  it('should include zip', () => assert.equal(postalCode.zip, '78704'));
 
 
-  it 'should include country code', ->
-    assert.equal postalCode.country_code, 'US'
+  it('should include country code', () => assert.equal(postalCode.country_code, 'US'));
 
 
-  it 'should not include four', ->
-    assert.isUndefined postalCode.four
+  return it('should not include four', () => assert.isUndefined(postalCode.four));
+});
 
 
 
-describe 'SSN aggregation', ->
+describe('SSN aggregation', function() {
 
-  ssn = null
+  let ssn = null;
 
-  beforeEach ->
-    vars = types.normalize(ssn: types.parse('ssn', '123-45-6789'))
-    fieldTypes = ssn: 'ssn'
-    ssn = aggregate(vars, fieldTypes).ssn
+  beforeEach(function() {
+    const vars = types.normalize({ssn: types.parse('ssn', '123-45-6789')});
+    const fieldTypes = {ssn: 'ssn'};
+    return ssn = aggregate(vars, fieldTypes).ssn;
+  });
 
 
-  it 'should not be aggregated', ->
-    assert.isUndefined ssn
+  return it('should not be aggregated', () => assert.isUndefined(ssn));
+});
 
 
 
-describe 'Time aggregation', ->
+describe('Time aggregation', function() {
 
-  time = null
-  expected = null
+  let time = null;
+  let expected = null;
 
-  beforeEach ->
-    expected = new Date().toISOString()
-    vars = types.normalize(timestamp: types.parse('time', expected))
-    fieldTypes = timestamp: 'time'
-    time = aggregate(vars, fieldTypes).timestamp
+  beforeEach(function() {
+    expected = new Date().toISOString();
+    const vars = types.normalize({timestamp: types.parse('time', expected)});
+    const fieldTypes = {timestamp: 'time'};
+    return time = aggregate(vars, fieldTypes).timestamp;
+  });
 
 
-  it 'should aggregate as normal value', ->
-    assert.equal time, expected
+  return it('should aggregate as normal value', () => assert.equal(time, expected));
+});
 
 
 
-describe 'Date aggregation', ->
+describe('Date aggregation', function() {
 
-  date = null
-  expected = null
+  let date = null;
+  let expected = null;
 
-  beforeEach ->
-    expected = moment().format('YYYY-MM-DD')
-    vars = types.normalize(dob: types.parse('date', expected))
-    fieldTypes = dob: 'date'
-    date = aggregate(vars, fieldTypes).dob
+  beforeEach(function() {
+    expected = moment().format('YYYY-MM-DD');
+    const vars = types.normalize({dob: types.parse('date', expected)});
+    const fieldTypes = {dob: 'date'};
+    return date = aggregate(vars, fieldTypes).dob;
+  });
 
 
-  it 'should aggregate as normal value', ->
-    assert.equal date, expected
+  return it('should aggregate as normal value', () => assert.equal(date, expected));
+});

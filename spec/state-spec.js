@@ -1,88 +1,107 @@
-_ = require('lodash')
-assert = require('chai').assert
-state = require('../lib/types/state')
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+const _ = require('lodash');
+const {
+  assert
+} = require('chai');
+const state = require('../lib/types/state');
 
 
-describe 'State', ->
+describe('State', function() {
 
-  it 'should not parse null', ->
-    assert.isNull state.parse(null)
+  it('should not parse null', () => assert.isNull(state.parse(null)));
 
-  it 'should not parse undefined', ->
-    assert.isUndefined state.parse()
+  it('should not parse undefined', () => assert.isUndefined(state.parse()));
 
-  it 'should parse a parsed state', ->
-    parsed = state.parse(state.parse('TX'))
-    assert.equal parsed.toString(), 'TX'
-    assert.equal parsed.raw, 'TX'
-    assert.equal parsed.name, 'Texas'
-    assert.isTrue parsed.valid
+  it('should parse a parsed state', function() {
+    const parsed = state.parse(state.parse('TX'));
+    assert.equal(parsed.toString(), 'TX');
+    assert.equal(parsed.raw, 'TX');
+    assert.equal(parsed.name, 'Texas');
+    return assert.isTrue(parsed.valid);
+  });
 
-  it 'should parse a parsed province', ->
-    parsed = state.parse(state.parse('ON'))
-    assert.equal parsed.toString(), 'ON'
-    assert.equal parsed.raw, 'ON'
-    assert.equal parsed.name, 'Ontario'
-    assert.isTrue parsed.valid
+  it('should parse a parsed province', function() {
+    const parsed = state.parse(state.parse('ON'));
+    assert.equal(parsed.toString(), 'ON');
+    assert.equal(parsed.raw, 'ON');
+    assert.equal(parsed.name, 'Ontario');
+    return assert.isTrue(parsed.valid);
+  });
 
-  it 'should have examples', ->
-    assert state.examples.length
+  it('should have examples', () => assert(state.examples.length));
 
 
-  describe 'valid values', ->
+  describe('valid values', function() {
 
-    strings = [
-      'TX'
-      'Texas'
-      'tx'
+    const strings = [
+      'TX',
+      'Texas',
+      'tx',
       'texas'
-    ]
+    ];
 
-    for string in strings
-      do (string) ->
-        describe "'#{string}'", ->
+    return Array.from(strings).map((string) =>
+      ((string => describe(`'${string}'`, function() {
 
-          beforeEach ->
-            @parsed = state.parse(string)
+        beforeEach(function() {
+          return this.parsed = state.parse(string);
+        });
 
-          it 'should keep raw value', ->
-            assert.equal @parsed.raw, string
+        it('should keep raw value', function() {
+          return assert.equal(this.parsed.raw, string);
+        });
 
-          it 'should have name', ->
-            assert.equal @parsed.name, 'Texas'
+        it('should have name', function() {
+          return assert.equal(this.parsed.name, 'Texas');
+        });
 
-          it 'should have abbr', ->
-            assert.equal @parsed.valueOf(), 'TX'
+        it('should have abbr', function() {
+          return assert.equal(this.parsed.valueOf(), 'TX');
+        });
 
-          it 'should be marked valid', ->
-            assert.isTrue @parsed.valid
+        return it('should be marked valid', function() {
+          return assert.isTrue(this.parsed.valid);
+        });
+      })))(string));
+  });
 
 
-  describe 'unknown states', ->
+  return describe('unknown states', function() {
 
-    strings = [
-      'DX'
-      ''
-      '  '
-      'Dexus'
+    const strings = [
+      'DX',
+      '',
+      '  ',
+      'Dexus',
       'DEXUS NEXUS'
-    ]
+    ];
 
-    for string in strings
-      do (string) ->
-        describe "'#{string}'", ->
+    return Array.from(strings).map((string) =>
+      ((string => describe(`'${string}'`, function() {
 
-          beforeEach ->
-            @parsed = state.parse(string)
+        beforeEach(function() {
+          return this.parsed = state.parse(string);
+        });
 
-          it 'should keep raw value', ->
-            assert.equal @parsed.raw, string
+        it('should keep raw value', function() {
+          return assert.equal(this.parsed.raw, string);
+        });
 
-          it 'should have normalized name', ->
-            assert.equal @parsed.name, string
+        it('should have normalized name', function() {
+          return assert.equal(this.parsed.name, string);
+        });
 
-          it 'should be marked valid', ->
-            # There's no such thing as an invalid state right now because we really only provide
-            # extra metadata for the 50 united states
-            assert.isTrue @parsed.valid
+        return it('should be marked valid', function() {
+          // There's no such thing as an invalid state right now because we really only provide
+          // extra metadata for the 50 united states
+          return assert.isTrue(this.parsed.valid);
+        });
+      })))(string));
+  });
+});
 

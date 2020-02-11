@@ -1,97 +1,120 @@
-assert = require('chai').assert
-ssn = require('../lib/types/ssn')
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+const {
+  assert
+} = require('chai');
+const ssn = require('../lib/types/ssn');
 
 
-describe 'SSN', ->
+describe('SSN', function() {
 
 
-  it 'should not parse null', ->
-    assert.isNull ssn.parse(null)
+  it('should not parse null', () => assert.isNull(ssn.parse(null)));
 
 
-  it 'should not parse undefined', ->
-    assert.isUndefined ssn.parse()
+  it('should not parse undefined', () => assert.isUndefined(ssn.parse()));
 
 
-  it 'should have examples', ->
-    assert ssn.examples.length
+  it('should have examples', () => assert(ssn.examples.length));
 
 
-  describe 'Valid values', ->
+  describe('Valid values', function() {
 
-    strings = [
-      '123456789'
-      '123-45-6789'
-      '123 45 6789'
-      '123.45.6789'
-      ' 123-45-6789 '
+    const strings = [
+      '123456789',
+      '123-45-6789',
+      '123 45 6789',
+      '123.45.6789',
+      ' 123-45-6789 ',
       'donkey 123456789'
-    ]
+    ];
 
-    for string in strings
-      do (string) ->
-        describe "'#{string}'", ->
+    return Array.from(strings).map((string) =>
+      ((string => describe(`'${string}'`, function() {
 
-          beforeEach ->
-            @parsed = ssn.parse(string)
+        beforeEach(function() {
+          return this.parsed = ssn.parse(string);
+        });
 
-          it 'should keep raw value', ->
-            assert.equal @parsed.raw, string
+        it('should keep raw value', function() {
+          return assert.equal(this.parsed.raw, string);
+        });
 
-          it 'should have first three', ->
-            assert.equal @parsed.first_three, '123'
+        it('should have first three', function() {
+          return assert.equal(this.parsed.first_three, '123');
+        });
 
-          it 'should have second two', ->
-            assert.equal @parsed.middle_two, '45'
+        it('should have second two', function() {
+          return assert.equal(this.parsed.middle_two, '45');
+        });
 
-          it 'should have last four', ->
-            assert.equal @parsed.last_four, '6789'
+        it('should have last four', function() {
+          return assert.equal(this.parsed.last_four, '6789');
+        });
 
-          it 'should have masked flag', ->
-            assert.isFalse @parsed.masked
+        it('should have masked flag', function() {
+          return assert.isFalse(this.parsed.masked);
+        });
 
-          it 'should be marked valid', ->
-            assert.isTrue @parsed.valid
+        return it('should be marked valid', function() {
+          return assert.isTrue(this.parsed.valid);
+        });
+      })))(string));
+  });
 
 
-  describe 'Invalid values', ->
+  describe('Invalid values', function() {
 
-    strings = [
-      'abcd'
-      ''
+    const strings = [
+      'abcd',
+      '',
       '   '
-    ]
+    ];
 
-    for string in strings
-      do (string) ->
-        describe "'#{string}'", ->
+    return Array.from(strings).map((string) =>
+      ((string => describe(`'${string}'`, function() {
 
-          beforeEach ->
-            @parsed = ssn.parse(string)
+        beforeEach(function() {
+          return this.parsed = ssn.parse(string);
+        });
 
-          it 'should keep raw value', ->
-            assert.equal @parsed.raw, string
+        it('should keep raw value', function() {
+          return assert.equal(this.parsed.raw, string);
+        });
 
-          it 'should not have first three', ->
-            assert.isUndefined @parsed.first_three
+        it('should not have first three', function() {
+          return assert.isUndefined(this.parsed.first_three);
+        });
 
-          it 'should not have second two', ->
-            assert.isUndefined @parsed.middle_two
+        it('should not have second two', function() {
+          return assert.isUndefined(this.parsed.middle_two);
+        });
 
-          it 'should not have last four', ->
-            assert.isUndefined @parsed.last_four
+        it('should not have last four', function() {
+          return assert.isUndefined(this.parsed.last_four);
+        });
 
-          it 'should have masked flag', ->
-            assert.isFalse @parsed.masked
+        it('should have masked flag', function() {
+          return assert.isFalse(this.parsed.masked);
+        });
 
-          it 'should be marked invalid', ->
-            assert.isFalse @parsed.valid
+        return it('should be marked invalid', function() {
+          return assert.isFalse(this.parsed.valid);
+        });
+      })))(string));
+  });
 
 
-  it 'should parse a parsed ssn', ->
-    parsed = ssn.parse(ssn.parse('123-12-1234'))
-    assert.equal parsed.toString(), '123121234'
-    assert.equal parsed.raw, '123-12-1234'
-    assert.isTrue parsed.valid
+  return it('should parse a parsed ssn', function() {
+    const parsed = ssn.parse(ssn.parse('123-12-1234'));
+    assert.equal(parsed.toString(), '123121234');
+    assert.equal(parsed.raw, '123-12-1234');
+    return assert.isTrue(parsed.valid);
+  });
+});
 
 

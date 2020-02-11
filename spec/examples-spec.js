@@ -1,61 +1,87 @@
-_ = require('lodash')
-assert = require('chai').assert
-index = require('../lib')
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+const _ = require('lodash');
+const {
+  assert
+} = require('chai');
+const index = require('../lib');
 
 
-describe 'Examples', ->
+describe('Examples', function() {
 
-  for typeName in Object.keys(index)
-    do (typeName) ->
+  for (let typeName of Array.from(Object.keys(index))) {
+    (function(typeName) {
 
-      type = index[typeName]
-      if type.examples?.length
-        it "should be valid for #{typeName}", ->
-          for example in type.examples
-            assert example.valid, "#{typeName} has an invalid example: #{JSON.stringify(example)}" if _.isPlainObject(example)
+      const type = index[typeName];
+      if (type.examples != null ? type.examples.length : undefined) {
+        return it(`should be valid for ${typeName}`, () => (() => {
+          const result = [];
+          for (let example of Array.from(type.examples)) {
+            if (_.isPlainObject(example)) { result.push(assert(example.valid, `${typeName} has an invalid example: ${JSON.stringify(example)}`)); } else {
+              result.push(undefined);
+            }
+          }
+          return result;
+        })());
+      }
+    })(typeName);
+  }
 
-  describe 'expand', ->
+  return describe('expand', function() {
 
-    beforeEach ->
-      @field =
-        id: 'tellie'
-        type: 'phone'
+    beforeEach(function() {
+      return this.field = {
+        id: 'tellie',
+        type: 'phone',
         examples: ['512-788-1111']
+      };});
 
 
-    it 'should expand based on type', ->
-      index.expandExamples(@field)
-      assert.deepEqual @field.examples, [
-        normal: '5127881111'
-        prefix: '1'
-        raw: '512-788-1111'
-        area: '512'
-        exchange: '788'
-        line: '1111'
-        number: '7881111'
-        extension: null
-        is_tollfree: false
-        country_code: 'US'
-        type: null
+    it('should expand based on type', function() {
+      index.expandExamples(this.field);
+      return assert.deepEqual(this.field.examples, [{
+        normal: '5127881111',
+        prefix: '1',
+        raw: '512-788-1111',
+        area: '512',
+        exchange: '788',
+        line: '1111',
+        number: '7881111',
+        extension: null,
+        is_tollfree: false,
+        country_code: 'US',
+        type: null,
         valid: true
-      ]
+      }
+      ]);
+  });
 
-    it 'should re-expand expanded examples', ->
-      index.expandExamples(@field)
-      @field.examples[0].prefix = '2'
+    return it('should re-expand expanded examples', function() {
+      index.expandExamples(this.field);
+      this.field.examples[0].prefix = '2';
 
-      index.expandExamples(@field)
-      assert.deepEqual @field.examples, [
-        normal: '5127881111'
-        prefix: '1'
-        raw: '512-788-1111'
-        area: '512'
-        exchange: '788'
-        line: '1111'
-        number: '7881111'
-        extension: null
-        is_tollfree: false
-        country_code: 'US'
-        type: null
+      index.expandExamples(this.field);
+      return assert.deepEqual(this.field.examples, [{
+        normal: '5127881111',
+        prefix: '1',
+        raw: '512-788-1111',
+        area: '512',
+        exchange: '788',
+        line: '1111',
+        number: '7881111',
+        extension: null,
+        is_tollfree: false,
+        country_code: 'US',
+        type: null,
         valid: true
-      ]
+      }
+      ]);
+  });
+});
+});

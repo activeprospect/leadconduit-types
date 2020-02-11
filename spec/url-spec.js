@@ -1,114 +1,141 @@
-assert = require('chai').assert
-url = require('../lib/types/url')
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+const {
+  assert
+} = require('chai');
+const url = require('../lib/types/url');
 
 
-describe 'URL', ->
+describe('URL', function() {
 
-  it 'should not parse null', ->
-    assert.isNull url.parse(null)
+  it('should not parse null', () => assert.isNull(url.parse(null)));
 
-  it 'should not parse undefined', ->
-    assert.isUndefined url.parse()
+  it('should not parse undefined', () => assert.isUndefined(url.parse()));
 
-  it 'should parse a parsed url', ->
-    parsed = url.parse(url.parse('http://google.com/search?q=hi'))
-    assert.equal parsed.toString(), 'http://google.com/search?q=hi'
-    assert.equal parsed.raw, 'http://google.com/search?q=hi'
-    assert.equal parsed.host, 'google.com'
-    assert.equal parsed.path, '/search'
-    assert.equal parsed.query, 'q=hi'
-    assert.isTrue parsed.valid
+  it('should parse a parsed url', function() {
+    const parsed = url.parse(url.parse('http://google.com/search?q=hi'));
+    assert.equal(parsed.toString(), 'http://google.com/search?q=hi');
+    assert.equal(parsed.raw, 'http://google.com/search?q=hi');
+    assert.equal(parsed.host, 'google.com');
+    assert.equal(parsed.path, '/search');
+    assert.equal(parsed.query, 'q=hi');
+    return assert.isTrue(parsed.valid);
+  });
 
-  it 'should have examples', ->
-    assert url.examples.length
+  it('should have examples', () => assert(url.examples.length));
 
 
-  describe 'valid values', ->
+  describe('valid values', function() {
 
-    strings = [
-      'https://google.com/search?q=hi#results'
+    const strings = [
+      'https://google.com/search?q=hi#results',
       '    HTTPS://Google.com/search?q=hi#results     '
-    ]
+    ];
 
-    for string in strings
-      do (string) ->
-        describe "'#{string}'", ->
+    return Array.from(strings).map((string) =>
+      ((string => describe(`'${string}'`, function() {
 
-          beforeEach ->
-            @parsed = url.parse(string)
+        beforeEach(function() {
+          return this.parsed = url.parse(string);
+        });
 
-          it 'should keep raw value', ->
-            assert.equal @parsed.raw, string
+        it('should keep raw value', function() {
+          return assert.equal(this.parsed.raw, string);
+        });
 
-          it 'should have protocol', ->
-            assert.equal @parsed.protocol, 'https'
+        it('should have protocol', function() {
+          return assert.equal(this.parsed.protocol, 'https');
+        });
 
-          it 'should have host', ->
-            assert.equal @parsed.host, 'google.com'
+        it('should have host', function() {
+          return assert.equal(this.parsed.host, 'google.com');
+        });
 
-          it 'should have port', ->
-            assert.isNull @parsed.port
+        it('should have port', function() {
+          return assert.isNull(this.parsed.port);
+        });
 
-          it 'should have path', ->
-            assert.equal @parsed.path, '/search'
+        it('should have path', function() {
+          return assert.equal(this.parsed.path, '/search');
+        });
 
-          it 'should have query', ->
-            assert.equal @parsed.query, 'q=hi'
+        it('should have query', function() {
+          return assert.equal(this.parsed.query, 'q=hi');
+        });
 
-          it 'should have query', ->
-            assert.equal @parsed.hash, '#results'
+        it('should have query', function() {
+          return assert.equal(this.parsed.hash, '#results');
+        });
 
-          it 'should be normalized', ->
-            assert.equal @parsed.valueOf(), 'https://google.com/search?q=hi#results'
+        it('should be normalized', function() {
+          return assert.equal(this.parsed.valueOf(), 'https://google.com/search?q=hi#results');
+        });
 
-          it 'should be marked valid', ->
-            assert.isTrue @parsed.valid
+        return it('should be marked valid', function() {
+          return assert.isTrue(this.parsed.valid);
+        });
+      })))(string));
+  });
 
 
-  describe 'values that get coerced to valid', ->
+  describe('values that get coerced to valid', function() {
 
-    strings = [
-      'centennialbulb.org'
-      'whatever'
-      '172.0.0.1'
+    const strings = [
+      'centennialbulb.org',
+      'whatever',
+      '172.0.0.1',
       'http'
-    ]
+    ];
 
-    for string in strings
-      do (string) ->
-        describe "'#{string}'", ->
+    return Array.from(strings).map((string) =>
+      ((string => describe(`'${string}'`, function() {
 
-          beforeEach ->
-            @parsed = url.parse(string)
+        beforeEach(function() {
+          return this.parsed = url.parse(string);
+        });
 
-          it 'should keep raw value', ->
-            assert.equal @parsed.raw, string
+        it('should keep raw value', function() {
+          return assert.equal(this.parsed.raw, string);
+        });
 
-          it 'should be valid', ->
-            assert.isTrue @parsed.valid
+        return it('should be valid', function() {
+          return assert.isTrue(this.parsed.valid);
+        });
+      })))(string));
+  });
 
 
-  describe 'invalid values', ->
+  return describe('invalid values', function() {
 
-    strings = [
-      ''
-      ' '
-      'https://'
+    const strings = [
+      '',
+      ' ',
+      'https://',
       'donkey://google.com'
-    ]
+    ];
 
-    for string in strings
-      do (string) ->
-        describe "'#{string}'", ->
+    return Array.from(strings).map((string) =>
+      ((string => describe(`'${string}'`, function() {
 
-          beforeEach ->
-            @parsed = url.parse(string)
+        beforeEach(function() {
+          return this.parsed = url.parse(string);
+        });
 
-          it 'should keep raw value', ->
-            assert.equal @parsed.raw, string
+        it('should keep raw value', function() {
+          return assert.equal(this.parsed.raw, string);
+        });
 
-          it 'should not be valid', ->
-            assert.isFalse @parsed.valid
+        it('should not be valid', function() {
+          return assert.isFalse(this.parsed.valid);
+        });
 
-          it 'should be normalized', ->
-            assert.equal @parsed.valueOf(), string
+        return it('should be normalized', function() {
+          return assert.equal(this.parsed.valueOf(), string);
+        });
+      })))(string));
+  });
+});
