@@ -1,5 +1,5 @@
 assert = require('chai').assert
-url = require('../src/types/url')
+url = require('../lib/types/url')
 
 
 describe 'URL', ->

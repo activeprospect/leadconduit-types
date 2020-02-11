@@ -1,7 +1,7 @@
 assert = require('chai').assert
 moment = require('moment')
-types = require('../src')
-aggregate = require('../src/aggregate')
+types = require('../lib')
+aggregate = require('../lib/aggregate')
 
 
 describe 'Aggregation', ->

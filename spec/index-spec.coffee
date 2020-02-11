@@ -1,12 +1,12 @@
 assert = require('chai').assert
 fs = require('fs')
 path = require('path')
-index = require('../src')
+index = require('../lib')
 
 describe 'Index', ->
 
   it 'should list type names', ->
-    files = fs.readdirSync("#{__dirname}/../src/types")
+    files = fs.readdirSync("#{__dirname}/../lib/types")
 
     expectedTypeNames = files.map (f) ->
       path.basename(f, '.js')

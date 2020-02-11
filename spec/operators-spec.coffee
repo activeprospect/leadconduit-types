@@ -1,5 +1,5 @@
 assert = require('chai').assert
-types = require('../src')
+types = require('../lib')
 
 supportedOperators = [
   'does not include'

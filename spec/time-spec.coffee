@@ -1,5 +1,5 @@
 assert = require('chai').assert
-time = require('../src/types/time')
+time = require('../lib/types/time')
 
 describe 'Time', ->
 

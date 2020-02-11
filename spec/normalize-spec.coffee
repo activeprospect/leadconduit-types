@@ -1,5 +1,5 @@
 assert = require('chai').assert
-normalize = require('../src').normalize
+normalize = require('../lib').normalize
 
 describe 'Normalize utility', ->
 

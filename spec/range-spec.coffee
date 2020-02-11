@@ -1,8 +1,8 @@
 assert = require('chai').assert
-range = require('../src/types/range')
-number = require('../src/types/number')
-date = require('../src/types/date')
-time = require('../src/types/time')
+range = require('../lib/types/range')
+number = require('../lib/types/number')
+date = require('../lib/types/date')
+time = require('../lib/types/time')
 
 
 describe 'Range', ->

@@ -1,5 +1,5 @@
 assert = require('chai').assert
-lastName = require('../src/types/last_name')
+lastName = require('../lib/types/last_name')
 
 describe 'Last Name', ->
 

@@ -1,6 +1,6 @@
 _ = require('lodash')
 assert = require('chai').assert
-types = require('../src')
+types = require('../lib')
 
 
 describe 'String', ->

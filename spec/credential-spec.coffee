@@ -1,5 +1,5 @@
 assert = require('chai').assert
-credential = require('../src/types/credential')
+credential = require('../lib/types/credential')
 
 
 describe 'Credential', ->

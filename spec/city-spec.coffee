@@ -1,5 +1,5 @@
 assert = require('chai').assert
-city = require('../src/types/city')
+city = require('../lib/types/city')
 
 describe 'City', ->
 

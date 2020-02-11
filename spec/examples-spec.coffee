@@ -1,6 +1,6 @@
 _ = require('lodash')
 assert = require('chai').assert
-index = require('../src')
+index = require('../lib')
 
 
 describe 'Examples', ->
