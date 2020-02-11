@@ -1,21 +1,12 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const _ = require('lodash');
 const normalize = require('../normalize');
-
 
 const parseRegex = /^(\S+)\s+(.+)$/;
 
-const parse = function(string) {
-
+const parse = function (string) {
   let parsed;
   const addr = string.trim().match(parseRegex);
 
-  if (addr != null) {
+  if (addr) {
     parsed = new String(string.trim());
     parsed.raw = string.raw != null ? string.raw : string;
     parsed.number = addr[1];
@@ -29,7 +20,6 @@ const parse = function(string) {
 
   return parsed;
 };
-
 
 module.exports = {
   parse,

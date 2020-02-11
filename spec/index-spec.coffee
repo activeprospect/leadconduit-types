@@ -9,7 +9,7 @@ describe 'Index', ->
     files = fs.readdirSync("#{__dirname}/../src/types")
 
     expectedTypeNames = files.map (f) ->
-      path.basename(f, '.coffee')
+      path.basename(f, '.js')
 
     expectedTypeNames.splice(expectedTypeNames.indexOf('index'), 1)
 

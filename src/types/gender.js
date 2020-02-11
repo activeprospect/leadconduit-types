@@ -1,41 +1,49 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 const normalize = require('../normalize');
 
-const parse = function(string) {
+const parse = function (string) {
   if (string == null) { return string; }
   const raw = string.raw != null ? string.raw : string;
   const normalized = raw.toString().toLowerCase().trim();
-  const gender =
-    (() => { switch (normalized) {
-      case 'm': case 'male': return new String("male");
-      case 'f': case 'female': return new String("female");
-      case 'o': case 'other': return new String("other");
-      default:
-        var invalid = new String(raw);
-        invalid.valid = false;
-        return invalid;
-    } })();
+
+  let gender;
+  switch (normalized) {
+    case 'm': case 'male':
+      gender = new String('male');
+      break;
+    case 'f': case 'female':
+      gender = new String('female');
+      break;
+    case 'o': case 'other':
+      gender = new String('other');
+      break;
+    default:
+      gender = new String(raw); // eslint-disable-line no-case-declarations
+      gender.valid = false;
+  }
+
   gender.raw = raw;
   if (gender.valid == null) { gender.valid = true; }
-  gender.abbr =
-    (() => { switch (gender.valueOf()) {
-      case 'male': return 'M';
-      case 'female': return 'F';
-      case 'other': return 'O';
-      default: return null;
-    } })();
+
+  switch (gender.valueOf()) {
+    case 'male':
+      gender.abbr = 'M';
+      break;
+    case 'female':
+      gender.abbr = 'F';
+      break;
+    case 'other':
+      gender.abbr = 'O';
+      break;
+    default:
+      gender.abbr = null;
+  }
+
   return gender;
 };
 
 const components = [
-  { name: 'raw', type: 'string', description: 'Unmodified value'},
-  { name: 'abbr', type: 'string', description: 'Abbreviated name of gender'}
+  { name: 'raw', type: 'string', description: 'Unmodified value' },
+  { name: 'abbr', type: 'string', description: 'Abbreviated name of gender' }
 ];
 
 module.exports = {

@@ -1,9 +1,3 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 const url = require('url');
 const normalize = require('../normalize');
 
@@ -12,15 +6,15 @@ uri.protocol.match(/^http[s]?:/) &&
 uri.slashes &&
 uri.hostname;
 
-const parse = function(str) {
-  let parsed;
+const parse = function (str) {
   if (str == null) { return str; }
 
   let toParse = (str.raw != null ? str.raw.toString() : undefined) || str;
   if (!toParse.match(/:\/\//)) { toParse = `http://${toParse}`; } // if no '://' found, add protocol prefix before parsing
 
-  const uri = url.parse(toParse);
+  const uri = url.parse(toParse); // eslint-disable-line node/no-deprecated-api
 
+  let parsed;
   if (isValidUrl(uri)) {
     parsed = new String(uri.href);
     parsed.raw = str.raw != null ? str.raw : str;

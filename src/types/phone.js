@@ -1,12 +1,3 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 const _ = require('lodash');
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 const normalize = require('../normalize');
@@ -18,21 +9,26 @@ const supportedRegionCodes = [
 ];
 
 const tollFreeAreaCodes = {
-  '800': true,
-  '844': true,
-  '855': true,
-  '866': true,
-  '877': true,
-  '888': true
+  800: true,
+  844: true,
+  855: true,
+  866: true,
+  877: true,
+  888: true
 };
 
-const parse = function(string, req) {
-  let parts, type;
+const parse = function (string, req) {
   if (string == null) { return string; }
 
-  [type, string] = Array.from(stripType(string));
-  const [number, regionCode, mask] = Array.from(resolve(string, req != null ? req.logger : undefined));
+  const results = stripType(string);
+  const type = results[0];
+  string = results[1];
+
+  const logger = req ? req.logger : undefined;
+  const [number, regionCode, mask] = resolve(string, logger);
   const raw = string.raw != null ? string.raw : string;
+
+  let parts;
   if (number) {
     parts = decompose(raw, number, regionCode, mask);
     parts.type = type;
@@ -41,7 +37,7 @@ const parse = function(string, req) {
   } else {
     parts = new String(string);
     parts.raw = raw;
-    if (type != null) { parts.type = type; }
+    if (type) { parts.type = type; }
     parts.valid = false;
     return parts;
   }
@@ -50,26 +46,33 @@ const parse = function(string, req) {
 const hintRegex = /[(]?([hwcm])[)]?$/;
 const stripRegex = /^\s+|\s+$/g;
 
-var stripType = function(string) {
+const stripType = function (string) {
   const match = string.match(hintRegex);
   if (match) {
-    const type = (() => { switch (match[1]) {
-      case 'h': return 'home';
-      case 'w': return 'work';
-      case 'c': case 'm': return 'mobile';
-    } })();
-    return [type, string.replace(hintRegex, '').replace(stripRegex,'')];
+    let type;
+    switch (match[1]) {
+      case 'h':
+        type = 'home';
+        break;
+      case 'w':
+        type = 'work';
+        break;
+      case 'c': // fallthrough
+      case 'm':
+        type = 'mobile';
+    }
+
+    return [type, string.replace(hintRegex, '').replace(stripRegex, '')];
   } else {
     return [null, string];
   }
 };
 
-
-var resolve = function(string, logger) {
+const resolve = function (string, logger) {
   // normalize the number by removing everything except digits, asterisks, and the 'x' character
   // then create the mask to track the position of asterisks.
   let regionCode;
-  let mask = string.replace(/[^x\d\*]/g, '').split('').map(char => char === '*');
+  let mask = string.replace(/[^x\d*]/g, '').split('').map(char => char === '*');
 
   // mask is an array of booleans indicating whether the character at that index is masked.
   // index 0 represents the last character. For example, for the number "512789****x***",
@@ -82,11 +85,11 @@ var resolve = function(string, logger) {
   string = string.replace(/[*]/g, '0');
 
   let number = null;
-  for (regionCode of Array.from(supportedRegionCodes)) {
+  for (regionCode of supportedRegionCodes) {
     try {
       number = phoneUtil.parse(string, regionCode);
     } catch (e) {
-      __guardMethod__(logger, 'error', o => o.error(e));
+      if (logger) { logger.error(e); }
       number = null;
     }
     if (number != null) { break; }
@@ -99,16 +102,14 @@ var resolve = function(string, logger) {
   }
 };
 
-
-const asterisk = function(str, mask) {
-  const maskChar = function(char, index) {
+const asterisk = function (str, mask) {
+  const maskChar = function (char, index) {
     if (mask[index]) { return '*'; } else { return char; }
   };
   return str.split('').reverse().map(maskChar).reverse().join('');
 };
 
-
-var decompose = function(raw, number, regionCode, mask) {
+const decompose = function (raw, number, regionCode, mask) {
   let exchange, line, nationalDestinationCode;
   const nationalPrefix = phoneUtil.getNddPrefixForRegion(regionCode, true);
   let nationalSignificantNumber = phoneUtil.getNationalSignificantNumber(number);
@@ -128,7 +129,9 @@ var decompose = function(raw, number, regionCode, mask) {
     const ext = extension ? `x${extension}` : '';
 
     if (nationalDestinationCode) {
-      nationalDestinationCode = asterisk(`${nationalDestinationCode}${subscriberNumber}${ext}`, mask).split('x')[0].substring(0, nationalDestinationCode.length);
+      nationalDestinationCode = asterisk(`${nationalDestinationCode}${subscriberNumber}${ext}`, mask)
+        .split('x')[0]
+        .substring(0, nationalDestinationCode.length);
     } else {
       nationalDestinationCode = '***'; // default to NANPA length now that libphonenumber returns null NDC for masked numbers
     }
@@ -148,19 +151,15 @@ var decompose = function(raw, number, regionCode, mask) {
     }
   }
 
-
   if (['US', 'CA'].indexOf(regionCode) !== -1) {
     exchange = subscriberNumber.substring(0, 3);
     line = subscriberNumber.substring(3);
-  } else {
-    null;
   }
 
   const normal =
-    nationalSignificantNumber ?
-      _.compact([nationalSignificantNumber, extension]).join('x')
-    :
-      raw;
+    nationalSignificantNumber
+      ? _.compact([nationalSignificantNumber, extension]).join('x')
+      : raw;
 
   const phone = new String(normal);
   phone.prefix = nationalPrefix;
@@ -175,7 +174,6 @@ var decompose = function(raw, number, regionCode, mask) {
   phone.is_tollfree = tollFreeAreaCodes[phone.area] != null ? tollFreeAreaCodes[phone.area] : false;
   return phone;
 };
-
 
 const components = [
   { name: 'raw', type: 'string', description: 'Unmodified value' },
@@ -213,11 +211,3 @@ module.exports = {
     '1 (512) 789-1111'
   ].map(parse).map(normalize)
 };
-
-function __guardMethod__(obj, methodName, transform) {
-  if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {
-    return transform(obj, methodName);
-  } else {
-    return undefined;
-  }
-}

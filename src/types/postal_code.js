@@ -1,26 +1,17 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS104: Avoid inline assignments
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 const Handlebars = require('handlebars');
-const {
-  named
-} = require('named-regexp');
+const { named } = require('named-regexp');
 const normalize = require('../normalize');
+const _ = require('lodash');
 
 const supportedRegionCodes = [
   'US', // united states
   'CA', // canada
-  'GB'  // uk
+  'GB' // uk
 ];
 
 const handlers = {
   US: {
-    regex: named(/^(:<code>(:<zip>\d{5})(?:\s*(?:\-)?\s*)?(:<four>\d{4})?)?$/i),
+    regex: named(/^(:<code>(:<zip>\d{5})(?:\s*(?:-)?\s*)?(:<four>\d{4})?)?$/i),
     format: '{{zip}}{{#if four}}-{{four}}{{/if}}'
   },
   CA: {
@@ -33,30 +24,27 @@ const handlers = {
   }
 };
 
-const parse = function(string) {
+const parse = function (string) {
   let value;
-  for (let region of Array.from(supportedRegionCodes)) {
+  for (const region of supportedRegionCodes) {
     const handler = handlers[region];
     const match = handler.regex.exec(string.trim());
 
     if (match) {
-      var key;
-      const {
-        captures
-      } = match;
-      for (key in captures) {
-        value = captures[key];
+      const { captures } = match;
+      for (const [key, value] of new Map(Object.entries(captures))) {
         captures[key] = value[0];
       }
       const normal = Handlebars.compile(handler.format)(captures);
       const parsed = new String(normal.toUpperCase());
       parsed.raw = string.raw != null ? string.raw : string;
       parsed.country_code = region;
-      for (key in captures) {
-        var left;
+
+      for (const key in captures) {
         value = captures[key];
-        parsed[key] = (left = (value != null ? value.toUpperCase() : undefined)) != null ? left : null;
+        parsed[key] = _.result(value, 'toUpperCase', null);
       }
+
       parsed.valid = true;
       return parsed;
     }
@@ -67,7 +55,6 @@ const parse = function(string) {
   value.valid = false;
   return value;
 };
-
 
 const components = [
   { name: 'raw', type: 'string', description: 'Unmodified value' },

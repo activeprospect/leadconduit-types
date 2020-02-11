@@ -13,6 +13,7 @@ module.exports = {
       "no-extra-semi": 2,
       "no-useless-return": "error",
       "prefer-arrow-callback": "error",
-      "prefer-const": "error"      
+      "prefer-const": "error",
+      "no-new-wrappers": 0  
     }
 }

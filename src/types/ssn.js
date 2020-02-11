@@ -1,17 +1,12 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const _ = require('lodash');
+
 const normalize = require('../normalize');
 
-const parse = function(string) {
-  let parsed;
+const parse = function (string) {
   if (string == null) { return string; }
   const raw = string.raw != null ? string.raw : string;
   const cleanedStr = string.replace(/[^0-9]/g, '');
+
+  let parsed;
   if (cleanedStr.length === 9) {
     parsed = new String(cleanedStr);
     parsed.raw = raw;
@@ -20,16 +15,14 @@ const parse = function(string) {
     parsed.last_four = cleanedStr.slice(-4);
     parsed.masked = false;
     parsed.valid = true;
-    return parsed;
   } else {
     parsed = new String(string);
     parsed.raw = raw;
     parsed.masked = false;
     parsed.valid = false;
-    return parsed;
   }
+  return parsed;
 };
-
 
 const components = [
   { name: 'raw', type: 'string', description: 'Unmodified value' },
@@ -37,7 +30,6 @@ const components = [
   { name: 'middle_two', type: 'string', description: 'Middle two digits of SSN' },
   { name: 'last_four', type: 'number', description: 'Last four digits of SSN' }
 ];
-
 
 module.exports = {
   parse,
@@ -61,4 +53,3 @@ module.exports = {
     '123456789'
   ].map(parse).map(normalize)
 };
-

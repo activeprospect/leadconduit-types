@@ -1,37 +1,29 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 const _ = require('lodash');
 const normalize = require('../normalize');
 
-const parse = function(string) {
+const parse = function (string) {
   if (string == null) { return string; }
 
-  const number =
-    (() => {
-    if (_.isNumber(string)) {
-      return new Number(string);
-    } else if (_.isString(string)) {
-      const sanitized = typeof string.replace === 'function' ? string.replace(/[^-\d.]/g, '') : undefined;
-      if ((sanitized != null ? sanitized.length : undefined)) {
-        return new Number(sanitized);
-      } else {
-        return new Number('NaN');
-      }
+  let number;
+  if (_.isNumber(string)) {
+    number = new Number(string);
+  } else if (_.isString(string)) {
+    const sanitized = typeof string.replace === 'function'
+      ? string.replace(/[^-\d.]/g, '')
+      : undefined;
+    if (sanitized && sanitized.length) {
+      number = new Number(sanitized);
     } else {
-      return new Number('NaN');
+      number = new Number('NaN');
     }
-  })();
+  } else {
+    number = new Number('NaN');
+  }
 
   number.valid = !isNaN(number);
   number.raw = string.raw != null ? string.raw : string;
   return number;
 };
-
 
 module.exports = {
   parse,

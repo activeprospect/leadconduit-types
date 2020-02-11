@@ -1,9 +1,3 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 const _ = require('lodash');
 const normalize = require('../normalize');
 
@@ -84,10 +78,12 @@ const states = {
 
 const statesReverse = _.invert(states);
 
-const lookup = function(str) {
+const lookup = function (str) {
+  if (!str || (str && !str.trim())) {
+    return;
+  }
+
   let abbr, name;
-  str = str != null ? str.trim() : undefined;
-  if (!str) { return; }
   if (str.length === 2) {
     abbr = str.toUpperCase();
     name = states[abbr];
@@ -99,12 +95,12 @@ const lookup = function(str) {
   }
 };
 
-
-const parse = function(str) {
-  let state;
+const parse = function (str) {
   if (str == null) { return str; }
   let parsed = null;
-  if (state = lookup(str)) {
+
+  const state = lookup(str);
+  if (state) {
     parsed = new String(state.abbr);
     parsed.raw = str;
     parsed.name = state.name;

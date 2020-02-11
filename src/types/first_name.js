@@ -1,5 +1,5 @@
 module.exports = {
-  parse(str) { return str; },
+  parse: (str) => str,
   components: [],
   maskable: false,
   operators: [

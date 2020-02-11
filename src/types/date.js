@@ -1,11 +1,5 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const _ = require('lodash');
+/* eslint-disable no-multi-spaces */
+
 const moment = require('moment');
 const normalize = require('../normalize');
 
@@ -30,29 +24,30 @@ const formats = [
   'YYYY-DD-MM',        // '2014-18-07'
   'DD-MM-YYYY',        // '18-07-2014'
   'DDMMYYYY',          // '18072014'
-  'YYYY-DD-MM'        // '2014-18-07' 
+  'YYYY-DD-MM'         // '2014-18-07'
 ];
 
-
-const parse = function(string, req) {
-  let parsed;
+const parse = function (string, req) {
   const raw = string.raw != null ? string.raw : string;
   let results = moment(string.toString(), formats, true);
 
   if (!results.isValid()) {
-    // strict mode parsing failed; log what failed and try again in forgiving mode [todo: this is temporary! 3/17]
+    // strict mode parsing failed; log what failed and try again in forgiving mode
     results = moment(string.toString(), formats);
-    __guard__(req != null ? req.logger : undefined, x => x.info(`strict mode date-parsing failed for [${string}]; forgiving mode gave: ${results.toString()}`));
+    if (req && req.logger) {
+      req.logger.info(`strict mode date-parsing failed for [${string}]; forgiving mode gave: ${results.toString()}`);
+    }
   }
 
+  let parsed;
   if (results.isValid()) {
     parsed = results.toDate();
     parsed.raw = raw;
     parsed.valid = true;
-    parsed.valueOf = function() {
+    parsed.valueOf = function () {
       return this.toString();
     };
-    parsed.toString = function() {
+    parsed.toString = function () {
       return moment(this.getTime()).format('YYYY-MM-DD');
     };
   } else {
@@ -93,7 +88,3 @@ module.exports = {
     '2014-06-02'
   ].map(parse).map(normalize)
 };
-
-function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
-}

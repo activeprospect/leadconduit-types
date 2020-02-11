@@ -1,22 +1,13 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 const _ = require('lodash');
-const {
-  named
-} = require('named-regexp');
+const { named } = require('named-regexp');
 const number = require('./number');
 const normalize = require('../normalize');
 
-const minRegex = named(/(:<min>-?\d+(?:\.\d+)?)\s*\+/);                       // e.g., '10+', '-5.5+'
-const rangeRegex = named(/(:<min>-?\d+(?:\.\d+)?)\s+(:<max>\d+(?:\.\d+)?)/);  // e.g., '1-6', '2 to 7', '-8 - 100.5'
+const minRegex = named(/(:<min>-?\d+(?:\.\d+)?)\s*\+/); // e.g., '10+', '-5.5+'
+const rangeRegex = named(/(:<min>-?\d+(?:\.\d+)?)\s+(:<max>\d+(?:\.\d+)?)/); // e.g., '1-6', '2 to 7', '-8 - 100.5'
 const isoDateRegex = /\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}\.\d{1,3}Z)?/g;
 
-const parse = function(string) {
-  let max, min, parsed;
+const parse = function (string) {
   if (string == null) { return string; }
 
   // Don't re-parse parsed ranges, overwriting the original raw value
@@ -25,12 +16,12 @@ const parse = function(string) {
   const raw = string.raw != null ? string.raw : string;
 
   if (string.match(isoDateRegex)) {
-    let m;
     const parts = [];
 
-    while ((m = isoDateRegex.exec(string)) !== null) {
-      parts.push(m[0]);
-    }
+    do {
+      var m = isoDateRegex.exec(string);
+      if (m) { parts.push(m[0]); }
+    } while (m !== null);
 
     const getTime = s => new Date(s).getTime().toString();
 
@@ -44,12 +35,12 @@ const parse = function(string) {
   const sanitized = string.replace(/(.+)-|(?:to)/, '$1 ').replace(/[^-0-9 .+]/g, '');
 
   const match = minRegex.exec(sanitized) || rangeRegex.exec(sanitized);
+
+  let min, max, parsed;
   if (match) {
-    const {
-      captures
-    } = match;
-    min = ((captures.min != null ? captures.min[0] : undefined) != null) && parseFloat(captures.min[0]);
-    max = ((captures.max != null ? captures.max[0] : undefined) != null) && parseFloat(captures.max[0]);
+    const { captures } = match;
+    min = _.get(captures, 'min[0]', null) && parseFloat(captures.min[0]);
+    max = _.get(captures, 'max[0]', null) && parseFloat(captures.max[0]);
 
     if (_(min).isNumber() && _(max).isNumber()) {
       parsed = new String(`${min}-${max}`);
@@ -74,7 +65,7 @@ const parse = function(string) {
     const num = number.parse(string);
     parsed = new String(string);
     parsed.raw = raw;
-    parsed.min = (num != null ? num.valid : undefined) ? num.valueOf() : null;
+    parsed.min = num && num.valid ? num.valueOf() : null;
     parsed.max = parsed.min;
     parsed.avg = parsed.min;
     parsed.mid = parsed.min;
@@ -89,10 +80,9 @@ const components = [
   { name: 'raw', type: 'string', description: 'Unmodified value' },
   { name: 'mid', type: 'number', description: 'Average of max and min, rounded down to the nearest whole number' },
   { name: 'max', type: 'number', description: 'Highest number in range' },
-  { name: 'min', type: 'number', description: 'Lowest number in range'},
-  { name: 'avg', type: 'number', description: 'Average of min and max'}
+  { name: 'min', type: 'number', description: 'Lowest number in range' },
+  { name: 'avg', type: 'number', description: 'Average of min and max' }
 ];
-
 
 module.exports = {
   parse,
@@ -121,10 +111,3 @@ module.exports = {
     '100'
   ].map(parse).map(normalize)
 };
-
-
-
-
-
-
-

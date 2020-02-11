@@ -1,17 +1,11 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 const parseEmail = require('email-addresses').parseOneAddress;
 const parseDomain = require('domain-name-parser');
 const normalize = require('../normalize');
-const {handleFreemailValidation} = require('@activeprospect/freemail');
+const { handleFreemailValidation } = require('@activeprospect/freemail');
 
 const stripRegex = /^\s+|\s+$/g;
 
-const parse = function(string) {
+const parse = function (string) {
   let parsed;
   const addr = parseEmail(string);
   const freemailValidationData = handleFreemailValidation(string.raw != null ? string.raw : string);
@@ -25,7 +19,7 @@ const parse = function(string) {
 
     const domain = parseDomain(addr.domain);
     parsed.domain = addr.domain;
-    parsed.host = addr.domain.replace(new RegExp(`\.${domain.tld}$`), '');
+    parsed.host = addr.domain.replace(new RegExp(`.${domain.tld}$`), '');
     parsed.tld = domain.tld;
     parsed.valid = true;
   } else {
@@ -37,7 +31,6 @@ const parse = function(string) {
   return parsed;
 };
 
-
 const components = [
   { name: 'raw', type: 'string', description: 'Unmodified value' },
   { name: 'user', type: 'string', description: 'User name (everything to the left of @)' },
@@ -47,7 +40,6 @@ const components = [
   { name: 'is_free', type: 'boolean', description: 'Whether or not the email is from a free domain (ex: gmail, yahoo, etc)' },
   { name: 'is_disposable', type: 'boolean', description: 'Whether or not the email is disposable' }
 ];
-
 
 module.exports = {
   parse,
