@@ -1,4 +1,5 @@
-src
-spec
+test
 .idea
-Cakefile
+.vscode
+.nyc_output
+coverage/
