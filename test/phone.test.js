@@ -1,22 +1,13 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const {
-  assert
-} = require('chai');
+const { assert } = require('chai');
 const phone = require('../lib/types/phone');
 
-
-describe('Phone', function() {
-
-  it('should handle empty string', function() {
+describe('Phone', function () {
+  it('should handle empty string', function () {
     const ph = phone.parse('');
-    return assert.equal(ph, '');
+    assert.equal(ph, '');
   });
 
-  it('should handle non-phone string', function() {
+  it('should handle non-phone string', function () {
     const ph = phone.parse('donkey kong');
     assert.equal(ph.valueOf(), 'donkey kong');
     assert.equal(ph.raw, 'donkey kong');
@@ -28,17 +19,17 @@ describe('Phone', function() {
     assert.isUndefined(ph.type);
     assert.isUndefined(ph.masked);
     assert.isUndefined(ph.is_tollfree);
-    return assert.isFalse(ph.valid);
+    assert.isFalse(ph.valid);
   });
 
-  it('should set valid to false for invalid phone numbers', function() {
+  it('should set valid to false for invalid phone numbers', function () {
     const ph = phone.parse('964523331');
     assert.equal(ph.valueOf(), '964523331');
     assert.equal(ph.raw, '964523331');
-    return assert.isFalse(ph.valid);
+    assert.isFalse(ph.valid);
   });
 
-  it('should parse US phone', function() {
+  it('should parse US phone', function () {
     const ph = phone.parse('5127891111');
     assert.equal(ph.valueOf(), '5127891111');
     assert.equal(ph.raw, '5127891111');
@@ -49,10 +40,10 @@ describe('Phone', function() {
     assert.equal(ph.country_code, 'US');
     assert.isUndefined(ph.masked);
     assert.isFalse(ph.is_tollfree);
-    return assert.isTrue(ph.valid);
+    assert.isTrue(ph.valid);
   });
 
-  it('should parse US toll-free phone', function() {
+  it('should parse US toll-free phone', function () {
     const ph = phone.parse('8775551212');
     assert.equal(ph.valueOf(), '8775551212');
     assert.equal(ph.raw, '8775551212');
@@ -63,23 +54,23 @@ describe('Phone', function() {
     assert.equal(ph.country_code, 'US');
     assert.isUndefined(ph.masked);
     assert.isTrue(ph.is_tollfree);
-    return assert.isTrue(ph.valid);
+    assert.isTrue(ph.valid);
   });
 
-  it('should include extension in normal form', function() {
+  it('should include extension in normal form', function () {
     const ph = phone.parse('5127891111x123');
     assert.equal(ph.valueOf(), '5127891111x123');
-    return assert.isTrue(ph.valid);
+    assert.isTrue(ph.valid);
   });
 
-  it('should parse US phone extension', function() {
+  it('should parse US phone extension', function () {
     assert.equal(phone.parse('5127891111').extension, null);
     assert.equal(phone.parse('5127891111x42').extension, '42');
     assert.equal(phone.parse('5127891111 x43').extension, '43');
-    return assert.equal(phone.parse('5127891111 x 44').extension, '44');
+    assert.equal(phone.parse('5127891111 x 44').extension, '44');
   });
 
-  it('should parse masked US phone', function() {
+  it('should parse masked US phone', function () {
     const ph = phone.parse('1-(512) *** ****');
     assert.equal(ph.valueOf(), '512*******');
     assert.equal(ph.raw, '1-(512) *** ****');
@@ -91,10 +82,10 @@ describe('Phone', function() {
     assert.isNull(ph.type);
     assert.isTrue(ph.masked);
     assert.isFalse(ph.is_tollfree);
-    return assert.isTrue(ph.valid);
+    assert.isTrue(ph.valid);
   });
 
-  it('should parse partially masked US phone', function() {
+  it('should parse partially masked US phone', function () {
     const ph = phone.parse('1-(5*2) *** **11');
     assert.equal(ph.valueOf(), '5*2*****11');
     assert.equal(ph.raw, '1-(5*2) *** **11');
@@ -106,10 +97,10 @@ describe('Phone', function() {
     assert.isNull(ph.type);
     assert.isTrue(ph.masked);
     assert.isFalse(ph.is_tollfree);
-    return assert.isTrue(ph.valid);
+    assert.isTrue(ph.valid);
   });
 
-  it('should parse masked US phone with extension', function() {
+  it('should parse masked US phone with extension', function () {
     const ph = phone.parse('1-(512) *** **** x**');
     assert.equal(ph.valueOf(), '512*******x**');
     assert.equal(ph.raw, '1-(512) *** **** x**');
@@ -122,10 +113,10 @@ describe('Phone', function() {
     assert.isNull(ph.type);
     assert.isTrue(ph.masked);
     assert.isFalse(ph.is_tollfree);
-    return assert.isTrue(ph.valid);
+    assert.isTrue(ph.valid);
   });
 
-  it('should parse masked US phone with unmasked extension', function() {
+  it('should parse masked US phone with unmasked extension', function () {
     const ph = phone.parse('1-(512) *** **** x42');
     assert.equal(ph.valueOf(), '512*******x42');
     assert.equal(ph.raw, '1-(512) *** **** x42');
@@ -138,10 +129,10 @@ describe('Phone', function() {
     assert.isNull(ph.type);
     assert.isTrue(ph.masked);
     assert.isFalse(ph.is_tollfree);
-    return assert.isTrue(ph.valid);
+    assert.isTrue(ph.valid);
   });
 
-  it('should handle completely masked US phone', function() {
+  it('should handle completely masked US phone', function () {
     const ph = phone.parse('**********');
     assert.equal(ph.valueOf(), '**********');
     assert.equal(ph.raw, '**********');
@@ -152,82 +143,88 @@ describe('Phone', function() {
     assert.equal(ph.country_code, 'US');
     assert.isTrue(ph.masked);
     assert.isFalse(ph.is_tollfree);
-    return assert.isTrue(ph.valid);
+    assert.isTrue(ph.valid);
   });
 
-  it('should parse UK phone', function() {
-    let ph;
-    return ph = phone.parse('7981-555555');
+  xit('should parse UK phone', function () {
+    const ph = phone.parse('7981-555555');
+    assert.equal(ph.valueOf(), '5127891111');
+    assert.equal(ph.raw, '5127891111');
+    assert.equal(ph.area, '512');
+    assert.equal(ph.exchange, '789');
+    assert.equal(ph.line, '1111');
+    assert.equal(ph.number, '7891111');
+    assert.equal(ph.country_code, 'US');
   });
-//      assert.equal ph.valueOf(), '5127891111'
-//      assert.equal ph.raw, '5127891111'
-//      assert.equal ph.area, '512'
-//      assert.equal ph.exchange, '789'
-//      assert.equal ph.line, '1111'
-//      assert.equal ph.number, '7891111'
-//      assert.equal ph.country_code, 'US'
 
+  it('should support United States', function () {
+    assert(phone.countryCodes.indexOf('US') !== -1);
+  });
 
-  it('should support United States', () => assert(phone.countryCodes.indexOf('US') !== -1));
+  it('should support Canada', function () {
+    assert(phone.countryCodes.indexOf('CA') !== -1);
+  });
 
-  it('should support Canada', () => assert(phone.countryCodes.indexOf('CA') !== -1));
+  it('should support UK', function () {
+    assert(phone.countryCodes.indexOf('GB') !== -1);
+  });
 
-  it('should support UK', () => assert(phone.countryCodes.indexOf('GB') !== -1));
-
-  it('should parse mobile hint', function() {
+  it('should parse mobile hint', function () {
     const ph = phone.parse('5127891111m');
     assert.equal(ph.raw, '5127891111');
-    return assert.equal(ph.type, 'mobile');
+    assert.equal(ph.type, 'mobile');
   });
 
-  it('should parse cell hint', function() {
+  it('should parse cell hint', function () {
     const ph = phone.parse('5127891111c');
     assert.equal(ph.raw, '5127891111');
-    return assert.equal(ph.type, 'mobile');
+    assert.equal(ph.type, 'mobile');
   });
 
-  it('should parse work hint', function() {
+  it('should parse work hint', function () {
     const ph = phone.parse('5127891111w');
     assert.equal(ph.raw, '5127891111');
-    return assert.equal(ph.type, 'work');
+    assert.equal(ph.type, 'work');
   });
 
-  it('should parse home hint', function() {
+  it('should parse home hint', function () {
     const ph = phone.parse('5127891111h');
     assert.equal(ph.raw, '5127891111');
-    return assert.equal(ph.type, 'home');
+    assert.equal(ph.type, 'home');
   });
 
-  it('should parse hint on invalid number', function() {
+  it('should parse hint on invalid number', function () {
     const ph = phone.parse('1111m');
     assert.equal(ph.raw, '1111');
-    return assert.equal(ph.type, 'mobile');
+    assert.equal(ph.type, 'mobile');
   });
 
-  it('should allow optional parentheses in hint', function() {
+  it('should allow optional parentheses in hint', function () {
     const ph = phone.parse('5127891111(h)');
     assert.equal(ph.raw, '5127891111');
-    return assert.equal(ph.type, 'home');
+    assert.equal(ph.type, 'home');
   });
 
-  it('should allow optional whitespace before hint', function() {
+  it('should allow optional whitespace before hint', function () {
     const ph = phone.parse('5127891111 h');
     assert.equal(ph.raw, '5127891111');
-    return assert.equal(ph.type, 'home');
+    assert.equal(ph.type, 'home');
   });
 
-  it('should strip leading and trailing whitespace', function() {
+  it('should strip leading and trailing whitespace', function () {
     const ph = phone.parse(' 5127891111 ');
     assert.equal(ph.toString(), '5127891111');
-    return assert.equal(ph.raw, ' 5127891111 ');
+    assert.equal(ph.raw, ' 5127891111 ');
   });
 
-  it('should parse a parsed phone', function() {
+  it('should parse a parsed phone', function () {
     const ph = phone.parse(phone.parse('512-789-1111'));
     assert.equal(ph.valueOf(), '5127891111');
     assert.equal(ph.raw, '512-789-1111');
-    return assert.isTrue(ph.valid);
+    assert.isTrue(ph.valid);
   });
 
-  return it('should have examples', () => assert(phone.examples.length));
+  it('should have examples', function () {
+    assert(phone.examples.length);
+  });
 });

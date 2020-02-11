@@ -1,18 +1,8 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const {
-  assert
-} = require('chai');
-const {
-  mask
-} = require('../lib');
+const { assert } = require('chai');
+const { mask } = require('../lib');
 
-describe('Mask utility', function() {
-
-  it('should mask primitives', function() {
+describe('Mask utility', function () {
+  it('should mask primitives', function () {
     const masked = mask({
       string: 'a string',
       number: 102,
@@ -22,29 +12,26 @@ describe('Mask utility', function() {
 
     assert.equal(masked.string, '********');
     assert.equal(masked.number, '***');
-    return assert.equal(masked.boolean, '*');
+    assert.equal(masked.boolean, '*');
   });
 
-
-  it('should not mask null', function() {
-    const masked = mask({masked: false, null: null});
+  it('should not mask null', function () {
+    const masked = mask({ masked: false, null: null });
     assert.isTrue(masked.masked);
-    return assert.isNull(masked.null);
+    assert.isNull(masked.null);
   });
 
-  it('should not mask masked flag', function() {
-    const masked = mask({masked: false});
-    return assert.isTrue(masked.masked);
+  it('should not mask masked flag', function () {
+    const masked = mask({ masked: false });
+    assert.isTrue(masked.masked);
   });
 
-
-  it('should not mask valid flag', function() {
-    const masked = mask({masked: false, valid: true});
-    return assert.isTrue(masked.valid);
+  it('should not mask valid flag', function () {
+    const masked = mask({ masked: false, valid: true });
+    assert.isTrue(masked.valid);
   });
 
-
-  it('should mask deeply', function() {
+  it('should mask deeply', function () {
     const masked = mask({
       masked: false,
       string: 'a string',
@@ -56,7 +43,7 @@ describe('Mask utility', function() {
       }
     });
 
-    return assert.deepEqual(masked, {
+    assert.deepEqual(masked, {
       masked: true,
       string: '********',
       object: {
@@ -65,62 +52,60 @@ describe('Mask utility', function() {
           bip: '***'
         }
       }
-    }
-    );
+    });
   });
 
-
-  it('should mask array', function() {
+  it('should mask array', function () {
     const masked = mask({
       masked: false,
-      array: [1, '23', true]});
-
-    return assert.deepEqual(masked, {
-      masked: true,
-      array: [ '*', '**', '*' ]
+      array: [1, '23', true]
     });
-});
 
+    assert.deepEqual(masked, {
+      masked: true,
+      array: ['*', '**', '*']
+    });
+  });
 
-  it('should mask array of objects', function() {
+  it('should mask array of objects', function () {
     const masked = mask({
       masked: false,
       array: [
         { string: 'a string', number: 103, boolean: false },
         { string: 'another string', number: 1000, boolean: true }
-      ]});
+      ]
+    });
 
-    return assert.deepEqual(masked, {
+    assert.deepEqual(masked, {
       masked: true,
       array: [
         { string: '********', number: '***', boolean: '*' },
         { string: '**************', number: '****', boolean: '*' }
       ]
     });
-});
+  });
 
-
-  it('should mask array of objects with valid flags', function() {
+  it('should mask array of objects with valid flags', function () {
     const masked = mask({
       masked: false,
       array: [
         { string: 'a string', number: 103, boolean: false, valid: true },
         { string: 'another string', number: 1000, boolean: true, valid: false }
-      ]});
+      ]
+    });
 
-    return assert.deepEqual(masked, {
+    assert.deepEqual(masked, {
       masked: true,
       array: [
         { string: '********', number: '***', boolean: '*', valid: true },
         { string: '**************', number: '****', boolean: '*', valid: false }
       ]
     });
-});
-
+  });
 
   // this is the same form as 'rich types' (phone, ssn, email, etc.)
-  it('should mask String object with properties', function() {
-    const str = new String("foobar");
+  it('should mask String object with properties', function () {
+    const str = new String('foobar');
     str.foo = 'bar';
     str.bar = 'bazz';
     str.masked = false;
@@ -130,25 +115,23 @@ describe('Mask utility', function() {
     assert.equal(masked.bar, '****');
     assert.equal(masked.toString(), '******');
     assert.isTrue(masked.masked);
-    return assert.isTrue(masked.valid);
+    assert.isTrue(masked.valid);
   });
 
-
-  it('should not mask twice', function() {
-    const str = new String("foo***");
+  it('should not mask twice', function () {
+    const str = new String('foo***');
     str.masked = true;
     const masked = mask(str);
     assert.equal(masked.toString(), 'foo***');
-    return assert.isTrue(masked.masked);
+    assert.isTrue(masked.masked);
   });
 
-
-  return it('should handle function', function() {
-    const str = new String("foo");
+  it('should handle function', function () {
+    const str = new String('foo');
     str.masked = false;
-    str.foo = function() {};
+    str.foo = function () {};
     const masked = mask(str);
     assert.equal(masked.toString(), '***');
-    return assert.isTrue(masked.masked);
+    assert.isTrue(masked.masked);
   });
 });

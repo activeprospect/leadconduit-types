@@ -1,17 +1,7 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const {
-  assert
-} = require('chai');
+const { assert } = require('chai');
 const gender = require('../lib/types/gender');
 
-describe('Gender', function() {
-
-  let val;
+describe('Gender', function () {
   const males = [
     'male',
     'm',
@@ -21,16 +11,15 @@ describe('Gender', function() {
     '   m'
   ];
 
-  for (val of Array.from(males)) {
-    ((val => it(`should parse ${val} as male`, function() {
+  for (const val of males) {
+    it(`should parse ${val} as male`, function () {
       const parsed = gender.parse(val);
       assert.equal(parsed.valueOf(), 'male');
       assert.equal(parsed.raw, val);
       assert.isTrue(parsed.valid);
-      return assert.equal(parsed.abbr, 'M');
-    })))(val);
+      assert.equal(parsed.abbr, 'M');
+    });
   }
-
 
   const females = [
     'female',
@@ -41,16 +30,15 @@ describe('Gender', function() {
     '    f'
   ];
 
-  for (val of Array.from(females)) {
-    ((val => it(`should parse ${val} as female`, function() {
+  for (const val of females) {
+    it(`should parse ${val} as female`, function () {
       const parsed = gender.parse(val);
       assert.equal(parsed.valueOf(), 'female');
       assert.equal(parsed.raw, val);
       assert.isTrue(parsed.valid);
-      return assert.equal(parsed.abbr, 'F');
-    })))(val);
+      assert.equal(parsed.abbr, 'F');
+    });
   }
-
 
   const others = [
     'other',
@@ -61,16 +49,15 @@ describe('Gender', function() {
     '    o'
   ];
 
-  for (val of Array.from(others)) {
-    ((val => it(`should parse ${val} as other`, function() {
+  for (const val of others) {
+    it(`should parse ${val} as other`, function () {
       const parsed = gender.parse(val);
       assert.equal(parsed.valueOf(), 'other');
       assert.equal(parsed.raw, val);
       assert.isTrue(parsed.valid);
-      return assert.equal(parsed.abbr, 'O');
-    })))(val);
+      assert.equal(parsed.abbr, 'O');
+    });
   }
-
 
   const invalids = [
     '50',
@@ -80,24 +67,25 @@ describe('Gender', function() {
     true
   ];
 
-  for (val of Array.from(invalids)) {
-    ((val => it(`should parse ${val} as invalid`, function() {
+  for (const val of invalids) {
+    it(`should parse ${val} as invalid`, function () {
       const parsed = gender.parse(val);
       assert.equal(parsed.valueOf(), val.toString());
       assert.equal(parsed.raw, val);
       assert.isFalse(parsed.valid);
-      return assert.isNull(parsed.abbr);
-    })))(val);
+      assert.isNull(parsed.abbr);
+    });
   }
 
-
-  it('should handle parsing a parsed gender', function() {
+  it('should handle parsing a parsed gender', function () {
     const parsed = gender.parse(gender.parse('f'));
     assert.equal(parsed.valueOf(), 'female');
     assert.equal(parsed.raw, 'f');
     assert.isTrue(parsed.valid);
-    return assert.equal(parsed.abbr, 'F');
+    assert.equal(parsed.abbr, 'F');
   });
 
-  return it('should have examples', () => assert(gender.examples.length));
+  it('should have examples', function () {
+    assert(gender.examples.length);
+  });
 });
