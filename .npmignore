@@ -1,4 +1,8 @@
-src
-spec
+test
 .idea
-Cakefile
+.vscode
+.nyc_output
+coverage/
+.eslintrc.js
+.codecov.yml
+.travis.yml

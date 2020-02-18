@@ -1,5 +1,7 @@
-lib
 node_modules
 *.tgz
 .idea
+.vscode
 .DS_Store
+.nyc_output
+coverage/
