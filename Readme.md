@@ -2,7 +2,7 @@
 
 This Node.JS module parses lead data by type.
 
-![Build Status](https://github.com/activeprospect/leadconduit-types/workflows/Node.js%20CI/badge.svg?token=482wC8iv8U56UifHfWLx&branch=master)](https://github.com/activeprospect/leadconduit-types/actions)
+[![Build Status](https://github.com/activeprospect/leadconduit-types/workflows/Node.js%20CI/badge.svg?token=482wC8iv8U56UifHfWLx&branch=master)](https://github.com/activeprospect/leadconduit-types/actions)
 
 ### Usage
 
