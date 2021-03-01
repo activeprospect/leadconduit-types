@@ -17,13 +17,13 @@
     "faker": "^3.0.1",
     "flat": "^2.0.1",
     "google-libphonenumber": "^3.2.3",
-    "handlebars": "^4.7.3",
-    "lodash": "^4.17.15",
+    "handlebars": "^4.7.7",
+    "lodash": "^4.17.21",
     "moment": "^2.24.0",
     "named-regexp": "^0.1.1"
   },
   "devDependencies": {
-    "@activeprospect/leadconduit-rules": "^2.9.2",
+    "@activeprospect/leadconduit-rules": "^2.9.3",
     "chai": "^4.2.0",
     "eslint-config-semistandard": "^15.0.0",
     "eslint-config-standard": "^14.1.0",
@@ -31,6 +31,6 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "leadconduit-cakefile": "^0.3.4"
+    "mocha": "^8.3.0"
   }
 }
