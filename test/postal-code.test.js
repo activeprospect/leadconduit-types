@@ -17,6 +17,7 @@ describe('Postal code', function () {
     assert.equal(pc.toString(), '78704');
     assert.equal(pc.raw, '78704');
     assert.equal(pc.zip, '78704');
+    assert.equal(pc.scf, '787');
     assert.isNull(pc.four);
     assert.equal(pc.country_code, 'US');
     assert.isTrue(pc.valid);
@@ -27,6 +28,7 @@ describe('Postal code', function () {
     assert.equal(pc.toString(), '78704-1234');
     assert.equal(pc.raw, '78704-1234');
     assert.equal(pc.zip, '78704');
+    assert.equal(pc.scf, '787');
     assert.equal(pc.four, '1234');
     assert.equal(pc.country_code, 'US');
     assert.isTrue(pc.valid);
@@ -37,6 +39,7 @@ describe('Postal code', function () {
     assert.equal(pc.toString(), '78704-1234');
     assert.equal(pc.raw, '78704   - 1234');
     assert.equal(pc.zip, '78704');
+    assert.equal(pc.scf, '787');
     assert.equal(pc.four, '1234');
     assert.equal(pc.country_code, 'US');
     assert.isTrue(pc.valid);
@@ -47,6 +50,7 @@ describe('Postal code', function () {
     assert.equal(pc.toString(), '78704-1234');
     assert.equal(pc.raw, '78704 1234');
     assert.equal(pc.zip, '78704');
+    assert.equal(pc.scf, '787');
     assert.equal(pc.four, '1234');
     assert.equal(pc.country_code, 'US');
     assert.isTrue(pc.valid);
@@ -57,6 +61,7 @@ describe('Postal code', function () {
     assert.equal(pc.toString(), '78704-1234');
     assert.equal(pc.raw, '787041234');
     assert.equal(pc.zip, '78704');
+    assert.equal(pc.scf, '787');
     assert.equal(pc.four, '1234');
     assert.equal(pc.country_code, 'US');
     assert.isTrue(pc.valid);
