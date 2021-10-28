@@ -1,7 +1,7 @@
 const { assert } = require('chai');
 const object = require('../lib/types/object');
 
-describe.only('Object', function () {
+describe('Object', function () {
   const objects = [
     {foo: 'bar'},
     '{"foo":"bar"}'
