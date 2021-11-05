@@ -1,7 +1,7 @@
 const { assert } = require('chai');
 const { mask } = require('../lib');
 
-describe.only('Mask utility', function () {
+describe('Mask utility', function () {
   it('should mask primitives', function () {
     const masked = mask({
       string: 'a string',
