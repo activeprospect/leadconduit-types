@@ -23,7 +23,6 @@ describe('Date', function () {
     '2014-18-07',
     '18-07-2014',
     '18072014'
-    //'20141807'
   ];
 
   for (const string of strings) {
