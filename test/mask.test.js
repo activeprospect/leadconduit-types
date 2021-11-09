@@ -73,6 +73,12 @@ describe('Mask utility', function () {
     assert.deepEqual(masked, { age: { normal: '**', valid: 'true', raw: '**' } })
   });
 
+  it('should mask an object\'s masked property of a rich type', function () {
+    const rto = { masked: { normal: 23, valid: 'true', raw: 23 } }
+    const masked = mask(rto);
+    assert.deepEqual(masked, { masked: true })
+  });
+
   it('should not partially mask rich types in object', function () {
     const rto = {
       location: {
