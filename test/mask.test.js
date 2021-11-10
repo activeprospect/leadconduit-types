@@ -115,6 +115,7 @@ describe('Mask utility', function () {
 
   it('should mask partially masked rich types in object', function () {
     const rto = {
+      masked: false,
       location: {
         city: "São Paulo",
         state: "SP",
@@ -135,16 +136,17 @@ describe('Mask utility', function () {
     }
     const masked = mask(rto);
     assert.deepEqual(masked, {
+      masked: true,
       location: {
-        city: 'São Paulo',
-        state: 'SP',
+        city: '*********',
+        state: '**',
         latitude: { normal: '********', valid: true, raw: '********' },
         longitude: { normal: '********', valid: true, raw: '********' },
-        time_zone: 'America/Sao_Paulo',
-        postal_code: '01323',
-        country_code: 'BR'
+        time_zone: '*****************',
+        postal_code: '*****',
+        country_code: '**'
       }
-    })
+    });
   });
 
   it('should mask array', function () {
