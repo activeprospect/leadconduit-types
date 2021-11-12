@@ -1,7 +1,7 @@
 const { assert } = require('chai');
 const { mask } = require('../lib');
 
-describe('Mask utility', function () {
+describe.only('Mask utility', function () {
   it('should mask primitives', function () {
     const masked = mask({
       string: 'a string',
@@ -42,111 +42,17 @@ describe('Mask utility', function () {
         }
       }
     });
-
     assert.deepEqual(masked, {
       masked: true,
       string: '********',
-      object: {
-        foo: '***',
-        baz: {
-          bip: '***'
-        }
-      }
+      object: { foo: '***', baz: { bip: '***', masked: true }, masked: true }
     });
-  });
-
-  it('should mask a rich type object with string values', function () {
-    const rto = { framed: { normal: 'I am a string', valid: 'true', raw: 'I am a string' } }
-    const masked = mask(rto);
-    assert.deepEqual(masked, { framed: { normal: '*************', valid: 'true', raw: '*************' } })
-  });
-
-  it('should mask a rich type object with boolean values', function () {
-    const rto = { framed: { normal: false, valid: 'true', raw: false } }
-    const masked = mask(rto);
-    assert.deepEqual(masked, { framed: { normal: '*', valid: 'true', raw: '*' } })
-  });
-
-  it('should mask a rich type object with numeric values', function () {
-    const rto = { age: { normal: 23, valid: 'true', raw: 23 } }
-    const masked = mask(rto);
-    assert.deepEqual(masked, { age: { normal: '**', valid: 'true', raw: '**' } })
   });
 
   it('should mask an object\'s masked property of a rich type', function () {
-    const rto = { masked: { normal: 23, valid: 'true', raw: 23 } }
+    const rto = { masked: { normal: 'true', valid: 'true', raw: 'true' } }
     const masked = mask(rto);
     assert.deepEqual(masked, { masked: true })
-  });
-
-  it('should not partially mask rich types in object', function () {
-    const rto = {
-      location: {
-        city: "São Paulo",
-        state: "SP",
-        latitude: {
-          normal: -23.5335,
-          valid: true,
-          raw: -23.5335
-        },
-        longitude: {
-          normal: -46.6359,
-          valid: true,
-          raw: -46.6359
-        },
-        time_zone: "America/Sao_Paulo",
-        postal_code: "01323",
-        country_code: "BR"
-      }
-    }
-    const masked = mask(rto);
-    assert.notDeepEqual(masked, {
-      location: {
-        city: 'São Paulo',
-        state: 'SP',
-        latitude: { normal: -23.5335, valid: true, raw: '********' },
-        longitude: { normal: -46.6359, valid: true, raw: '********' },
-        time_zone: 'America/Sao_Paulo',
-        postal_code: '01323',
-        country_code: 'BR'
-      }
-    })
-  });
-
-  it('should mask partially masked rich types in object', function () {
-    const rto = {
-      masked: false,
-      location: {
-        city: "São Paulo",
-        state: "SP",
-        latitude: {
-          normal: '********',
-          valid: true,
-          raw: -23.5335
-        },
-        longitude: {
-          normal: '********',
-          valid: true,
-          raw: -46.6359
-        },
-        time_zone: "America/Sao_Paulo",
-        postal_code: "01323",
-        country_code: "BR"
-      }
-    }
-    const masked = mask(rto);
-    assert.deepEqual(masked, {
-      masked: true,
-      location: {
-        city: '*********',
-        state: '**',
-        latitude: { normal: '********', valid: true, raw: '********' },
-        longitude: { normal: '********', valid: true, raw: '********' },
-        time_zone: '*****************',
-        postal_code: '*****',
-        country_code: '**'
-      }
-    });
   });
 
   it('should mask array', function () {
@@ -169,12 +75,16 @@ describe('Mask utility', function () {
         { string: 'another string', number: 1000, boolean: true }
       ]
     });
-
     assert.deepEqual(masked, {
       masked: true,
       array: [
-        { string: '********', number: '***', boolean: '*' },
-        { string: '**************', number: '****', boolean: '*' }
+        { string: '********', number: '***', boolean: '*', masked: true },
+        {
+          string: '**************',
+          number: '****',
+          boolean: '*',
+          masked: true
+        }
       ]
     });
   });
@@ -187,12 +97,23 @@ describe('Mask utility', function () {
         { string: 'another string', number: 1000, boolean: true, valid: false }
       ]
     });
-
     assert.deepEqual(masked, {
       masked: true,
       array: [
-        { string: '********', number: '***', boolean: '*', valid: true },
-        { string: '**************', number: '****', boolean: '*', valid: false }
+        {
+          string: '********',
+          number: '***',
+          boolean: '*',
+          valid: true,
+          masked: true
+        },
+        {
+          string: '**************',
+          number: '****',
+          boolean: '*',
+          valid: false,
+          masked: true
+        }
       ]
     });
   });
@@ -216,7 +137,7 @@ describe('Mask utility', function () {
     const str = new String('foo***');
     str.masked = true;
     const masked = mask(str);
-    assert.equal(masked.toString(), 'foo***');
+    assert.equal(masked.toString(), '******');
     assert.isTrue(masked.masked);
   });
 
