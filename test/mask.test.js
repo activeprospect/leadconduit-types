@@ -311,7 +311,6 @@ describe('Mask utility', function () {
     const o = _.cloneDeep(obj);
     o.data_service.masked = { normal: false, valid: true, raw: false };
     const masked = mask(o);
-    console.dir(masked,{depth:null});
     assert.equal(masked.data_service.ip, obj.data_service.ip);
   });
 
@@ -321,7 +320,6 @@ describe('Mask utility', function () {
     const o = _.cloneDeep(obj);
     o.data_service.masked = { normal: 'false', valid: 'true', raw: 'false' };
     const masked = mask(o);
-    console.dir(masked,{depth:null});
     assert.equal(masked.data_service.ip, obj.data_service.ip);
   });
 });
