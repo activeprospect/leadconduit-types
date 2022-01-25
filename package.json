@@ -10,27 +10,27 @@
   },
   "dependencies": {
     "@activeprospect/freemail": "^1.5.2",
-    "@activeprospect/indexer": "^1.3.2",
+    "@activeprospect/indexer": "^1.3.5",
     "chrono-node": "git+https://github.com/alexkwolfe/chrono.git#milliseconds",
     "domain-name-parser": "0.0.4",
     "email-addresses": "^1.1.1",
     "faker": "^3.0.1",
-    "flat": "^2.0.1",
-    "google-libphonenumber": "^3.2.3",
+    "flat": "^2.0.2",
+    "google-libphonenumber": "^3.2.26",
     "handlebars": "^4.7.7",
     "lodash": "^4.17.21",
-    "moment": "^2.24.0",
+    "moment": "^2.29.1",
     "named-regexp": "^0.1.1"
   },
   "devDependencies": {
     "@activeprospect/leadconduit-rules": "^2.9.3",
-    "chai": "^4.2.0",
-    "eslint-config-semistandard": "^15.0.0",
-    "eslint-config-standard": "^14.1.0",
-    "eslint-plugin-import": "^2.20.1",
-    "eslint-plugin-node": "^11.0.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
-    "mocha": "^8.3.0"
+    "chai": "^4.3.4",
+    "eslint-config-semistandard": "^15.0.1",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "eslint-plugin-standard": "^4.1.0",
+    "mocha": "^9.2.0"
   }
 }
