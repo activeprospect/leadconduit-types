@@ -227,4 +227,20 @@ describe('Phone', function () {
   it('should have examples', function () {
     assert(phone.examples.length);
   });
+
+  it('should add dialing code', function() {
+    const str = phone.ensureCountryDialingCode('0694502713', 'IT');
+    assert.equal(str, '+390694502713');
+  });
+
+  it('should detect existing dialing code', function() {
+    const str = phone.ensureCountryDialingCode('+390694502713', 'IT');
+    assert.equal(str, '+390694502713');
+
+  });
+
+  it('should parse international number with dialing code', function() {
+    const ph = phone.parse(phone.parse('+390694502713'));
+    console.log(ph);
+  });
 });
