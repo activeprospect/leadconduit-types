@@ -7,7 +7,8 @@ process.env.CERT_IDS_SECRET_KEY = secret;
 process.env.TF_CONFIG_CERT_ID_SECRET = secret;
 
 const url = require('../lib/types/trustedform_url');
-
+const regularUrl = require('../lib/types/url');
+const certId = require('@activeprospect/trustedform-cert-id');
 
 describe('TrustedForm URL', function () {
   it('should not parse null', function () {
@@ -20,6 +21,24 @@ describe('TrustedForm URL', function () {
 
   it('should have examples', function () {
     assert(url.examples.length);
+  });
+
+  it('should normalize case of 40 character ids', function() {
+    const cert = url.parse('https://CERT.trustedform.com/EB9fC4DD9bED9AD451A5648946CF4BF09B5BB947');
+    assert.equal(cert.toString(), 'https://cert.trustedform.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947');
+  });
+
+  it('should not normalize case of zero-dot IDs', function() {
+    const pingUrl = 'HTTPS://PING.trustedform.com/0.vzhYBmGsqsu4ob7u4rWDOX6Gg4OT5SAza1r%2FTYNMJ81Kx%2FFGh2SZGtlZ7KiEg7lEdxi7xLcq.15GK4f1R9Te6Rjd4J85Xng.Bdz5CUNsDpelrvmW0L9sQg';
+    const cert = url.parse(pingUrl);
+    assert.equal(cert.toString(), 'https://ping.trustedform.com/0.vzhYBmGsqsu4ob7u4rWDOX6Gg4OT5SAza1r%2FTYNMJ81Kx%2FFGh2SZGtlZ7KiEg7lEdxi7xLcq.15GK4f1R9Te6Rjd4J85Xng.Bdz5CUNsDpelrvmW0L9sQg');
+  });
+
+  it('should parse ping URL with url encoded parts', function() {
+    // this ping URL has %2F in it, which is the / character URL encoded
+    const pingUrl = 'https://ping.trustedform.com/0.vzhYBmGsqsu4ob7u4rWDOX6Gg4OT5SAza1r%2FTYNMJ81Kx%2FFGh2SZGtlZ7KiEg7lEdxi7xLcq.15GK4f1R9Te6Rjd4J85Xng.Bdz5CUNsDpelrvmW0L9sQg';
+    const parsed = url.parse(pingUrl);
+    assert.equal(parsed.cert_id, '0.vzhYBmGsqsu4ob7u4rWDOX6Gg4OT5SAza1r%2FTYNMJ81Kx%2FFGh2SZGtlZ7KiEg7lEdxi7xLcq.15GK4f1R9Te6Rjd4J85Xng.Bdz5CUNsDpelrvmW0L9sQg');
   });
 
   describe('invalid values', function () {
@@ -57,6 +76,23 @@ describe('TrustedForm URL', function () {
     })
   })
 
+  it('should provide ping url', function() {
+    const certUrl = 'https://cert.trustedform.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947';
+    const parsed = url.parse(certUrl);
+    const pingUrl = parsed.ping_url;
+    console.log(pingUrl);
+    const parsedPingUrl = regularUrl.parse(pingUrl);
+    assert.equal(parsedPingUrl.protocol, 'https');
+    assert.equal(parsedPingUrl.host, 'ping.trustedform.com');
+
+    // parse the ping URL's cert ID
+    const pingCertId = parsedPingUrl.path.replace(/^\//, '');
+    const parsedCert = certId.decrypt(pingCertId);
+    assert.equal(parsedCert.type, 'web');
+    assert.typeOf(parsedCert.createdAt, 'Date');
+    assert.isTrue(parsedCert.isPing);
+  });
+
   describe('valid values', function () {
     const tests = {
       web: {
@@ -68,7 +104,9 @@ describe('TrustedForm URL', function () {
           is_mobile: false,
           is_facebook: false,
           is_masked: false,
-          age_in_days: moment(new Date()).diff(new Date(1646770816000), 'days')
+          age_in_days: moment(new Date()).diff(new Date(1646770816000), 'days'),
+          host: 'cert.trustedform.com',
+          path: '/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947'
         }
       },
       facebook: {
@@ -80,7 +118,9 @@ describe('TrustedForm URL', function () {
           is_mobile: false,
           is_facebook: true,
           is_masked: false,
-          age_in_days: moment(new Date()).diff(new Date(1646776988000), 'days')
+          age_in_days: moment(new Date()).diff(new Date(1646776988000), 'days'),
+          host: 'cert.trustedform.com',
+          path: '/0.rpM21ddljS9BNNUOm6FZVVqb5C5JMk1cofI4nDGdwy5ezucyxjok9qLyUXMu9diW62Xac8xNMpomBf1B-XDpfbYvaFMr0YC-54TzHcLrni4.OHOMoMFXaX9YW9DoX_xeng.1vnf6DTWU7sJo6XAxlRP_w'
         }
       },
       mobile: {
@@ -92,7 +132,9 @@ describe('TrustedForm URL', function () {
           is_mobile: true,
           is_facebook: false,
           is_masked: false,
-          age_in_days: moment(new Date()).diff(new Date(1646779346000), 'days')
+          age_in_days: moment(new Date()).diff(new Date(1646779346000), 'days'),
+          host: 'cert.trustedform.com',
+          path: '/11NgkzK_mroUbOD1-x66NigDliU1kdvbaCtLGvyja1K80vU1sKh9grlwP78vzKSp4ncwAfJAlNPNVY8f'
         }
       },
       ping: {
@@ -104,13 +146,18 @@ describe('TrustedForm URL', function () {
           is_mobile: false,
           is_facebook: false,
           is_masked: false,
-          age_in_days: moment(new Date()).diff(new Date(1646778749000), 'days')
+          age_in_days: moment(new Date()).diff(new Date(1646778749000), 'days'),
+          ping_url: 'https://ping.trustedform.com/0.1JT7QUPI1sOFZxpr72ZK45K0ck75kEBO9H3jNJuX8NkqMTv4UF-zrapBUlsefTP3lkXWh6qM.fF0DNrov0zNUNVRCqDV5dw.E2eYOJ5-dnAgiX02-96FNQ',
+          host: 'ping.trustedform.com',
+          path: '/0.1JT7QUPI1sOFZxpr72ZK45K0ck75kEBO9H3jNJuX8NkqMTv4UF-zrapBUlsefTP3lkXWh6qM.fF0DNrov0zNUNVRCqDV5dw.E2eYOJ5-dnAgiX02-96FNQ'
         }
       },
       masked: {
         url: 'https://cert.trustedform.com/0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33',
         expected: {
-          type: 'masked'
+          type: 'masked',
+          host: 'cert.trustedform.com',
+          path: '/0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33'
         }
       }
     };
@@ -137,3 +184,5 @@ describe('TrustedForm URL', function () {
     }
   });
 });
+
+
