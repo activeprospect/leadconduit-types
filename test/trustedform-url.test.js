@@ -80,7 +80,6 @@ describe('TrustedForm URL', function () {
     const certUrl = 'https://cert.trustedform.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947';
     const parsed = url.parse(certUrl);
     const pingUrl = parsed.ping_url;
-    console.log(pingUrl);
     const parsedPingUrl = regularUrl.parse(pingUrl);
     assert.equal(parsedPingUrl.protocol, 'https');
     assert.equal(parsedPingUrl.host, 'ping.trustedform.com');
