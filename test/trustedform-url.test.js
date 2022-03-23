@@ -41,6 +41,18 @@ describe('TrustedForm URL', function () {
     assert.equal(parsed.cert_id, '0.vzhYBmGsqsu4ob7u4rWDOX6Gg4OT5SAza1r%2FTYNMJ81Kx%2FFGh2SZGtlZ7KiEg7lEdxi7xLcq.15GK4f1R9Te6Rjd4J85Xng.Bdz5CUNsDpelrvmW0L9sQg');
   });
 
+  it('should handle staging URLs', function() {
+    const tests = [
+      'https://cert.staging.trustedform.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947',
+      'https://ping.staging.trustedform.com/0.1JT7QUPI1sOFZxpr72ZK45K0ck75kEBO9H3jNJuX8NkqMTv4UF-zrapBUlsefTP3lkXWh6qM.fF0DNrov0zNUNVRCqDV5dw.E2eYOJ5-dnAgiX02-96FNQ'
+    ]
+    for(test of tests) {
+      const parsed = url.parse(test);
+      assert.equal(parsed.raw, test);
+      assert.isTrue(parsed.valid);
+    }
+  });
+
   describe('invalid values', function () {
     it('should handle non-TF URLs', function() {
       const testUrl = 'https://activeprospect.com';
