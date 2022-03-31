@@ -90,7 +90,7 @@ describe('TrustedForm URL', function () {
 
     it('should not allow staging urls in production env', function() {
       process.env.NODE_ENV = 'production';
-      const test = 'https://cert.trustedform.staging.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947';
+      const test = 'https://cert.staging.trustedform.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947';
       const parsed = url.parse(test);
       assert.isFalse(parsed.valid);
     });
