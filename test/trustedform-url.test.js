@@ -10,7 +10,7 @@ const url = require('../lib/types/trustedform_url');
 const regularUrl = require('../lib/types/url');
 const certId = require('@activeprospect/trustedform-cert-id');
 
-describe.only('TrustedForm URL', function () {
+describe('TrustedForm URL', function () {
   it('should not parse null', function () {
     assert.isNull(url.parse(null));
   });
