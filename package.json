@@ -9,6 +9,7 @@
     "test": "TZ=GMT CERT_IDS_SECRET_KEY=qy3Sjay3D/bXAAx7jMUvSoum54R5JEPs TF_CONFIG_CERT_ID_SECRET=qy3Sjay3D/bXAAx7jMUvSoum54R5JEPs mocha"
   },
   "dependencies": {
+    "@activeprospect/expando-natives": "^1.1.1",
     "@activeprospect/freemail": "^1.5.2",
     "@activeprospect/indexer": "^1.3.2",
     "@activeprospect/trustedform-cert-id": "^1.0.0",
