@@ -44,13 +44,63 @@ describe('TrustedForm URL', function () {
   it('should handle staging URLs', function() {
     const tests = [
       'https://cert.staging.trustedform.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947',
-      'https://ping.staging.trustedform.com/0.1JT7QUPI1sOFZxpr72ZK45K0ck75kEBO9H3jNJuX8NkqMTv4UF-zrapBUlsefTP3lkXWh6qM.fF0DNrov0zNUNVRCqDV5dw.E2eYOJ5-dnAgiX02-96FNQ'
+      'https://cert.trustedform-staging.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947',
+      'https://ping.staging.trustedform.com/0.1JT7QUPI1sOFZxpr72ZK45K0ck75kEBO9H3jNJuX8NkqMTv4UF-zrapBUlsefTP3lkXWh6qM.fF0DNrov0zNUNVRCqDV5dw.E2eYOJ5-dnAgiX02-96FNQ',
+      'https://ping.trustedform-staging.com/0.1JT7QUPI1sOFZxpr72ZK45K0ck75kEBO9H3jNJuX8NkqMTv4UF-zrapBUlsefTP3lkXWh6qM.fF0DNrov0zNUNVRCqDV5dw.E2eYOJ5-dnAgiX02-96FNQ'
     ]
     for(test of tests) {
       const parsed = url.parse(test);
       assert.equal(parsed.raw, test);
       assert.isTrue(parsed.valid);
     }
+  });
+
+  it('should handle dev URLs', function() {
+    const tests = [
+      'https://cert.trustedform-dev.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947',
+      'https://ping.trustedform-dev.com/0.1JT7QUPI1sOFZxpr72ZK45K0ck75kEBO9H3jNJuX8NkqMTv4UF-zrapBUlsefTP3lkXWh6qM.fF0DNrov0zNUNVRCqDV5dw.E2eYOJ5-dnAgiX02-96FNQ'
+    ]
+    for(test of tests) {
+      const parsed = url.parse(test);
+      assert.equal(parsed.raw, test);
+      assert.isTrue(parsed.valid);
+    }
+  });
+
+  it('should handle local URLs', function() {
+    const tests = [
+      'https://cert.trustedform.localhost/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947',
+      'https://ping.trustedform.localhost/0.1JT7QUPI1sOFZxpr72ZK45K0ck75kEBO9H3jNJuX8NkqMTv4UF-zrapBUlsefTP3lkXWh6qM.fF0DNrov0zNUNVRCqDV5dw.E2eYOJ5-dnAgiX02-96FNQ'
+    ]
+    for(test of tests) {
+      const parsed = url.parse(test);
+      assert.equal(parsed.raw, test);
+      assert.isTrue(parsed.valid);
+    }
+  });
+
+  describe('environment', function () {
+    beforeEach(function() {
+      this.env = process.env.NODE_ENV;
+    });
+
+    afterEach(function() {
+      process.env.NODE_ENV = this.env;
+    });
+
+    it('should not allow staging urls in production env', function() {
+      process.env.NODE_ENV = 'production';
+      const test = 'https://cert.staging.trustedform.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947';
+      const parsed = url.parse(test);
+      assert.isFalse(parsed.valid);
+    });
+
+    it('should not allow dev urls in production env', function() {
+      process.env.NODE_ENV = 'production';
+      const test = 'https://cert.trustedform-dev.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947';
+      const parsed = url.parse(test);
+      assert.isFalse(parsed.valid);
+    });
   });
 
   describe('invalid values', function () {
