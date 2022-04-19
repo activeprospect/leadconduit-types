@@ -160,57 +160,53 @@ describe('TrustedForm URL', function () {
         url: 'https://cert.trustedform.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947',
         expected: {
           cert_id: 'eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947',
-          is_expired: moment(new Date()).diff(new Date(1646770816000), 'days') > 90, // cert ID has static date. the `is_expired` value of false will change to true 90 days after that date
           is_web: true,
           is_mobile: false,
           is_facebook: false,
           is_masked: false,
-          age_in_days: moment(new Date()).diff(new Date(1646770816000), 'days'),
           host: 'cert.trustedform.com',
-          path: '/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947'
+          path: '/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947',
+          valid: true
         }
       },
       facebook: {
         url: 'https://cert.trustedform.com/0.rpM21ddljS9BNNUOm6FZVVqb5C5JMk1cofI4nDGdwy5ezucyxjok9qLyUXMu9diW62Xac8xNMpomBf1B-XDpfbYvaFMr0YC-54TzHcLrni4.OHOMoMFXaX9YW9DoX_xeng.1vnf6DTWU7sJo6XAxlRP_w',
         expected: {
           cert_id: '0.rpM21ddljS9BNNUOm6FZVVqb5C5JMk1cofI4nDGdwy5ezucyxjok9qLyUXMu9diW62Xac8xNMpomBf1B-XDpfbYvaFMr0YC-54TzHcLrni4.OHOMoMFXaX9YW9DoX_xeng.1vnf6DTWU7sJo6XAxlRP_w',
-          is_expired: moment(new Date()).diff(new Date(1646776988000), 'days') > 90, // cert ID has static date. the `is_expired` value of false will change to true 90 days after that date
           is_web: false,
           is_mobile: false,
           is_facebook: true,
           is_masked: false,
-          age_in_days: moment(new Date()).diff(new Date(1646776988000), 'days'),
           host: 'cert.trustedform.com',
-          path: '/0.rpM21ddljS9BNNUOm6FZVVqb5C5JMk1cofI4nDGdwy5ezucyxjok9qLyUXMu9diW62Xac8xNMpomBf1B-XDpfbYvaFMr0YC-54TzHcLrni4.OHOMoMFXaX9YW9DoX_xeng.1vnf6DTWU7sJo6XAxlRP_w'
+          path: '/0.rpM21ddljS9BNNUOm6FZVVqb5C5JMk1cofI4nDGdwy5ezucyxjok9qLyUXMu9diW62Xac8xNMpomBf1B-XDpfbYvaFMr0YC-54TzHcLrni4.OHOMoMFXaX9YW9DoX_xeng.1vnf6DTWU7sJo6XAxlRP_w',
+          valid: true
         }
       },
       mobile: {
         url: 'https://cert.trustedform.com/11NgkzK_mroUbOD1-x66NigDliU1kdvbaCtLGvyja1K80vU1sKh9grlwP78vzKSp4ncwAfJAlNPNVY8f',
         expected: {
           cert_id: '11NgkzK_mroUbOD1-x66NigDliU1kdvbaCtLGvyja1K80vU1sKh9grlwP78vzKSp4ncwAfJAlNPNVY8f',
-          is_expired: moment(new Date()).diff(new Date(1646779346000), 'days') > 90, // cert ID has static date. the `is_expired` value of false will change to true 90 days after that date
           is_web: false,
           is_mobile: true,
           is_facebook: false,
           is_masked: false,
-          age_in_days: moment(new Date()).diff(new Date(1646779346000), 'days'),
           host: 'cert.trustedform.com',
-          path: '/11NgkzK_mroUbOD1-x66NigDliU1kdvbaCtLGvyja1K80vU1sKh9grlwP78vzKSp4ncwAfJAlNPNVY8f'
+          path: '/11NgkzK_mroUbOD1-x66NigDliU1kdvbaCtLGvyja1K80vU1sKh9grlwP78vzKSp4ncwAfJAlNPNVY8f',
+          valid: true
         }
       },
       ping: {
         url: 'https://ping.trustedform.com/0.1JT7QUPI1sOFZxpr72ZK45K0ck75kEBO9H3jNJuX8NkqMTv4UF-zrapBUlsefTP3lkXWh6qM.fF0DNrov0zNUNVRCqDV5dw.E2eYOJ5-dnAgiX02-96FNQ',
         expected: {
           cert_id: '0.1JT7QUPI1sOFZxpr72ZK45K0ck75kEBO9H3jNJuX8NkqMTv4UF-zrapBUlsefTP3lkXWh6qM.fF0DNrov0zNUNVRCqDV5dw.E2eYOJ5-dnAgiX02-96FNQ',
-          is_expired: moment(new Date()).diff(new Date(1646778749000), 'days') > 90, // cert ID has static date. the `is_expired` value of false will change to true 90 days after that date
           is_web: true,
           is_mobile: false,
           is_facebook: false,
           is_masked: false,
-          age_in_days: moment(new Date()).diff(new Date(1646778749000), 'days'),
           ping_url: 'https://ping.trustedform.com/0.1JT7QUPI1sOFZxpr72ZK45K0ck75kEBO9H3jNJuX8NkqMTv4UF-zrapBUlsefTP3lkXWh6qM.fF0DNrov0zNUNVRCqDV5dw.E2eYOJ5-dnAgiX02-96FNQ',
           host: 'ping.trustedform.com',
-          path: '/0.1JT7QUPI1sOFZxpr72ZK45K0ck75kEBO9H3jNJuX8NkqMTv4UF-zrapBUlsefTP3lkXWh6qM.fF0DNrov0zNUNVRCqDV5dw.E2eYOJ5-dnAgiX02-96FNQ'
+          path: '/0.1JT7QUPI1sOFZxpr72ZK45K0ck75kEBO9H3jNJuX8NkqMTv4UF-zrapBUlsefTP3lkXWh6qM.fF0DNrov0zNUNVRCqDV5dw.E2eYOJ5-dnAgiX02-96FNQ',
+          valid: true
         }
       },
       masked: {
@@ -218,7 +214,8 @@ describe('TrustedForm URL', function () {
         expected: {
           type: 'masked',
           host: 'cert.trustedform.com',
-          path: '/0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33'
+          path: '/0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33',
+          valid: true
         }
       }
     };
