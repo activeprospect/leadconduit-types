@@ -1,5 +1,6 @@
 const {assert} = require('chai');
 const moment = require('moment');
+const timefreeze = require('timefreeze');
 
 // these environment variables must be set before requiring the type
 const secret = 'qy3Sjay3D/bXAAx7jMUvSoum54R5JEPs';
@@ -11,6 +12,13 @@ const regularUrl = require('../lib/types/url');
 const certId = require('@activeprospect/trustedform-cert-id');
 
 describe('TrustedForm URL', function () {
+  before(function () {
+    timefreeze.freeze(new Date(2022,3,31));
+  });
+  after(function () {
+    timefreeze.reset();
+  });
+
   it('should not parse null', function () {
     assert.isNull(url.parse(null));
   });
@@ -155,6 +163,7 @@ describe('TrustedForm URL', function () {
   });
 
   describe('valid values', function () {
+    timefreeze.freeze(new Date(2022, 3, 31));
     const tests = {
       web: {
         url: 'https://cert.trustedform.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947',
@@ -240,6 +249,7 @@ describe('TrustedForm URL', function () {
         }
       })
     }
+    timefreeze.reset();
   });
 });
 
