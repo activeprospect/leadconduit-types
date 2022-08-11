@@ -82,7 +82,6 @@ describe('DOB', function () {
       });
 
       it('should have age', function () {
-        console.log(Date())
         assert.equal(dob.parse(string).age, 7.9);
       });
 
