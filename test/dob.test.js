@@ -61,6 +61,10 @@ describe('DOB', function () {
         assert.equal(dob.parse(string).raw, string);
       });
 
+      it('should have masked flag', function () {
+        assert.isFalse(dob.parse(string).masked);
+      });
+
       it('should be valid', function () {
         assert.isTrue(dob.parse(string).valid);
       });
@@ -92,6 +96,10 @@ describe('DOB', function () {
 
       it('should have raw value', function () {
         assert.equal(dob.parse(string).raw, string);
+      });
+
+      it('should have masked flag', function () {
+        assert.isFalse(dob.parse(string).masked);
       });
 
       it('should be valid', function () {
