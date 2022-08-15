@@ -1,5 +1,4 @@
 const {assert} = require('chai');
-const moment = require('moment');
 const timefreeze = require('timefreeze');
 
 // these environment variables must be set before requiring the type
