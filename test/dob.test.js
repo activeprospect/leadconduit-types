@@ -5,7 +5,7 @@ const timefreeze = require('timefreeze');
 describe('DOB', function () {
   before(function () {
     // June 18, 2022
-    timefreeze.freeze(new Date(2022,5,18));
+    timefreeze.freeze(new Date(2022,5,2));
   });
   after(function () {
     timefreeze.reset();
@@ -23,8 +23,12 @@ describe('DOB', function () {
     assert.equal(parsed.valueOf(), '2014-06-02');
   });
 
-  it('should have age', function () {
+  it('should be full age on DOB', function () {
     assert.equal(dob.parse('06/02/2014').age, 8);
+  });
+
+  it('should not pass age until DOB', function () {
+    assert.equal(dob.parse('06/03/2014').age, 7.9);
   });
 
   it('should have year', function () {
