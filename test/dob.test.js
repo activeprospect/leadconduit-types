@@ -4,7 +4,7 @@ const timefreeze = require('timefreeze');
 
 describe('DOB', function () {
   before(function () {
-    // June 18, 2022
+    // June 2, 2022
     timefreeze.freeze(new Date(2022,5,2));
   });
   after(function () {
