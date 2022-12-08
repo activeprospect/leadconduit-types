@@ -1,6 +1,7 @@
 const { assert } = require('chai');
 const dob = require('../lib/types/dob');
 const timefreeze = require('timefreeze');
+const moment = require('moment-timezone');
 
 describe('DOB', function () {
   before(function () {
@@ -28,7 +29,10 @@ describe('DOB', function () {
   });
 
   it('should not pass age until DOB', function () {
-    assert.equal(dob.parse('06/03/2014').age, 7.9);
+    for (let i = 103; i--;) {
+      const dateOfBirth = moment.utc().startOf('day').add(1, 'day').subtract(i, 'years').format('YYYY-MM-DD');
+      assert.equal(dob.parse(dateOfBirth).age, i - 0.1);
+    }
   });
 
   it('should have year', function () {
