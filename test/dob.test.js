@@ -29,7 +29,7 @@ describe('DOB', function () {
   });
 
   it('should not pass age until DOB', function () {
-    for (let i = 103; i--;) {
+    for (let i = 121; i--;) {
       const dateOfBirth = moment.utc().startOf('day').add(1, 'day').subtract(i, 'years').format('YYYY-MM-DD');
       assert.equal(dob.parse(dateOfBirth).age, i - 0.1);
     }
