@@ -1,7 +1,7 @@
 const { assert } = require('chai');
 const dob = require('../lib/types/dob');
 const timefreeze = require('timefreeze');
-const moment = require('moment-timezone');
+const moment = require('moment');
 const MAX_HUMAN_LIFE_SPAN_YEARS = 121;
 
 describe('DOB', function () {
