@@ -25,13 +25,23 @@ describe('DOB', function () {
   });
 
   it('should be full age on DOB', function () {
-    assert.equal(dob.parse('06/02/2014').age, 8);
+    for (let i = 121; i--;) {
+      const dateOfBirth = moment.utc().startOf('day').subtract(i, 'years').format('YYYY-MM-DD');
+      assert.equal(dob.parse(dateOfBirth).age, i);
+    }
   });
 
-  it('should not pass age until DOB', function () {
-    for (let i = 121; i--;) {
+  it('should get decimal right before birthday', function () {
+    for (let i = 1; i < 121; i++) {
       const dateOfBirth = moment.utc().startOf('day').add(1, 'day').subtract(i, 'years').format('YYYY-MM-DD');
       assert.equal(dob.parse(dateOfBirth).age, i - 0.1);
+    }
+  });
+
+  it('should get the decimal right for after birthday', function () {
+    for (let i = 121; i--;) {
+      const dateOfBirth = moment.utc().startOf('day').subtract(40, 'day').subtract(i, 'years').format('YYYY-MM-DD');
+      assert.equal(dob.parse(dateOfBirth).age, i + 0.1);
     }
   });
 
