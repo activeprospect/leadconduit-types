@@ -2,6 +2,7 @@ const { assert } = require('chai');
 const dob = require('../lib/types/dob');
 const timefreeze = require('timefreeze');
 const moment = require('moment-timezone');
+const MAX_HUMAN_LIFE_SPAN_YEARS = 121;
 
 describe('DOB', function () {
   before(function () {
@@ -24,23 +25,25 @@ describe('DOB', function () {
     assert.equal(parsed.valueOf(), '2014-06-02');
   });
 
-  it('should be full age on DOB', function () {
-    for (let i = 121; i--;) {
-      const dateOfBirth = moment.utc().startOf('day').subtract(i, 'years').format('YYYY-MM-DD');
+  it('should get decimal right on birthday', function () {
+    for (let i = MAX_HUMAN_LIFE_SPAN_YEARS; i--;) {
+      const dateOfBirth = moment.utc().subtract(i, 'years').format('YYYY-MM-DD');
       assert.equal(dob.parse(dateOfBirth).age, i);
     }
   });
 
-  it('should get decimal right before birthday', function () {
-    for (let i = 1; i < 121; i++) {
-      const dateOfBirth = moment.utc().startOf('day').add(1, 'day').subtract(i, 'years').format('YYYY-MM-DD');
+  it('should get decimal right day before birthday', function () {
+    // to prevent selecting a negative birthday start at 1.
+    for (let i = 1; i < MAX_HUMAN_LIFE_SPAN_YEARS; i++) {
+      const dateOfBirth = moment.utc().add(1, 'day').subtract(i, 'years').format('YYYY-MM-DD');
       assert.equal(dob.parse(dateOfBirth).age, i - 0.1);
     }
   });
 
-  it('should get the decimal right for after birthday', function () {
-    for (let i = 121; i--;) {
-      const dateOfBirth = moment.utc().startOf('day').subtract(40, 'day').subtract(i, 'years').format('YYYY-MM-DD');
+  it('should get the decimal right for date after birthday', function () {
+    const ONE_TENTH_YEAR_IN_DAYS = 37;
+    for (let i = MAX_HUMAN_LIFE_SPAN_YEARS; i--;) {
+      const dateOfBirth = moment.utc().subtract(ONE_TENTH_YEAR_IN_DAYS, 'day').subtract(i, 'years').format('YYYY-MM-DD');
       assert.equal(dob.parse(dateOfBirth).age, i + 0.1);
     }
   });
