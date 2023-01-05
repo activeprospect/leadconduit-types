@@ -218,11 +218,11 @@ describe('TrustedForm URL', function () {
         }
       },
       masked: {
-        url: 'https://cert.trustedform.com/0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33',
+        url: 'https://cert.trustedform.com/ff5e209f324c43e2cf57ce1a080e778fecbf8285',
         expected: {
           type: 'masked',
           host: 'cert.trustedform.com',
-          path: '/0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33',
+          path: '/ff5e209f324c43e2cf57ce1a080e778fecbf8285',
           valid: true
         }
       }
