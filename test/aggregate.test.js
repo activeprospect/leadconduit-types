@@ -15,6 +15,21 @@ describe('Aggregation', function () {
   });
 });
 
+describe('Wildcard Object aggregation', function () {
+  it('Should include custom wildcard type with object data', function () {
+    const fieldTypes = { 'custom.*': 'wildcard' };
+    const vars = types.normalize({ custom: { donkey: 'kong', mario: 'bros' } });
+    const { custom } = aggregate(vars, fieldTypes);
+    assert.deepEqual(custom, { donkey: 'kong', mario: 'bros' });
+  });
+  it('Should include vars.lead.custom wildcard type with object data', function () {
+    const fieldTypes = { 'vars.lead.custom.*': 'wildcard' };
+    const vars = types.normalize({ vars: { lead: { custom: { donkey: 'kong', mario: 'bros' } } } });
+    const { vars: { lead: { custom } } } = aggregate(vars, fieldTypes);
+    assert.deepEqual(custom, { donkey: 'kong', mario: 'bros' });
+  });
+});
+
 describe('Boolean aggregation', function () {
   const fieldTypes = { boolean: 'boolean' };
 
