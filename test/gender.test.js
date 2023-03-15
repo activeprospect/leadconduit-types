@@ -64,7 +64,8 @@ describe('Gender', function () {
     'asdf',
     '   ',
     5,
-    true
+    true,
+    { foo: 42 }
   ];
 
   for (const val of invalids) {
@@ -72,6 +73,7 @@ describe('Gender', function () {
       const parsed = gender.parse(val);
       assert.equal(parsed.valueOf(), val.toString());
       assert.equal(parsed.raw, val);
+      assert.equal(JSON.stringify(parsed), `"${val}"`);
       assert.isFalse(parsed.valid);
       assert.isNull(parsed.abbr);
     });

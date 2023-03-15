@@ -61,7 +61,8 @@ describe('SSN', function () {
     const strings = [
       'abcd',
       '',
-      '   '
+      '   ',
+      { foo: 42 }
     ];
 
     for (const string of strings) {
@@ -71,6 +72,10 @@ describe('SSN', function () {
         });
         it('should keep raw value', function () {
           assert.equal(this.parsed.raw, string);
+        });
+
+        it('should be stringifiable', function () {
+          assert.equal(JSON.stringify(this.parsed), `"${string}"`);
         });
 
         it('should not have first three', function () {

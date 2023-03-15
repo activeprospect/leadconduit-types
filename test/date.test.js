@@ -82,6 +82,22 @@ describe('Date', function () {
     assert.isFalse(parsed.valid);
   });
 
+  it('should handle non-string garbage', function () {
+    // see sc-39505
+    const parsed = date.parse({ foo: 42 });
+    let stringified;
+    const invokeStringify = () => {
+      stringified = JSON.stringify(parsed);
+    };
+    assert.doesNotThrow(invokeStringify);
+
+    assert.equal(stringified, '"[object Object]"');
+    assert.equal(parsed.toString(), '[object Object]');
+    assert.equal(parsed.raw, '[object Object]');
+    assert.equal(parsed.valueOf(), '[object Object]');
+    assert.isFalse(parsed.valid);
+  });
+
   it('should handle parsing a parsed date', function () {
     const parsed = date.parse(date.parse('Mon Jun 02 2014'));
     assert.instanceOf(parsed, Date);
