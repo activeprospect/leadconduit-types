@@ -105,7 +105,8 @@ describe('URL', function () {
       '',
       ' ',
       'https://',
-      'donkey://google.com'
+      'donkey://google.com',
+      { foo: 42 }
     ];
 
     for (const string of strings) {

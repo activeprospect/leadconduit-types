@@ -64,15 +64,16 @@ describe('State', function () {
   });
 
   describe('unknown states', function () {
-    const strings = [
+    const unknowns = [
       'DX',
       '',
       '  ',
       'Dexus',
-      'DEXUS NEXUS'
+      'DEXUS NEXUS',
+      { foo: 42 }
     ];
 
-    for (const string of strings) {
+    for (const string of unknowns) {
       describe(`'${string}'`, function () {
         beforeEach(function () {
           this.parsed = state.parse(string);

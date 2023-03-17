@@ -43,7 +43,8 @@ describe('Boolean', function () {
   const invalids = [
     '50',
     'asdf',
-    '   '
+    '   ',
+    { foo: 42 }
   ];
 
   for (const val of invalids) {
@@ -51,6 +52,7 @@ describe('Boolean', function () {
       const parsed = boolean.parse(val);
       assert.equal(parsed.valueOf(), false);
       assert.equal(parsed.raw, val);
+      assert.equal(JSON.stringify(parsed), "false");
       assert.isFalse(parsed.valid);
     });
   }

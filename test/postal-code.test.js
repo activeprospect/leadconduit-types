@@ -172,6 +172,22 @@ describe('Postal code', function () {
     assert.isFalse(pc.valid);
   });
 
+  it('should handle non-string garbage', function () {
+    // see sc-39505
+    let parsed, stringified;
+    const invokeStringify = () => {
+      parsed = postalCode.parse({ foo: 42 });
+      stringified = JSON.stringify(parsed);
+    };
+    assert.doesNotThrow(invokeStringify);
+
+    assert.equal(stringified, '"[object Object]"');
+    assert.equal(parsed.toString(), '[object Object]');
+    assert.equal(parsed.raw, '[object Object]');
+    assert.equal(parsed.valueOf(), '[object Object]');
+    assert.isFalse(parsed.valid);
+  });
+
   it('should parse a parsed postal code', function () {
     const pc = postalCode.parse(postalCode.parse('78704 - 1234'));
     assert.equal(pc.toString(), '78704-1234');

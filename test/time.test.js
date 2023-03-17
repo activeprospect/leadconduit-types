@@ -32,6 +32,7 @@ describe('Time', function () {
         const date = time.parse(string);
         assert.equal(date.valueOf(), '2014-06-14T18:27:33.000Z');
         assert.equal(date.toString(), '2014-06-14T18:27:33.000Z');
+        assert.equal(JSON.stringify(date), '"2014-06-14T18:27:33.000Z"');
       });
     });
   }
@@ -42,6 +43,22 @@ describe('Time', function () {
     assert.equal(date.raw, 'garbage');
     assert.equal(date.toString(), 'garbage');
     assert.equal(date.valueOf(), 'garbage');
+    assert.isFalse(date.valid);
+  });
+
+  it('should handle non-string garbage', function () {
+    // see sc-39505
+    const date = time.parse({ foo: 42 });
+    let stringified;
+    const invokeStringify = () => {
+      stringified = JSON.stringify(date);
+    };
+    assert.doesNotThrow(invokeStringify);
+
+    assert.equal(stringified, '"[object Object]"');
+    assert.equal(date.toString(), '[object Object]');
+    assert.equal(date.raw, '[object Object]');
+    assert.equal(date.valueOf(), '[object Object]');
     assert.isFalse(date.valid);
   });
 
