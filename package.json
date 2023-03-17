@@ -1,7 +1,7 @@
 {
   "name": "leadconduit-types",
   "description": "A Node.JS module that parses data by type",
-  "version": "4.20.2",
+  "version": "4.20.3",
   "main": "lib/index",
   "license": "CC-BY-NC-ND-4.0",
   "repository": "https://github.com/activeprospect/leadconduit-types",
