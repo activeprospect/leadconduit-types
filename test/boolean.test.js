@@ -52,7 +52,7 @@ describe('Boolean', function () {
       const parsed = boolean.parse(val);
       assert.equal(parsed.valueOf(), false);
       assert.equal(parsed.raw, val);
-      assert.equal(JSON.stringify(parsed), "false");
+      assert.equal(JSON.stringify(parsed), 'false');
       assert.isFalse(parsed.valid);
     });
   }

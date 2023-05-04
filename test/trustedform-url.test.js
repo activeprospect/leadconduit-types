@@ -1,4 +1,4 @@
-const {assert} = require('chai');
+const { assert } = require('chai');
 const timefreeze = require('timefreeze');
 
 // these environment variables must be set before requiring the type
@@ -12,7 +12,7 @@ const certId = require('@activeprospect/trustedform-cert-id');
 
 describe('TrustedForm URL', function () {
   before(function () {
-    timefreeze.freeze(new Date(2022,3,31));
+    timefreeze.freeze(new Date(2022, 3, 31));
   });
   after(function () {
     timefreeze.reset();
@@ -30,56 +30,56 @@ describe('TrustedForm URL', function () {
     assert(url.examples.length);
   });
 
-  it('should normalize case of 40 character ids', function() {
+  it('should normalize case of 40 character ids', function () {
     const cert = url.parse('https://CERT.trustedform.com/EB9fC4DD9bED9AD451A5648946CF4BF09B5BB947');
     assert.equal(cert.toString(), 'https://cert.trustedform.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947');
   });
 
-  it('should not normalize case of zero-dot IDs', function() {
+  it('should not normalize case of zero-dot IDs', function () {
     const pingUrl = 'HTTPS://PING.trustedform.com/0.vzhYBmGsqsu4ob7u4rWDOX6Gg4OT5SAza1r%2FTYNMJ81Kx%2FFGh2SZGtlZ7KiEg7lEdxi7xLcq.15GK4f1R9Te6Rjd4J85Xng.Bdz5CUNsDpelrvmW0L9sQg';
     const cert = url.parse(pingUrl);
     assert.equal(cert.toString(), 'https://ping.trustedform.com/0.vzhYBmGsqsu4ob7u4rWDOX6Gg4OT5SAza1r%2FTYNMJ81Kx%2FFGh2SZGtlZ7KiEg7lEdxi7xLcq.15GK4f1R9Te6Rjd4J85Xng.Bdz5CUNsDpelrvmW0L9sQg');
   });
 
-  it('should parse ping URL with url encoded parts', function() {
+  it('should parse ping URL with url encoded parts', function () {
     // this ping URL has %2F in it, which is the / character URL encoded
     const pingUrl = 'https://ping.trustedform.com/0.vzhYBmGsqsu4ob7u4rWDOX6Gg4OT5SAza1r%2FTYNMJ81Kx%2FFGh2SZGtlZ7KiEg7lEdxi7xLcq.15GK4f1R9Te6Rjd4J85Xng.Bdz5CUNsDpelrvmW0L9sQg';
     const parsed = url.parse(pingUrl);
     assert.equal(parsed.cert_id, '0.vzhYBmGsqsu4ob7u4rWDOX6Gg4OT5SAza1r%2FTYNMJ81Kx%2FFGh2SZGtlZ7KiEg7lEdxi7xLcq.15GK4f1R9Te6Rjd4J85Xng.Bdz5CUNsDpelrvmW0L9sQg');
   });
 
-  it('should handle staging URLs', function() {
+  it('should handle staging URLs', function () {
     const tests = [
       'https://cert.staging.trustedform.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947',
       'https://cert.trustedform-staging.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947',
       'https://ping.staging.trustedform.com/0.1JT7QUPI1sOFZxpr72ZK45K0ck75kEBO9H3jNJuX8NkqMTv4UF-zrapBUlsefTP3lkXWh6qM.fF0DNrov0zNUNVRCqDV5dw.E2eYOJ5-dnAgiX02-96FNQ',
       'https://ping.trustedform-staging.com/0.1JT7QUPI1sOFZxpr72ZK45K0ck75kEBO9H3jNJuX8NkqMTv4UF-zrapBUlsefTP3lkXWh6qM.fF0DNrov0zNUNVRCqDV5dw.E2eYOJ5-dnAgiX02-96FNQ'
-    ]
-    for(test of tests) {
+    ];
+    for (const test of tests) {
       const parsed = url.parse(test);
       assert.equal(parsed.raw, test);
       assert.isTrue(parsed.valid);
     }
   });
 
-  it('should handle dev URLs', function() {
+  it('should handle dev URLs', function () {
     const tests = [
       'https://cert.trustedform-dev.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947',
       'https://ping.trustedform-dev.com/0.1JT7QUPI1sOFZxpr72ZK45K0ck75kEBO9H3jNJuX8NkqMTv4UF-zrapBUlsefTP3lkXWh6qM.fF0DNrov0zNUNVRCqDV5dw.E2eYOJ5-dnAgiX02-96FNQ'
-    ]
-    for(test of tests) {
+    ];
+    for (const test of tests) {
       const parsed = url.parse(test);
       assert.equal(parsed.raw, test);
       assert.isTrue(parsed.valid);
     }
   });
 
-  it('should handle local URLs', function() {
+  it('should handle local URLs', function () {
     const tests = [
       'https://cert.trustedform.localhost/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947',
       'https://ping.trustedform.localhost/0.1JT7QUPI1sOFZxpr72ZK45K0ck75kEBO9H3jNJuX8NkqMTv4UF-zrapBUlsefTP3lkXWh6qM.fF0DNrov0zNUNVRCqDV5dw.E2eYOJ5-dnAgiX02-96FNQ'
-    ]
-    for(test of tests) {
+    ];
+    for (const test of tests) {
       const parsed = url.parse(test);
       assert.equal(parsed.raw, test);
       assert.isTrue(parsed.valid);
@@ -87,22 +87,22 @@ describe('TrustedForm URL', function () {
   });
 
   describe('environment', function () {
-    beforeEach(function() {
+    beforeEach(function () {
       this.env = process.env.NODE_ENV;
     });
 
-    afterEach(function() {
+    afterEach(function () {
       process.env.NODE_ENV = this.env;
     });
 
-    it('should not allow staging urls in production env', function() {
+    it('should not allow staging urls in production env', function () {
       process.env.NODE_ENV = 'production';
       const test = 'https://cert.staging.trustedform.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947';
       const parsed = url.parse(test);
       assert.isFalse(parsed.valid);
     });
 
-    it('should not allow dev urls in production env', function() {
+    it('should not allow dev urls in production env', function () {
       process.env.NODE_ENV = 'production';
       const test = 'https://cert.trustedform-dev.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947';
       const parsed = url.parse(test);
@@ -111,41 +111,41 @@ describe('TrustedForm URL', function () {
   });
 
   describe('invalid values', function () {
-    it('should handle non-TF URLs', function() {
+    it('should handle non-TF URLs', function () {
       const testUrl = 'https://activeprospect.com';
       const parsed = url.parse(testUrl);
       assert.equal(parsed.raw, testUrl);
       assert.isFalse(parsed.valid);
     });
 
-    it('should handle look-alike URLs', function() {
+    it('should handle look-alike URLs', function () {
       const lookAlikes = [
         'https://cert.trustedform.com/1234567890123456789012345678901234567890',
         'https://cert.trustedform.com/asdfasdfasdf',
         'https://ping.trustedform.com/1234567890123456789012345678901234567890',
         'https://ping.trustedform.com/asdfasdfasdf'
       ];
-      for(testUrl of lookAlikes) {
+      for (const testUrl of lookAlikes) {
         const parsed = url.parse(testUrl);
         assert.equal(parsed.raw, testUrl);
         assert.isFalse(parsed.valid);
       }
     });
 
-    it('should handle http protocol', function() {
+    it('should handle http protocol', function () {
       const tests = [
         'http://cert.trustedform.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947',
         'http://ping.trustedform.com/0.1JT7QUPI1sOFZxpr72ZK45K0ck75kEBO9H3jNJuX8NkqMTv4UF-zrapBUlsefTP3lkXWh6qM.fF0DNrov0zNUNVRCqDV5dw.E2eYOJ5-dnAgiX02-96FNQ'
-      ]
-      for(test of tests) {
+      ];
+      for (const test of tests) {
         const parsed = url.parse(test);
         assert.equal(parsed.raw, test);
         assert.isFalse(parsed.valid);
       }
-    })
-  })
+    });
+  });
 
-  it('should provide ping url', function() {
+  it('should provide ping url', function () {
     const certUrl = 'https://cert.trustedform.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947';
     const parsed = url.parse(certUrl);
     const pingUrl = parsed.ping_url;
@@ -228,28 +228,26 @@ describe('TrustedForm URL', function () {
       }
     };
 
-    for (type of Object.keys(tests)) {
+    for (const type of Object.keys(tests)) {
       const test = tests[type];
       const certUrl = test.url;
       const parsed = url.parse(certUrl);
-      describe(`${type} cert`, function() {
-        beforeEach(function() {
+      describe(`${type} cert`, function () {
+        beforeEach(function () {
           assert.ok(parsed);
           assert.isTrue(parsed.valid);
-        })
+        });
         const expected = tests[type].expected;
-        for(property of Object.keys(expected)) {
+        for (const property of Object.keys(expected)) {
           const expectedValue = expected[property];
           const prop = property;
-          it(`should have ${property}`, function() {
+          it(`should have ${property}`, function () {
             const value = parsed[prop];
             assert.equal(value, expectedValue);
-          })
+          });
         }
-      })
+      });
     }
     timefreeze.reset();
   });
 });
-
-
