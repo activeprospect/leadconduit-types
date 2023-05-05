@@ -7,7 +7,7 @@ const MAX_HUMAN_LIFE_SPAN_YEARS = 121;
 describe('DOB', function () {
   before(function () {
     // June 2, 2022
-    timefreeze.freeze(new Date(2022,5,2));
+    timefreeze.freeze(new Date(2022, 5, 2));
   });
   after(function () {
     timefreeze.reset();
@@ -16,7 +16,7 @@ describe('DOB', function () {
   it('should return a date object', function () {
     const parsed = dob.parse('06/02/2014');
     assert.instanceOf(parsed, Date);
-    assert.equal(parsed.toISOString(), '2014-06-02T00:00:00.000Z')
+    assert.equal(parsed.toISOString(), '2014-06-02T00:00:00.000Z');
   });
 
   it('should have string value', function () {

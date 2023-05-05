@@ -5,7 +5,7 @@ const index = require('../lib');
 
 describe('Index', function () {
   it('should list type names', function () {
-    const files = fs.readdirSync(`${__dirname}/../lib/types`);
+    const files = fs.readdirSync(path.resolve(__dirname, '../lib/types'));
     const expectedTypeNames = files.map(f => path.basename(f, '.js'));
     expectedTypeNames.splice(expectedTypeNames.indexOf('index'), 1);
 
