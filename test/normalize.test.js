@@ -102,7 +102,8 @@ describe('Normalize utility', function () {
   });
 
   it('should normalize array', function () {
-    const arr = [new String('a string'), new Number(8), new Boolean(true), undefined];
+    const emptyFunction = () => {};
+    const arr = [new String('a string'), new Number(8), new Boolean(true), emptyFunction];
 
     assert.deepEqual(normalize(arr), ['a string', 8, true]);
   });
