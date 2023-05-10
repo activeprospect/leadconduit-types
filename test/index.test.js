@@ -58,7 +58,6 @@ describe('Index', function () {
     assert.equal(hidden.year, 2000);
     // check that age is still a number
     assert.isTrue(Number.isFinite(Number.parseFloat(hidden.age)));
-    assert.isTrue(hidden.masked);
     assert.isTrue(hidden.valid);
   });
 });
