@@ -37,27 +37,47 @@ describe('Index', function () {
     assert.deepEqual(objClone, obj);
   });
 
-  it('returns true for dob type', function () {
-    // tests shouldHide()
-    const normalizedDob = index.normalize(dob.parse('01-01-2000'));
-    assert.isTrue(index.shouldHide(normalizedDob));
-  });
+  describe('hide utility', function () {
+    describe('shouldHide', function () {
+      it('returns true for dob type', function () {
+        const normalizedDob = index.normalize(dob.parse('01-01-2000'));
+        assert.isTrue(index.shouldHide(normalizedDob));
+      });
 
-  it('returns false for non-hideable type', function () {
-    // tests shouldHide()
-    const normalizedString = index.normalize('string');
-    assert.isFalse(index.shouldHide(normalizedString));
-  });
+      it('returns false for non-hideable type', function () {
+        const normalizedString = index.normalize('string');
+        assert.isFalse(index.shouldHide(normalizedString));
+      });
+    });
 
-  it('partially hide dob data', function () {
-    // tests getHideableType() and hide()
-    const normalizedDob = index.normalize(dob.parse('01-01-2000'));
-    const hidden = index.hide(normalizedDob);
-    assert.equal(hidden.raw, '**/**/2000');
-    assert.equal(hidden.normal, '**/**/2000');
-    assert.equal(hidden.year, 2000);
-    // check that age is still a number
-    assert.isTrue(Number.isFinite(Number.parseFloat(hidden.age)));
-    assert.isTrue(hidden.valid);
+    describe('getHideableType', function () {
+      it('returns null for non-hideable type', function () {
+        // tests getHideableType()
+        const normalizedString = index.normalize('string');
+        assert.isNull(index.getHideableType(normalizedString));
+      });
+
+      it('returns dob for dob type', function () {
+        const normalizedDob = index.normalize(dob.parse('01-01-2000'));
+        assert.equal(index.getHideableType(normalizedDob), 'dob');
+      });
+    });
+
+    it('partially hide dob data', function () {
+      const normalizedDob = index.normalize(dob.parse('01-01-2000'));
+      const hidden = index.hide(normalizedDob);
+      assert.equal(hidden.raw, '**/**/2000');
+      assert.equal(hidden.normal, '**/**/2000');
+      assert.equal(hidden.year, 2000);
+      // check that age is still a number
+      assert.isTrue(Number.isFinite(Number.parseFloat(hidden.age)));
+      assert.isTrue(hidden.valid);
+    });
+
+    it('does not hide non-hideable type', function () {
+      const normalizedString = index.normalize('string');
+      const hidden = index.hide(normalizedString);
+      assert.equal(hidden, normalizedString);
+    });
   });
 });
