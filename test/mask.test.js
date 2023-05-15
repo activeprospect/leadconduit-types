@@ -1,6 +1,7 @@
 const { assert } = require('chai');
 const { mask } = require('../lib');
 const dob = require('../lib/types/dob');
+const dt = require('../lib/types/date');
 
 describe('Mask utility', function () {
   it('should mask primitives', function () {
@@ -20,6 +21,12 @@ describe('Mask utility', function () {
     const masked = mask({ masked: false, null: null });
     assert.isTrue(masked.masked);
     assert.isNull(masked.null);
+  });
+
+  it('should not mask undefined', function () {
+    const masked = mask({ masked: false, nodef: undefined });
+    assert.isTrue(masked.masked);
+    assert.isUndefined(masked.nodef);
   });
 
   it('should not mask masked flag', function () {
@@ -56,7 +63,7 @@ describe('Mask utility', function () {
     });
   });
 
-  it('should mask array', function () {
+  it('should mask array of primitives', function () {
     const masked = mask({
       masked: false,
       array: [1, '23', true]
@@ -84,6 +91,47 @@ describe('Mask utility', function () {
         { string: '**************', number: '****', boolean: '*' }
       ]
     });
+  });
+
+  it('errors on masking parsed date with masked set to false', function () {
+    const date = dt.parse('2023-05-23');
+    date.masked = false;
+    try {
+      mask(date);
+    } catch (err) {
+      assert.equal(err.message, 'TypeError: this.getTime is not a function');
+    }
+  });
+
+  it('errors on masking parsed date with doMask set to true', function () {
+    const date = dt.parse('2023-05-23');
+    try {
+      mask(date, true);
+    } catch (err) {
+      assert.equal(err.message, 'TypeError: this.getTime is not a function');
+    }
+  });
+
+  it('does not deeply mask parsed date', function () {
+    const date = { masked: false, date: dt.parse('2023-05-23') };
+    const masked = mask(date);
+    assert.isTrue(masked.masked);
+    assert.equal(masked.date.toString(), '2023-05-23');
+  });
+
+  it('does not deeply mask instanceof Date', function () {
+    const date = { masked: false, date: new Date() };
+    const masked = mask(date);
+    assert.isTrue(masked.masked);
+    assert.equal(masked.date.toString(), date.date.toString());
+  });
+
+  it('masks instanceof Date with masked property', function () {
+    const date = new Date();
+    date.masked = false;
+    const masked = mask(date);
+    assert.isTrue(masked.masked);
+    assert.equal(masked.toString(), date.toString().replace(/./g, '*'));
   });
 
   it('should mask array of objects with valid flags', function () {
