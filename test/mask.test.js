@@ -1,6 +1,5 @@
 const { assert } = require('chai');
 const { mask } = require('../lib');
-const dob = require('../lib/types/dob');
 
 describe('Mask utility', function () {
   it('should mask primitives', function () {
@@ -134,15 +133,5 @@ describe('Mask utility', function () {
     const masked = mask(str);
     assert.equal(masked.toString(), '***');
     assert.isTrue(masked.masked);
-  });
-
-  it('should partially mask dob data', function () {
-    const masked = mask(dob.parse('01-01-2000'));
-    assert.equal(masked.toString(), '**/**/2000');
-    assert.equal(masked.year, 2000);
-    // check that age is still a number
-    assert.isTrue(Number.isFinite(Number.parseFloat(masked.age)));
-    assert.isTrue(masked.masked);
-    assert.isTrue(masked.valid);
   });
 });

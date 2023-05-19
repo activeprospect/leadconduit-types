@@ -2,6 +2,7 @@ const { assert } = require('chai');
 const fs = require('fs');
 const path = require('path');
 const index = require('../lib');
+const dob = require('../lib/types/dob');
 
 describe('Index', function () {
   it('should list type names', function () {
@@ -34,5 +35,49 @@ describe('Index', function () {
     };
     const objClone = index.clone(obj);
     assert.deepEqual(objClone, obj);
+  });
+
+  describe('hide utility', function () {
+    describe('shouldHide', function () {
+      it('returns true for dob type', function () {
+        const normalizedDob = index.normalize(dob.parse('01-01-2000'));
+        assert.isTrue(index.shouldHide(normalizedDob));
+      });
+
+      it('returns false for non-hideable type', function () {
+        const normalizedString = index.normalize('string');
+        assert.isFalse(index.shouldHide(normalizedString));
+      });
+    });
+
+    describe('getHideableType', function () {
+      it('returns null for non-hideable type', function () {
+        // tests getHideableType()
+        const normalizedString = index.normalize('string');
+        assert.isNull(index.getHideableType(normalizedString));
+      });
+
+      it('returns dob for dob type', function () {
+        const normalizedDob = index.normalize(dob.parse('01-01-2000'));
+        assert.equal(index.getHideableType(normalizedDob), 'dob');
+      });
+    });
+
+    it('partially hide dob data', function () {
+      const normalizedDob = index.normalize(dob.parse('01-01-2000'));
+      const hidden = index.hide(normalizedDob);
+      assert.equal(hidden.raw, '**/**/2000');
+      assert.equal(hidden.normal, '**/**/2000');
+      assert.equal(hidden.year, 2000);
+      // check that age is still a number
+      assert.isTrue(Number.isFinite(Number.parseFloat(hidden.age)));
+      assert.isTrue(hidden.valid);
+    });
+
+    it('does not hide non-hideable type', function () {
+      const normalizedString = index.normalize('string');
+      const hidden = index.hide(normalizedString);
+      assert.equal(hidden, normalizedString);
+    });
   });
 });
