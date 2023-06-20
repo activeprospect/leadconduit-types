@@ -71,6 +71,24 @@ describe('Time', function () {
     assert.isTrue(date.valid);
   });
 
+  it('should handle three fractional second digits (JavaScript default)', function () {
+    const date = time.parse('2014-06-14T18:27:33.123Z');
+    assert.instanceOf(date, Date);
+    assert.equal(date.toString(), '2014-06-14T18:27:33.123Z');
+    assert.equal(date.valueOf(), '2014-06-14T18:27:33.123Z');
+    assert.equal(date.raw, '2014-06-14T18:27:33.123Z');
+    assert.isTrue(date.valid);
+  });
+
+  it('should handle more than four fractional second digits', function () {
+    const date = time.parse('2014-06-14T18:27:33.12345Z');
+    assert.instanceOf(date, Date);
+    assert.equal(date.toString(), '2014-06-14T18:27:33.000Z');
+    assert.equal(date.valueOf(), '2014-06-14T18:27:33.000Z');
+    assert.equal(date.raw, '2014-06-14T18:27:33.12345Z');
+    assert.isTrue(date.valid);
+  });
+
   it('should handle parsing a JavaScript date', function () {
     const now = new Date(2015, 10, 6, 11, 47, 42); // 0-based month index :-/
     const parsed = time.parse(now);
