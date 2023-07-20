@@ -55,6 +55,21 @@ describe('Email', function () {
     assert.isFalse(parsed.valid);
   });
 
+  it('should ignore embedded spaces', function () {
+    ['p. j. butter@gmail.com', 'peace_carols@hotmail. Co'].forEach((badEmail) => {
+      const parsed = email.parse(badEmail);
+      assert.instanceOf(parsed, String);
+      // valueOf should be the cleaned-up version of the input: lowercased, with no spaces
+      assert.equal(parsed.valueOf(), badEmail.toLowerCase().replace(/\s/g, ''));
+      assert.equal(parsed.raw, badEmail);
+      assert.isTrue(parsed.valid);
+      assert.isDefined(parsed.user);  // not checking these values too closely, defined is good enough...
+      assert.isDefined(parsed.domain);
+      assert.isDefined(parsed.host);
+      assert.isDefined(parsed.tld);
+    });
+  });
+
   it('should handle non-string garbage', function () {
     // see sc-39505
     let parsed, stringified;
