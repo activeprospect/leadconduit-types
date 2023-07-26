@@ -17,15 +17,14 @@
     "chrono-node": "^2.6.3",
     "domain-name-parser": "0.0.4",
     "email-addresses": "^1.1.1",
-    "faker": "^3.0.1",
     "google-libphonenumber": "^3.2.3",
     "handlebars": "^4.7.7",
     "lodash": "^4.17.21",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "named-regexp": "^0.1.1"
   },
   "devDependencies": {
-    "@activeprospect/leadconduit-rules": "^2.10.1",
+    "@activeprospect/leadconduit-rules": "^2.10.2",
     "chai": "^4.2.0",
     "eslint": "^8.39.0",
     "eslint-config-semistandard": "^17.0.0",
