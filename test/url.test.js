@@ -49,7 +49,7 @@ describe('URL', function () {
         });
 
         it('should have port', function () {
-          assert.isNull(this.parsed.port);
+          assert.equal(this.parsed.port, '');
         });
 
         it('should have path', function () {
