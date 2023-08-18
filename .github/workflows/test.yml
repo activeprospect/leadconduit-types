@@ -2,4 +2,4 @@ name: Node.js CI
 on: push
 jobs:
   test:
-    uses: activeprospect/leadconduit-types/.github/workflows/test-common.yml@master
+    uses: activeprospect/leadconduit-types/.github/workflows/test-common.yml@common-test-workflow
