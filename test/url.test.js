@@ -60,7 +60,7 @@ describe('URL', function () {
           assert.equal(this.parsed.query, 'q=hi');
         });
 
-        it('should have query', function () {
+        it('should have hash', function () {
           assert.equal(this.parsed.hash, '#results');
         });
 
