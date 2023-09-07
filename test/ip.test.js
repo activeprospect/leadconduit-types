@@ -15,9 +15,9 @@ describe('IP', function () {
     const parsed = ip.parse(ip.parse(randomIpv4));
     assert.equal(parsed.toString(), randomIpv4);
     assert.equal(parsed.raw, randomIpv4);
-    assert.equal(parsed.mapToIpv6, '[ffff::c633:5aa1]');
+    assert.equal(parsed.ipv6_format, '[ffff::c633:5aa1]');
     assert.isTrue(parsed.valid);
-    assert.isTrue(parsed.isIpv4);
+    assert.isTrue(parsed.is_ipv4);
   });
 
   it('should parse a parsed ipv6', function () {
@@ -25,9 +25,9 @@ describe('IP', function () {
     const parsed = ip.parse(ip.parse(randomIpv6));
     assert.equal(parsed.toString(), randomIpv6);
     assert.equal(parsed.raw, randomIpv6);
-    assert.equal(parsed.mapToIpv6, randomIpv6);
+    assert.equal(parsed.ipv6_format, randomIpv6);
     assert.isTrue(parsed.valid);
-    assert.isFalse(parsed.isIpv4);
+    assert.isFalse(parsed.is_ipv4);
   });
 
   it('should have examples', function () {
@@ -54,8 +54,8 @@ describe('IP', function () {
           assert.equal(this.parsed.raw, string);
         });
 
-        it('should have mapToIpv6', function () {
-          assert.equal(this.parsed.mapToIpv6, '[ffff::c633:5aa1]');
+        it('should have ipv6_format', function () {
+          assert.equal(this.parsed.ipv6_format, '[ffff::c633:5aa1]');
         });
 
         it('should be normalized', function () {
@@ -67,7 +67,7 @@ describe('IP', function () {
         });
 
         it('should be marked ipv4', function () {
-          assert.isTrue(this.parsed.isIpv4);
+          assert.isTrue(this.parsed.is_ipv4);
         });
       });
     }
@@ -93,8 +93,8 @@ describe('IP', function () {
           assert.equal(this.parsed.raw, string);
         });
 
-        it('should have mapToIpv6', function () {
-          assert.equal(this.parsed.mapToIpv6, '[8faa:230d:52ab:98f3:a2ea:7735:a7b8:72e9]');
+        it('should have ipv6_format', function () {
+          assert.equal(this.parsed.ipv6_format, '[8faa:230d:52ab:98f3:a2ea:7735:a7b8:72e9]');
         });
 
         it('should be normalized', function () {
@@ -106,7 +106,7 @@ describe('IP', function () {
         });
 
         it('should be marked ipv4', function () {
-          assert.isFalse(this.parsed.isIpv4);
+          assert.isFalse(this.parsed.is_ipv4);
         });
       });
     }
