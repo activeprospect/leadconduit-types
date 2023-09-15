@@ -15,13 +15,13 @@ describe('IP', function () {
     const parsed = ip.parse(ip.parse(randomIpv4));
     assert.equal(parsed.toString(), randomIpv4);
     assert.equal(parsed.raw, randomIpv4);
-    assert.equal(parsed.ipv6_format, '[ffff::c633:5aa1]');
+    assert.equal(parsed.ipv6_format, 'ffff::c633:5aa1');
     assert.isTrue(parsed.valid);
     assert.isTrue(parsed.is_ipv4);
   });
 
   it('should parse a parsed ipv6', function () {
-    const randomIpv6 = '[8faa:230d:52ab:98f3:a2ea:7735:a7b8:72e9]';
+    const randomIpv6 = '8faa:230d:52ab:98f3:a2ea:7735:a7b8:72e9';
     const parsed = ip.parse(ip.parse(randomIpv6));
     assert.equal(parsed.toString(), randomIpv6);
     assert.equal(parsed.raw, randomIpv6);
@@ -55,7 +55,7 @@ describe('IP', function () {
         });
 
         it('should have ipv6_format', function () {
-          assert.equal(this.parsed.ipv6_format, '[ffff::c633:5aa1]');
+          assert.equal(this.parsed.ipv6_format, 'ffff::c633:5aa1');
         });
 
         it('should be normalized', function () {
@@ -94,11 +94,11 @@ describe('IP', function () {
         });
 
         it('should have ipv6_format', function () {
-          assert.equal(this.parsed.ipv6_format, '[8faa:230d:52ab:98f3:a2ea:7735:a7b8:72e9]');
+          assert.equal(this.parsed.ipv6_format, '8faa:230d:52ab:98f3:a2ea:7735:a7b8:72e9');
         });
 
         it('should be normalized', function () {
-          assert.equal(this.parsed.valueOf(), '[8faa:230d:52ab:98f3:a2ea:7735:a7b8:72e9]');
+          assert.equal(this.parsed.valueOf(), '8faa:230d:52ab:98f3:a2ea:7735:a7b8:72e9');
         });
 
         it('should be marked valid', function () {
@@ -116,21 +116,21 @@ describe('IP', function () {
     it('should parse ipv6 with leading zeros', function () {
       const string = '[0000:0000:0000:0000:0000:0000:0000:0001]';
       const parsed = ip.parse(string);
-      assert.equal(parsed.valueOf(), '[::1]');
+      assert.equal(parsed.valueOf(), '::1');
       assert.isTrue(parsed.valid);
     });
 
     it('should parse ipv6 with ipv4 tail', function () {
       const string = '[ffff::186.25.192.233]';
       const parsed = ip.parse(string);
-      assert.equal(parsed.valueOf(), '[ffff::ba19:c0e9]');
+      assert.equal(parsed.valueOf(), 'ffff::ba19:c0e9');
       assert.isTrue(parsed.valid);
     });
 
     it('should parse ipv6 with ipv4 tail (alternate form)', function () {
       const string = '[::ffff:186.25.192.233]';
       const parsed = ip.parse(string);
-      assert.equal(parsed.valueOf(), '[::ffff:ba19:c0e9]');
+      assert.equal(parsed.valueOf(), '::ffff:ba19:c0e9');
       assert.isTrue(parsed.valid);
     });
   });
