@@ -7,8 +7,6 @@ process.env.CERT_IDS_SECRET_KEY = secret;
 process.env.TF_CONFIG_CERT_ID_SECRET = secret;
 
 const url = require('../lib/types/trustedform_url');
-const regularUrl = require('../lib/types/url');
-const certId = require('@activeprospect/trustedform-cert-id');
 
 describe('TrustedForm URL', function () {
   before(function () {
@@ -33,12 +31,6 @@ describe('TrustedForm URL', function () {
   it('should normalize case of 40 character ids', function () {
     const cert = url.parse('https://CERT.trustedform.com/EB9fC4DD9bED9AD451A5648946CF4BF09B5BB947');
     assert.equal(cert.toString(), 'https://cert.trustedform.com/eb9fc4dd9bed9ad451a5648946cf4bf09b5bb947');
-  });
-
-  xit('should not normalize case of zero-dot IDs', function () {
-    const pingUrl = 'HTTPS://PING.trustedform.com/0.vzhYBmGsqsu4ob7u4rWDOX6Gg4OT5SAza1r%2FTYNMJ81Kx%2FFGh2SZGtlZ7KiEg7lEdxi7xLcq.15GK4f1R9Te6Rjd4J85Xng.Bdz5CUNsDpelrvmW0L9sQg';
-    const cert = url.parse(pingUrl);
-    assert.equal(cert.toString(), 'https://ping.trustedform.com/0.vzhYBmGsqsu4ob7u4rWDOX6Gg4OT5SAza1r%2FTYNMJ81Kx%2FFGh2SZGtlZ7KiEg7lEdxi7xLcq.15GK4f1R9Te6Rjd4J85Xng.Bdz5CUNsDpelrvmW0L9sQg');
   });
 
   it('should handle staging URLs', function () {
