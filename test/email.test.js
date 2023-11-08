@@ -55,6 +55,18 @@ describe('Email', function () {
     assert.isFalse(parsed.valid);
   });
 
+  it('should handle invalid domain', function () {
+    const invalidEmail = 'hello@//gmail.xn--om.3ia';
+    const parsed = email.parse(invalidEmail);
+    assert.instanceOf(parsed, String);
+    assert.equal(parsed.raw, invalidEmail);
+    assert.isUndefined(parsed.user);
+    assert.isUndefined(parsed.domain);
+    assert.isUndefined(parsed.host);
+    assert.isUndefined(parsed.tld);
+    assert.isFalse(parsed.valid);
+  });
+
   it('should ignore embedded spaces', function () {
     ['p. j. butter@gmail.com', 'peace_carols@hotmail. Co'].forEach((badEmail) => {
       const parsed = email.parse(badEmail);
@@ -63,7 +75,7 @@ describe('Email', function () {
       assert.equal(parsed.valueOf(), badEmail.toLowerCase().replace(/\s/g, ''));
       assert.equal(parsed.raw, badEmail);
       assert.isTrue(parsed.valid);
-      assert.isDefined(parsed.user);  // not checking these values too closely, defined is good enough...
+      assert.isDefined(parsed.user); // not checking these values too closely, defined is good enough...
       assert.isDefined(parsed.domain);
       assert.isDefined(parsed.host);
       assert.isDefined(parsed.tld);
