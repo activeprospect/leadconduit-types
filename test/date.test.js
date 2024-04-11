@@ -1,7 +1,7 @@
 const { assert } = require('chai');
 const date = require('../lib/types/date');
 
-describe.only('Date', function () {
+describe('Date', function () {
   const strings = [
     'Mon Jun 02 2014',
     'Jun 02 2014',
