@@ -1,7 +1,7 @@
 const { assert } = require('chai');
 const date = require('../lib/types/date');
 
-describe('Date', function () {
+describe.only('Date', function () {
   const strings = [
     'Mon Jun 02 2014',
     'Jun 02 2014',
@@ -54,6 +54,10 @@ describe('Date', function () {
     describe(string, function () {
       it('should return a Date object', function () {
         const parsed = date.parse(string);
+        if (['18/7/2014', '18/07/2014'].includes(string)) {
+          console.log(parsed);
+          console.log(string);
+        }
         assert.instanceOf(parsed, Date);
         assert.equal(parsed.toISOString(), '2014-07-18T00:00:00.000Z');
       });
