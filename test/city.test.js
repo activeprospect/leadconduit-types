@@ -22,4 +22,21 @@ describe('City', function () {
     assert.equal(parsed.raw, '[object Object]');
     assert.isFalse(parsed.valid);
   });
+
+  it('should have the expected operators', function () {
+    assert(city.operators, [
+      'is equal to',
+      'is not equal to',
+      'is blank',
+      'is not blank',
+      'format is valid',
+      'format is invalid',
+      'includes',
+      'does not include',
+      'is included in',
+      'is not included in',
+      'matches pattern',
+      'does not match pattern'
+    ]);
+  });
 });
