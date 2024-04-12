@@ -22,4 +22,17 @@ describe('First Name', function () {
     assert.equal(parsed.raw, '[object Object]');
     assert.isFalse(parsed.valid);
   });
+
+  it('should have the expected operators', function () {
+    assert.deepEqual(firstName.operators, [
+      'is equal to',
+      'is not equal to',
+      'is blank',
+      'is not blank',
+      'format is valid',
+      'format is invalid',
+      'matches pattern',
+      'does not match pattern'
+    ]);
+  });
 });
