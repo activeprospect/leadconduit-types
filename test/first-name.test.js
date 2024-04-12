@@ -1,7 +1,7 @@
 const { assert } = require('chai');
 const firstName = require('../lib/types/first_name');
 
-describe('First Name', function () {
+describe.only('First Name', function () {
   it('should be no-op', function () {
     assert.equal(firstName.parse('Alex'), 'Alex');
   });
