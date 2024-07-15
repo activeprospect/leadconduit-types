@@ -24,7 +24,7 @@
     "named-regexp": "^0.1.1"
   },
   "devDependencies": {
-    "@activeprospect/leadconduit-rules": "^2.10.2",
+    "@activeprospect/leadconduit-rules": "^2.11.0",
     "chai": "^4.2.0",
     "eslint": "^8.39.0",
     "eslint-config-semistandard": "^17.0.0",

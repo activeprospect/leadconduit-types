@@ -29,6 +29,8 @@ describe('First Name', function () {
       'is not equal to',
       'is blank',
       'is not blank',
+      'is obscene',
+      'is not obscene',
       'format is valid',
       'format is invalid',
       'matches pattern',
