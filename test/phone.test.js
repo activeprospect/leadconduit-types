@@ -185,6 +185,11 @@ describe('Phone', function () {
     assert(phone.countryCodes.indexOf('GB') !== -1);
   });
 
+  it('should handle non-us numbers', function () {
+    const ph = phone.parse('+49 30 22610');
+    assert.equal(ph.country_code, 'DE');
+  });
+
   it('should parse mobile hint', function () {
     const ph = phone.parse('5127891111m');
     assert.equal(ph.raw, '5127891111');
