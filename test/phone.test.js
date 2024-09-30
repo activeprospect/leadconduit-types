@@ -54,6 +54,7 @@ describe('Phone', function () {
     assert.equal(ph.line, '1111');
     assert.equal(ph.number, '7891111');
     assert.equal(ph.country_code, 'US');
+    assert.equal(ph.country_calling_code, 1);
     assert.isUndefined(ph.masked);
     assert.isFalse(ph.is_tollfree);
     assert.isTrue(ph.valid);
@@ -68,6 +69,7 @@ describe('Phone', function () {
     assert.equal(ph.line, '1212');
     assert.equal(ph.number, '5551212');
     assert.equal(ph.country_code, 'US');
+    assert.equal(ph.country_calling_code, 1);
     assert.isUndefined(ph.masked);
     assert.isTrue(ph.is_tollfree);
     assert.isTrue(ph.valid);
@@ -95,6 +97,7 @@ describe('Phone', function () {
     assert.equal(ph.line, '****');
     assert.equal(ph.number, '*******');
     assert.equal(ph.country_code, 'US');
+    assert.equal(ph.country_calling_code, 1);
     assert.isNull(ph.type);
     assert.isTrue(ph.masked);
     assert.isFalse(ph.is_tollfree);
@@ -110,6 +113,7 @@ describe('Phone', function () {
     assert.equal(ph.line, '**11');
     assert.equal(ph.number, '*****11');
     assert.equal(ph.country_code, 'US');
+    assert.equal(ph.country_calling_code, 1);
     assert.isNull(ph.type);
     assert.isTrue(ph.masked);
     assert.isFalse(ph.is_tollfree);
@@ -126,6 +130,7 @@ describe('Phone', function () {
     assert.equal(ph.number, '*******');
     assert.equal(ph.extension, '**');
     assert.equal(ph.country_code, 'US');
+    assert.equal(ph.country_calling_code, 1);
     assert.isNull(ph.type);
     assert.isTrue(ph.masked);
     assert.isFalse(ph.is_tollfree);
@@ -142,6 +147,7 @@ describe('Phone', function () {
     assert.equal(ph.number, '*******');
     assert.equal(ph.extension, '42');
     assert.equal(ph.country_code, 'US');
+    assert.equal(ph.country_calling_code, 1);
     assert.isNull(ph.type);
     assert.isTrue(ph.masked);
     assert.isFalse(ph.is_tollfree);
@@ -157,37 +163,25 @@ describe('Phone', function () {
     assert.equal(ph.line, '****');
     assert.equal(ph.number, '*******');
     assert.equal(ph.country_code, 'US');
+    assert.equal(ph.country_calling_code, 1);
     assert.isTrue(ph.masked);
     assert.isFalse(ph.is_tollfree);
     assert.isTrue(ph.valid);
   });
 
-  xit('should parse UK phone', function () {
-    const ph = phone.parse('7981-555555');
-    assert.equal(ph.valueOf(), '5127891111');
-    assert.equal(ph.raw, '5127891111');
-    assert.equal(ph.area, '512');
-    assert.equal(ph.exchange, '789');
-    assert.equal(ph.line, '1111');
-    assert.equal(ph.number, '7891111');
-    assert.equal(ph.country_code, 'US');
-  });
-
-  it('should support United States', function () {
-    assert(phone.countryCodes.indexOf('US') !== -1);
-  });
-
-  it('should support Canada', function () {
-    assert(phone.countryCodes.indexOf('CA') !== -1);
-  });
-
-  it('should support UK', function () {
-    assert(phone.countryCodes.indexOf('GB') !== -1);
-  });
-
-  it('should handle non-us numbers', function () {
+  it('should handle non-North American numbers', function () {
     const ph = phone.parse('+49 30 22610');
+    assert.equal(ph.valueOf(), '3022610');
+    assert.equal(ph.raw, '+49 30 22610');
+    assert.equal(ph.area, '30');
+    assert.isUndefined(ph.exchange);
+    assert.isUndefined(ph.line);
+    assert.equal(ph.number, '22610');
     assert.equal(ph.country_code, 'DE');
+    assert.equal(ph.country_calling_code, 49);
+    assert.isUndefined(ph.masked);
+    assert.isFalse(ph.is_tollfree);
+    assert.isTrue(ph.valid);
   });
 
   it('should parse mobile hint', function () {
