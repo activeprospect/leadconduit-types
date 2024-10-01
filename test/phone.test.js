@@ -184,6 +184,20 @@ describe('Phone', function () {
     assert.isTrue(ph.valid);
   });
 
+  it('should correctly set country code for a variety of formats', function () {
+    const numbers = [
+      { number: '+44 1484 519892', country: 'GB' },
+      { number: '+82-2-2184-7000', country: 'KR' },
+      { number: '+7 495 287 20 00', country: 'RU' },
+      { number: '+20226140000', country: 'EG' }
+    ];
+    numbers.forEach(function (number) {
+      const ph = phone.parse(number.number);
+      assert.equal(ph.country_code, number.country);
+      assert.isTrue(ph.valid);
+    });
+  });
+
   it('should parse mobile hint', function () {
     const ph = phone.parse('5127891111m');
     assert.equal(ph.raw, '5127891111');
