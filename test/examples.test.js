@@ -29,7 +29,6 @@ describe('Examples', function () {
       index.expandExamples(this.field);
       assert.deepEqual(this.field.examples, [{
         normal: '5127881111',
-        prefix: '1',
         raw: '512-788-1111',
         area: '512',
         exchange: '788',
@@ -38,6 +37,7 @@ describe('Examples', function () {
         extension: null,
         is_tollfree: false,
         country_code: 'US',
+        country_calling_code: 1,
         type: null,
         valid: true
       }
@@ -51,7 +51,6 @@ describe('Examples', function () {
       index.expandExamples(this.field);
       assert.deepEqual(this.field.examples, [{
         normal: '5127881111',
-        prefix: '1',
         raw: '512-788-1111',
         area: '512',
         exchange: '788',
@@ -60,6 +59,7 @@ describe('Examples', function () {
         extension: null,
         is_tollfree: false,
         country_code: 'US',
+        country_calling_code: 1,
         type: null,
         valid: true
       }
