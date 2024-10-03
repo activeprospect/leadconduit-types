@@ -133,6 +133,10 @@ describe('Phone aggregation', function () {
     assert.equal(phone.country_code, 'US');
   });
 
+  it('should include country calling code', function () {
+    assert.equal(phone.country_calling_code, 1);
+  });
+
   it('should not include line number', function () {
     assert.isUndefined(phone.line);
   });
