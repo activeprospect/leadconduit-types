@@ -17,7 +17,7 @@
     "chrono-node": "^2.6.3",
     "domain-name-parser": "0.0.4",
     "email-addresses": "^1.1.1",
-    "google-libphonenumber": "^3.2.3",
+    "google-libphonenumber": "^3.2.38",
     "handlebars": "^4.7.7",
     "lodash": "^4.17.21",
     "moment": "2.29.4",
